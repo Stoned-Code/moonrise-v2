@@ -508,4 +508,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 Backend/node_modules/
-Backend/public/
+Backend/index/
+Backend/videos

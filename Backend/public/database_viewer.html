@@ -8,9 +8,10 @@
 
         <script>
             getData();
+            
             async function getData()
             {
-                const response = await fetch('https://moonrise-sc.loca.lt/moonriseuser')
+                const response = await fetch('https://moonrise-sc.loca.lt/moonriseapi')
                 const data = await response.json();
 
                 for(item of data)

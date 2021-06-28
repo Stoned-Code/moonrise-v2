@@ -20,9 +20,9 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public string MoonriseKey { get; set; }
         [JsonProperty] public bool isMoonriseUser { get; set; }
 
-        [JsonIgnore] internal static string URL = "https://moonrise-sc.loca.lt/moonriseuser";
+        [JsonIgnore] internal static string URL = "https://moonrise-sc-69.loca.lt/moonriseuser";
 
-        public static MRUser GetUser(string key)
+        public static MRUser GetUserAsync(string key)
         {
             try
             {
@@ -43,10 +43,10 @@ namespace MoonriseV2Mod.API
                 {
 
                     stream.Write(bytes, 0, bytes.Length);
+                    
                     var response = wr.GetResponse();
 
-                    var str = response.GetResponseStream();
-                    using (StreamReader sr = new StreamReader(str))
+                    using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                     {
                         json = sr.ReadToEnd();
                     }
@@ -69,7 +69,7 @@ namespace MoonriseV2Mod.API
 
             catch (Exception ex)
             {
-                // MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
+                MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
                 return null;
             }
         }
