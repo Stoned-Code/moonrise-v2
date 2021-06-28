@@ -1,2 +1,4 @@
 public/
 node_modules/
+moonrise.db
+temp.db
