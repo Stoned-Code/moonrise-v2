@@ -6,7 +6,7 @@ const moonrisedb = new datastore('moonrise.db');
 moonrisedb.loadDatabase();
 
 // Local Tunnel Stuff
-async function init_tunnel()
+(async () =>
 {
     let tunnel = await localtunnel({ port: 4209 , subdomain: "moonrise-sc"});
     // the assigned public url for your tunnel
@@ -18,7 +18,7 @@ async function init_tunnel()
         // tunnels are closed
         console.log("Tunnel Closed!")
     });
-}
+})
 
 app.listen('4209', function()
 {
