@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+
+    </head>
+    <body>
+        <h1>Moonrise Users</h1>
+
+        <script>
+            getData();
+            async function getData()
+            {
+                const response = await fetch('https://moonrise-sc.loca.lt/moonriseuser')
+                const data = await response.json();
+
+                for(item of data)
+                {
+                    let root = document.createElement('div');
+
+                    let divider = document.createElement('div');
+                    divider.textContent = '----------------------------------------------------------------------------------------------------'
+
+                    let disName = document.createElement('div');
+                    disName.textContent = `Display Name: ${item.DisplayName}`;
+
+                    let uid = document.createElement('div');
+                    uid.textContent = `User ID: ${item.UserId}`;
+
+                    let moonriseKey = document.createElement('div');
+                    moonriseKey.textContent = `Moonrise Key: ${item.MoonriseKey}`;
+
+                    let premium = document.createElement('div');
+                    premium.textContent = `Premium User: ${item.Premium}`;
+
+                    let lewd = document.createElement('div');
+                    lewd.textContent = `Lewd User: ${item.Lewd}`;
+
+                    root.append(divider, disName, uid, moonriseKey, premium, lewd);
+                    document.body.append(root);
+                }
+
+                console.log(data);
+            }
+        </script>
+    </body>
+</html>
