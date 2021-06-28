@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MelonLoader;
-using UnityEngine.Events;
-using RubyButtonAPI;
-using MoonriseTabApi;
+﻿using MelonLoader;
 using MoonriseV2Mod.API;
+using RubyButtonAPI;
+using System;
+using System.Collections;
 using VRC.Core;
-using UnityEngine;
+using HarmonyLib;
+using Harmony;
+using MoonriseV2Mod.Settings;
+using UshioUI;
+using MoonriseV2Mod.SocialInterractions;
+using MoonriseV2Mod.AvatarFunctions;
+using MoonriseV2Mod.BaseFunctions;
 
 namespace MoonriseV2Mod
 {
@@ -27,10 +27,8 @@ namespace MoonriseV2Mod
 
         internal MRUser user;
 
-        internal static event Action<QMNestedButton> menuLoaded;
+        internal static event Action<QMNestedButton, QMNestedButton, MRUser> loadMenu;
         internal static event Action modUpdate;
-
-
 
         internal bool isInitialized = false;
 
@@ -44,23 +42,30 @@ namespace MoonriseV2Mod
             modUpdate?.Invoke();
         }
 
-        public void LoadMenu()
-        {
-            if (isInitialized) return;
-            QMNestedButton functions = new QMNestedButton("ShortcutMenu", 0, -2, "", "");
-            menuLoaded?.Invoke(functions);
-            isInitialized = true;
-        }
-
         public IEnumerator ModStart()
         {
+            HarmonyLib.Harmony harmony = new HarmonyLib.Harmony("com.VRChat.patch");
+
+            Config.Initialize();
             MoonriseAssetBundles.InitializeAssetBundle();
-            MoonriseMainFunctions.Initialize();
+            while (!MoonriseAssetBundles.isInitialized) yield return null;
+
+            MoonriseBaseFunctions.Initialize();
+            SocialInterractionsBase.Initialize();
+            AvatarFunctionsBase.Initialize();
 
             while (APIUser.CurrentUser == null) yield return null;
 
-            user = MRUser.GetUser("wh9vmJdJ9vg4zfh5wmun0n9nfeu7qsJ5kayua2z9");
-            LoadMenu();
+            user = MRUser.GetUser(Config.config.moonriseKey);
+
+            if (!isInitialized)
+            {
+                QMNestedButton functions = new QMNestedButton("ShortcutMenu", 0, -2, "", "");
+                QMNestedButton socialInterractions = new QMNestedButton("UserInteractMenu", 4, -2, "<color=cyan>MMM</color>\nPlayer\nFunctions", "MMM options for selected player");
+                UshioMenuApi.SetMenu();
+                loadMenu?.Invoke(functions, socialInterractions, user);
+                isInitialized = true;
+            }
         }
     }
 }

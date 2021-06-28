@@ -11,7 +11,7 @@ using VRC.Core;
 
 namespace MoonriseV2Mod.API
 {
-    internal class MRUser
+    public sealed class MRUser
     {
         [JsonProperty] public string DisplayName { get; set; }
         [JsonProperty] public string UserId { get; set; }
@@ -41,6 +41,7 @@ namespace MoonriseV2Mod.API
                 string json = "";
                 using (Stream stream = wr.GetRequestStream())
                 {
+
                     stream.Write(bytes, 0, bytes.Length);
                     var response = wr.GetResponse();
 
@@ -62,14 +63,13 @@ namespace MoonriseV2Mod.API
                 MoonriseConsole.Log(json);
                 user = JsonConvert.DeserializeObject<MRUser>(json) ?? null;
                 if (!user.isMoonriseUser || user == null) return null;
-                MoonriseConsole.Log("User:\n" + json);
 
                 return user;
             }
 
             catch (Exception ex)
             {
-                MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
+                // MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
                 return null;
             }
         }

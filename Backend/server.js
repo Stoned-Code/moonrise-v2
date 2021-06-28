@@ -26,7 +26,7 @@ app.listen('4209', function()
 });
 
 // app.use(express.static('public'));
-app.use(express.json({limit: '5mb'}));
+app.use(express.json({limit: '1mb'}));
 
 app.post('/moonriseapi', function(request, response)
 {
@@ -57,7 +57,7 @@ app.get('/moonriseapi', function(request, response)
 app.post('/moonriseuser', function(request, response)
 {
     let user = request.body;
-    // console.log(user);
+    
     moonrisedb.find({MoonriseKey: user['MoonriseKey']}, function(err, data)
     {
 
