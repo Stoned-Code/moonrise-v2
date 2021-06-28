@@ -5,6 +5,7 @@ const app = express();
 const moonrisedb = new datastore('moonrise.db');
 moonrisedb.loadDatabase();
 
+// URL https://moonrise-sc.loca.lt
 // Local Tunnel Stuff
 async function init_tunnel() 
 {
@@ -25,7 +26,7 @@ app.listen('4209', function()
     
 });
 
-// app.use(express.static('public'));
+app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
 app.post('/moonriseapi', function(request, response)
