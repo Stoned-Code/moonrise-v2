@@ -2,7 +2,7 @@ const express = require('express');
 const datastore = require('nedb')
 const localtunnel = require('localtunnel');
 const app = express();
-let moonrisedb = new datastore('moonrise.db');
+const moonrisedb = new datastore('moonrise.db');
 moonrisedb.loadDatabase();
 
 // Local Tunnel Stuff
