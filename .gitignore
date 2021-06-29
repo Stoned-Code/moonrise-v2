@@ -509,4 +509,4 @@ dist
 .pnp.*
 Backend/node_modules/
 Backend/index/
-Backend/videos
+Backend/videos/
