@@ -51,12 +51,12 @@ namespace MoonriseV2Mod
             while (!MoonriseAssetBundles.isInitialized) yield return null;
 
             MoonriseBaseFunctions.Initialize();
-            //SocialInterractionsBase.Initialize();
-            //AvatarFunctionsBase.Initialize();
+            SocialInterractionsBase.Initialize();
+            AvatarFunctionsBase.Initialize();
 
             while (APIUser.CurrentUser == null) yield return null;
 
-            user = MRUser.GetUserAsync(Config.config.moonriseKey);
+            user = MRUser.GetUser(Config.config.moonriseKey);
 
             if (!isInitialized)
             {

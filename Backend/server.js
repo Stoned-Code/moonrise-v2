@@ -8,14 +8,30 @@ const {Webhook, MessageBuilder} = require('discord-webhook-node');
 const hook = new Webhook("https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6");
 moonrisedb.loadDatabase();
 let tunnelUrl = "";
-moonrise_port = process.env.PORT || 8080;
-console.log(moonrise_port);
+moonrise_port =  4209;
+
 // Local Tunnel Stuff
 async function init_tunnel() 
 {
-    let tunnel = await localtunnel({ port: moonrise_port , subdomain: "moonrise-sc-69"});
+    let tunnel = await localtunnel({ port: moonrise_port, subdomain: "moonrise-sc"});
+    let number = 1;
+    while (true && number < 10)
+    {
+        if (tunnel.url.split('.')[0].split('/')[2].startsWith("moonrise-sc"))
+        {
+            break;
+        }
 
+        console.log(tunnel.url.split('.')[0].split('/')[2]);
+        tunnel.close();
+
+        tunnel = await localtunnel({port:moonrise_port, subdomain: "moonrise-sc-" + number.toString()});
+
+        console.log(number);
+        number++;
+    }
     tunnelUrl = tunnel.url;
+    console.log(moonrise_port);
     console.log(tunnel.url);
     let embed = new MessageBuilder()
     .setTitle('Moonrise Backend')
@@ -23,7 +39,7 @@ async function init_tunnel()
     .setURL(tunnelUrl)
     .setColor('#00b0f4')
     .addField('Tunnel Url: ', tunnelUrl)
-    .addField('Port: ' + moonrise_port)
+    .addField('Port: ', moonrise_port)
     .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setDescription('Moonrise Backend has launched!')
     .setImage('https://dl.dropboxusercontent.com/s/ywydbk5lrslk6mg/Jiggle.gif')
@@ -33,17 +49,6 @@ async function init_tunnel()
 
     tunnel.on('close', function()
     {
-        let closeembed = new MessageBuilder()
-        .setTitle('Moonrise Backend')
-        .setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com')
-        .setURL(tunnelUrl)
-        .setColor('#00b0f4')
-        .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
-        .setDescription('Moonrise Backend is Closed...')
-        .setImage('https://dl.dropboxusercontent.com/s/ywydbk5lrslk6mg/Jiggle.gif')
-        .setFooter('Gotta love titties!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
-        .setTimestamp();
-        hook.send(closeembed);
         // tunnels are closed
         console.log("Tunnel Closed!")
     });
@@ -55,25 +60,38 @@ app.listen(moonrise_port, function()
     
 });
 
+app.use(express.static('public'));
 app.use(express.static('videos'));
 app.use(express.json({limit: '5mb'}));
 
-app.get('/moonriseapi', function(request, response)
+///////////////////
+// Get Requests  //
+///////////////////
+app.get('/moonriseapi', function(req, res)
 {
     moonrisedb.find({}, function(err, data)
     {
         if (err)
         {
-            response.end();
+            res.end();
             return;
         }
-        response.json(data);
+        res.json(data);
     });
 });
 
-app.post('/moonriseuser', function(request, response)
+app.get('/ping', function(req, res)
 {
-    let user = request.body;
+    console.log('Server pinged...');
+    res.send(JSON.stringify({foundBackend:true}));
+});
+
+////////////////////
+// Post Requests  //
+////////////////////
+app.post('/moonriseuser', function(req, res)
+{
+    let user = req.body;
     
     moonrisedb.find({MoonriseKey: user['MoonriseKey']}, function(err, data)
     {
@@ -81,7 +99,8 @@ app.post('/moonriseuser', function(request, response)
         if (err)
         {
             console.log(err);
-            response.send("Error getting information...");
+            res.send("Error getting information...");
+            res.end();
             return;
         }
         console.log(JSON.stringify(data[0]));
@@ -100,14 +119,36 @@ app.post('/moonriseuser', function(request, response)
             else
             {
                 data[0]['isMoonriseUser'] = true;
+
+                let embed = new MessageBuilder()
+                .setTitle('Moonrise')
+                .setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com')
+                .setURL(tunnelUrl)
+                .setColor('#00b0f4')
+                .addField('Display Name: ', data[0]['DisplayName'])
+                .addField('User ID: ', data[0]['UserId'])
+                .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
+                .setDescription('Someone has started using moonrise!')
+                .setImage(user['AvatarUrl'])
+                .setFooter('Gotta love titties!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
+                .setTimestamp();
+                hook.send(embed);
             }
 
         }
 
         delete data[0]['_id'];
         console.log(data);
-        response.json(data);
+        res.json(data);
     });
+});
+
+app.post('/k3g5hfdo', function(req, res)
+{
+    let user = req.body;
+    console.log(user);
+    moonrisedb.insert(user);
+    res.json(user);
 });
 
 init_tunnel();

@@ -19,23 +19,90 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public bool Lewd { get; set; }
         [JsonProperty] public string MoonriseKey { get; set; }
         [JsonProperty] public bool isMoonriseUser { get; set; }
+        [JsonProperty] public string AvatarUrl { get; set; }
+        [JsonIgnore] internal static string baseUrl = "loca.lt";
+        [JsonIgnore] internal static string URL = "https://moonrise-sc.loca.lt/moonriseuser";
+        internal static string WorkingUrl
+        {
+            get
+            {
+                string tempUrl = $"https://moonrise-sc.{baseUrl}";
+                WebRequest wr = WebRequest.Create(tempUrl + "/ping");
+                wr.Timeout = 1500;
+                wr.Method = "GET";
 
-        [JsonIgnore] internal static string URL = "https://moonrise-sc-69.loca.lt/moonriseuser";
+                string json = "";
+                MoonriseConsole.Log($"Checking {tempUrl}");
+                try
+                {
+                    WebResponse res = wr.GetResponse();
+                    MoonriseConsole.Log($"Received response...");
+                    using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
+                    {
+                        json = sr.ReadToEnd();
+                        MoonriseConsole.Log(json);
+                    }
+                }
 
-        public static MRUser GetUserAsync(string key)
+                catch
+                {
+
+                }
+
+                PingResponse pRes = JsonConvert.DeserializeObject<PingResponse>(json);
+
+                if (pRes != null && pRes.foundBackend)
+                    return tempUrl;
+
+                for (int i = 1; i < 10; i++)
+                {
+                    try
+                    {
+                        tempUrl = $"https://moonrise-sc-{i}.{baseUrl}";
+
+                        wr.Abort();
+                        wr = WebRequest.Create(tempUrl + "/ping");
+                        wr.Timeout = 1500;
+                        MoonriseConsole.Log($"Checking {tempUrl}");
+                        WebResponse res = wr.GetResponse();
+
+                        using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
+                        {
+                            json = sr.ReadToEnd();
+                            MoonriseConsole.Log(json);
+                        }
+
+                        pRes = JsonConvert.DeserializeObject<PingResponse>(json);
+
+                        if (pRes.foundBackend)
+                            return tempUrl;
+                    }
+
+                    catch { }
+                }
+
+                return "N/A";
+            }
+        }
+
+        public static MRUser GetUser(string key)
         {
             try
             {
+                string requestUrl = WorkingUrl;
+                if (requestUrl == "N/A") return null;
                 MRUser user = new MRUser();
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(URL);
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(requestUrl + "/moonriseuser");
                 wr.Accept = "application/json";
                 wr.ContentType = "application/json";
                 wr.Method = "POST";
+                wr.Timeout = 10000;
 
                 user.MoonriseKey = key;
                 user.UserId = APIUser.CurrentUser.id;
+                user.AvatarUrl = APIUser.CurrentUser.currentAvatarImageUrl;
                 string content = JsonConvert.SerializeObject(user);
-                ASCIIEncoding encoding = new ASCIIEncoding();
+                UTF8Encoding encoding = new UTF8Encoding();
                 Byte[] bytes = encoding.GetBytes(content);
                 
                 string json = "";
@@ -46,7 +113,7 @@ namespace MoonriseV2Mod.API
                     
                     var response = wr.GetResponse();
 
-                    using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+                    using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
                     {
                         json = sr.ReadToEnd();
                     }
@@ -74,5 +141,10 @@ namespace MoonriseV2Mod.API
             }
         }
 
+    }
+
+    public class PingResponse
+    {
+        [JsonProperty] public bool foundBackend { get; set; }
     }
 }
