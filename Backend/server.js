@@ -48,7 +48,6 @@ async function init_tunnel()
     .addField('Port: ', moonrise_port)
     .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setDescription('Moonrise Backend has launched!')
-    .setImage('https://dl.dropboxusercontent.com/s/ywydbk5lrslk6mg/Jiggle.gif')
     .setFooter('Gotta love titties!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setTimestamp();
     hook.send(embed);
