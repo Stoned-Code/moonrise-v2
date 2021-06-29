@@ -1,10 +1,19 @@
-# To-Do
-## Client Side
-* Add Flight
-* Add No Clip
-* Add Backend Api Stuff
-* Add Avatar Ripper
+# Moonrise V2
+A quality of life mod.
+## Client Side To-Do
+* Flight
+* No Clip
+* Backend Api Stuff
+* Avatar Ripper
+* Malicious User Hider
+* Post Processing Toggle
+* Realtime Light Toggle
 
-## Backend
-* Add Webhook Logging For Potentially Malicious Features(Discord)
-* Add Public Webhook Logging
+## Client Side Completed
+* Player Mute
+* Avatar Hider
+* Ad Blocker
+* Ignore List
+
+## Client Issues
+* Backend Post Timeouts
