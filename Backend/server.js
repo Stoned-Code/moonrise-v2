@@ -7,7 +7,7 @@ const express = require('express');
 const datastore = require('nedb')
 const localtunnel = require('localtunnel');
 const app = express();
-const moonrisedb = new datastore('moonrise.db');
+const moonrisedb = new datastore('data/moonrise.db');
 const {Webhook, MessageBuilder} = require('discord-webhook-node');
 const hook = new Webhook("https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6");
 moonrisedb.loadDatabase();
@@ -23,10 +23,7 @@ async function init_tunnel()
     tunnel.
     while (true && number < 10)
     {
-        if (tunnel.url.split('.')[0].split('/')[2].startsWith("moonrise-sc"))
-        {
-            break;
-        }
+        if (tunnel.url.split('.')[0].split('/')[2].startsWith("moonrise-sc")) break;
 
         console.log(tunnel.url.split('.')[0].split('/')[2]);
         tunnel.close();
