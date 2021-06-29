@@ -1,0 +1,14 @@
+[Unit]
+Description=Moonrise backend.
+Documentation=https://stoned-code.com
+After=network.target
+
+[Service]
+Type=simple
+User=node
+ExecStart=/usr/bin/node /usr/src/moonrise_backend/Backend/server.js serve
+WorkingDirectory=/user/src/moonrise_backend
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

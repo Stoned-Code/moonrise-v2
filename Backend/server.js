@@ -1,4 +1,5 @@
 // URL https://moonrise-sc.loca.lt
+// public = k9m6gb0fk
 const express = require('express');
 const datastore = require('nedb')
 const localtunnel = require('localtunnel');
@@ -62,12 +63,13 @@ app.listen(moonrise_port, function()
 
 app.use(express.static('public'));
 app.use(express.static('videos'));
-app.use(express.json({limit: '5mb'}));
+app.use(express.json({limit: '10mb'}));
 
 ///////////////////
 // Get Requests  //
 ///////////////////
-app.get('/moonriseapi', function(req, res)
+let moonriseapi = 'kaik23kdsal'
+app.get('/' + moonriseapi, function(req, res)
 {
     moonrisedb.find({}, function(err, data)
     {
@@ -79,8 +81,8 @@ app.get('/moonriseapi', function(req, res)
         res.json(data);
     });
 });
-
-app.get('/ping', function(req, res)
+let ping = 'md9fjtnj4dm';
+app.get('/' + ping, function(req, res)
 {
     console.log('Server pinged...');
     res.send(JSON.stringify({foundBackend:true}));
@@ -89,7 +91,9 @@ app.get('/ping', function(req, res)
 ////////////////////
 // Post Requests  //
 ////////////////////
-app.post('/moonriseuser', function(req, res)
+// Get Moonrise user info
+let moonriseuser = 'ykmhuuvlby';
+app.post('/' + moonriseuser, function(req, res)
 {
     let user = req.body;
     
@@ -143,7 +147,9 @@ app.post('/moonriseuser', function(req, res)
     });
 });
 
-app.post('/k3g5hfdo', function(req, res)
+// Add user
+let adduser = 'k3g5hfdo';
+app.post('/' + adduser, function(req, res)
 {
     let user = req.body;
     console.log(user);
