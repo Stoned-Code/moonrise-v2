@@ -17,6 +17,7 @@ namespace MoonriseV2Mod.AvatarFunctions
         public AvatarFunctionsBase()
         {
             Moonrise.loadMenu += LoadMenu;
+            Moonrise.modUpdate += OnUpdate;
         }
 
         public QMSingleButton avatarHiderSwitch;
@@ -24,7 +25,6 @@ namespace MoonriseV2Mod.AvatarFunctions
         public static void Initialize()
         {
             avatarFunctionsBase = new AvatarFunctionsBase();
-            AvatarHider.Initialize();
 
             avatarFunctionsBase.isInitialized = true;
         }
@@ -64,6 +64,8 @@ namespace MoonriseV2Mod.AvatarFunctions
                     Config.config.avatarHiderState = Config.config.avatarHiderState;
 
                     avatarHiderSwitch.setButtonText("Avatar Hider:\nDisabled");
+
+                    AvatarHider.UnhideAvatars();
                 }
 
                 else
@@ -144,6 +146,11 @@ namespace MoonriseV2Mod.AvatarFunctions
             }, "Decreases avatar hide distance by 2");
             UshioRubyModifiers.SetHalfButton(decreaseAvatarHideDistanceButtonTwo, UshioRubyModifiers.HalfPosition.Bottom, UshioRubyModifiers.Rotation.Horizontal);
 
+        }
+
+        public void OnUpdate()
+        {
+            AvatarHider.AvatarHiderUpdate();
         }
 
         public string GetAvatarHiderState()

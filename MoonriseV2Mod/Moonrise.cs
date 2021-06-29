@@ -53,6 +53,7 @@ namespace MoonriseV2Mod
             MoonriseBaseFunctions.Initialize();
             SocialInterractionsBase.Initialize();
             AvatarFunctionsBase.Initialize();
+            SettingsFunctions.Initialize();
 
             while (APIUser.CurrentUser == null) yield return null;
 

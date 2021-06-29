@@ -109,7 +109,9 @@
     <Compile Include="BaseFunctions\MoonriseBaseFunctions.cs" />
     <Compile Include="MoonriseObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\AddBlocker.cs" />
     <Compile Include="Settings\Config.cs" />
+    <Compile Include="Settings\SettingsFunctions.cs" />
     <Compile Include="SocialInterractions\SocialInterractionsBase.cs" />
   </ItemGroup>
   <ItemGroup>

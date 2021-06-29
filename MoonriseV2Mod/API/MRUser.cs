@@ -21,7 +21,6 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public bool isMoonriseUser { get; set; }
         [JsonProperty] public string AvatarUrl { get; set; }
         [JsonIgnore] internal static string baseUrl = "loca.lt";
-        [JsonIgnore] internal static string URL = "https://moonrise-sc.loca.lt/moonriseuser";
         internal static string WorkingUrl
         {
             get
@@ -93,7 +92,7 @@ namespace MoonriseV2Mod.API
                 if (requestUrl == "N/A") return null;
                 MRUser user = new MRUser();
                 HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(requestUrl + "/ykmhuuvlby");
-                wr.Accept = "application/json";
+                //wr.Accept = "application/json";
                 wr.ContentType = "application/json";
                 wr.Method = "POST";
                 wr.Timeout = 10000;
@@ -136,7 +135,7 @@ namespace MoonriseV2Mod.API
 
             catch (Exception ex)
             {
-                MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
+                //MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
                 return null;
             }
         }

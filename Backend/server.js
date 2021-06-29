@@ -1,7 +1,8 @@
 // URL https://moonrise-sc.loca.lt
 // public = k9m6gb0fk
 // videos = kdfo9kf7r
-// Server monitor command "sudo journalctl -fu moonrise_backend"
+// Server monitor command "journalctl -fu moonrise_backend"
+
 const express = require('express');
 const datastore = require('nedb')
 const localtunnel = require('localtunnel');
@@ -11,13 +12,15 @@ const {Webhook, MessageBuilder} = require('discord-webhook-node');
 const hook = new Webhook("https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6");
 moonrisedb.loadDatabase();
 let tunnelUrl = "";
-moonrise_port =  4209;
+moonrise_port = 4209;
 
 // Local Tunnel Stuff
 async function init_tunnel() 
 {
     let tunnel = await localtunnel({ port: moonrise_port, subdomain: "moonrise-sc"});
     let number = 1;
+
+    tunnel.
     while (true && number < 10)
     {
         if (tunnel.url.split('.')[0].split('/')[2].startsWith("moonrise-sc"))
@@ -57,19 +60,19 @@ async function init_tunnel()
     });
 }
 
-
 app.listen(moonrise_port, function()
 {
     
 });
 
 app.use(express.static('public'));
-app.use(express.static('videos'));
+app.use(express.static('files'));
 app.use(express.json({limit: '10mb'}));
 
 ///////////////////
 // Get Requests  //
 ///////////////////
+
 let moonriseapi = 'kaik23kdsal'
 app.get('/' + moonriseapi, function(req, res)
 {
@@ -83,6 +86,7 @@ app.get('/' + moonriseapi, function(req, res)
         res.json(data);
     });
 });
+
 let ping = 'md9fjtnj4dm';
 app.get('/' + ping, function(req, res)
 {
@@ -93,6 +97,7 @@ app.get('/' + ping, function(req, res)
 ////////////////////
 // Post Requests  //
 ////////////////////
+
 // Get Moonrise user info
 let moonriseuser = 'ykmhuuvlby';
 app.post('/' + moonriseuser, function(req, res)

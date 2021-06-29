@@ -18,10 +18,7 @@ namespace MoonriseV2Mod.AvatarFunctions
         public static bool m_HideAvatars = true;
 
         public static GameObject GetAvatarObject(VRC.Player p) => p.prop_VRCPlayer_0.prop_VRCAvatarManager_0.prop_GameObject_0;
-        public static void Initialize()
-        {
-            Moonrise.modUpdate += AvatarHiderUpdate;
-        }
+
         public static void UnhideAvatars()
         {
             m_HideAvatars = false;
@@ -96,7 +93,13 @@ namespace MoonriseV2Mod.AvatarFunctions
                             GameObject avtrObject = GetAvatarObject(player);
 
                             if (!avtrObject.activeInHierarchy && isIgnored) avtrObject.SetActive(true);
-                            if (apiUser == null || (m_IgnoreFriends && PlayerCheckApi.IsFriendsWith(apiUser.id)) || isIgnored) continue;
+                            if (apiUser == null || (m_IgnoreFriends && PlayerCheckApi.IsFriendsWith(apiUser.id)) || isIgnored)
+                            {
+                                if (apiUser == null) continue;
+                                if (!avtrObject.activeInHierarchy)
+                                    avtrObject.SetActive(true);
+                                continue;
+                            }
 
                             //GameObject avtrObject = UshioAvatarApi.GetAvatarObject(player);
 
