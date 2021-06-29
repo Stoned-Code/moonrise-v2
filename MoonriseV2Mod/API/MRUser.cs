@@ -27,7 +27,7 @@ namespace MoonriseV2Mod.API
             get
             {
                 string tempUrl = $"https://moonrise-sc.{baseUrl}";
-                WebRequest wr = WebRequest.Create(tempUrl + "/ping");
+                WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                 wr.Timeout = 1500;
                 wr.Method = "GET";
 
@@ -61,7 +61,7 @@ namespace MoonriseV2Mod.API
                         tempUrl = $"https://moonrise-sc-{i}.{baseUrl}";
 
                         wr.Abort();
-                        wr = WebRequest.Create(tempUrl + "/ping");
+                        wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                         wr.Timeout = 1500;
                         MoonriseConsole.Log($"Checking {tempUrl}");
                         WebResponse res = wr.GetResponse();
@@ -92,7 +92,7 @@ namespace MoonriseV2Mod.API
                 string requestUrl = WorkingUrl;
                 if (requestUrl == "N/A") return null;
                 MRUser user = new MRUser();
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(requestUrl + "/moonriseuser");
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(requestUrl + "/ykmhuuvlby");
                 wr.Accept = "application/json";
                 wr.ContentType = "application/json";
                 wr.Method = "POST";
