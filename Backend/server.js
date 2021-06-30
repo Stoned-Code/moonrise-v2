@@ -187,6 +187,8 @@ app.post('/' + reportcrasher, function(req, res)
     .setImage(potCrasher['AvatarUrl'])
     .setFooter('Moonrise', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setTimestamp();
+
+    privateWebhook.send(embed);
 });
 
 init_tunnel();
