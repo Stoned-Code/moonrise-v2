@@ -31,7 +31,7 @@ namespace MoonriseV2Mod.AvatarFunctions
 
         public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, MRUser user)
         {
-            avatarFunctions = new QMNestedButton(functions, 2, 2, "Avatar\nFunctions", "Functions for avatars.");
+            avatarFunctions = new QMNestedButton(functions, 4, 0, "Avatar\nFunctions", "Functions for avatars.");
             //Avatar Distance Switch
             if (Config.config.avatarHiderState == 0)
             {

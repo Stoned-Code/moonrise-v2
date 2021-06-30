@@ -12,7 +12,7 @@ const {Webhook, MessageBuilder} = require('discord-webhook-node');
 const hook = new Webhook("https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6");
 moonrisedb.loadDatabase();
 let tunnelUrl = "";
-moonrise_port = 4209;
+moonrise_port = 8080;
 
 // Local Tunnel Stuff
 async function init_tunnel() 
@@ -37,7 +37,7 @@ async function init_tunnel()
     console.log(moonrise_port);
     console.log(tunnel.url);
     let embed = new MessageBuilder()
-    .setTitle('Moonrise Backend')
+    .setTitle('Moonrise Backend Started')
     .setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com')
     .setURL(tunnelUrl)
     .setColor('#00b0f4')
@@ -45,7 +45,7 @@ async function init_tunnel()
     .addField('Port: ', moonrise_port)
     .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setDescription('Moonrise Backend has launched!')
-    .setFooter('Gotta love titties!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
+    .setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setTimestamp();
     hook.send(embed);
 

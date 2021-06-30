@@ -33,10 +33,9 @@ namespace MoonriseV2Mod.Settings
         }
 
         public QMNestedButton settingsMenu;
-        bool menuLoaded = false;
         public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, MRUser user)
         {
-            settingsMenu = new QMNestedButton(functions, 3, 1, "Settings", "Settings for moonrise.");
+            settingsMenu = new QMNestedButton(functions, 3, 0, "Settings", "Settings for moonrise.");
 
             var addBlocker = new QMToggleButton(settingsMenu, 1, 0, "Add\nBlocker", delegate
             {
@@ -47,8 +46,6 @@ namespace MoonriseV2Mod.Settings
                 Config.config.addBlocker = false;
                 Config.config.WriteConfig();
             }, "Disables VRChat promotions.", null, null, false, Config.config.addBlocker);
-
-            menuLoaded = true;
         }
 
         public void OnSettingsUpdate()

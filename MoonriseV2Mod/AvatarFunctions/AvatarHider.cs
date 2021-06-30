@@ -74,9 +74,6 @@ namespace MoonriseV2Mod.AvatarFunctions
 
         public static void AvatarHiderUpdate()
         {
-            ////////////////////
-            //  Avatar Hider  //
-            ////////////////////
             try
             {
                 if (Config.config.avatarHiderState == 1 || Config.config.avatarHiderState == 2)
@@ -91,22 +88,25 @@ namespace MoonriseV2Mod.AvatarFunctions
                             string displayName;
                             bool isIgnored = Config.config.ignoreList.TryGetValue(apiUser.id, out displayName);
                             GameObject avtrObject = GetAvatarObject(player);
+                            DynamicBoneController dynamicBoneController = PlayerCheckApi.GetDynamicBoneController(player);
 
-                            if (!avtrObject.activeInHierarchy && isIgnored) avtrObject.SetActive(true);
-                            if (apiUser == null || (m_IgnoreFriends && PlayerCheckApi.IsFriendsWith(apiUser.id)) || isIgnored)
+                            if (!avtrObject.activeInHierarchy && isIgnored)
                             {
-                                if (apiUser == null) continue;
-                                if (!avtrObject.activeInHierarchy)
-                                    avtrObject.SetActive(true);
-                                continue;
+                                avtrObject.SetActive(true);
+                                if (dynamicBoneController != null)
+                                {
+                                    for (int dbIndex = 0; dbIndex < dynamicBoneController.field_Private_List_1_DynamicBone_0.Count; dbIndex++)
+                                    {
+                                        var db = dynamicBoneController.field_Private_List_1_DynamicBone_0[dbIndex];
+                                        if (db.enabled) continue;
+                                        db.enabled = true;
+                                    }
+                                }
                             }
-
-                            //GameObject avtrObject = UshioAvatarApi.GetAvatarObject(player);
 
                             if (avtrObject == null) continue;
 
                             float dist = Vector3.Distance(PlayerCheckApi.LocalVRCPlayer.transform.position, avtrObject.transform.position);
-                            var dynamicBoneController = PlayerCheckApi.GetDynamicBoneController(player);
 
                             if (dist > Config.config.avatarHiderDistance && m_HideAvatars)
                             {
@@ -158,13 +158,12 @@ namespace MoonriseV2Mod.AvatarFunctions
                         {
                             MoonriseConsole.Log($"Failed to scan avatar: {player.prop_APIUser_0.displayName}");
                         }
-                        //yield return new WaitForSeconds(0.02f);
                     }
                 }
 
                 else
                 {
-                    //if (!MoonriseBase.config.AvatarsShowing) UnhideAvatars();
+                    if (!Config.config.avatarsShowing) UnhideAvatars();
                 }
             }
 
