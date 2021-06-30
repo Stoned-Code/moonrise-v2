@@ -7,10 +7,18 @@ const express = require('express');
 const datastore = require('nedb')
 const localtunnel = require('localtunnel');
 const app = express();
+
+// Databases
 const moonrisedb = new datastore('data/moonrise.db');
-const {Webhook, MessageBuilder} = require('discord-webhook-node');
-const hook = new Webhook("https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6");
+const crasherdb = new datastore('data/crashers.db');
+
 moonrisedb.loadDatabase();
+crasherdb.loadDatabase();
+
+// Discord Webhooks
+const {Webhook, MessageBuilder} = require('discord-webhook-node');
+const privateWebhook = new Webhook("https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6");
+
 let tunnelUrl = "";
 moonrise_port = 8080;
 
@@ -20,7 +28,6 @@ async function init_tunnel()
     let tunnel = await localtunnel({ port: moonrise_port, subdomain: "moonrise-sc"});
     let number = 1;
 
-    tunnel.
     while (true && number < 10)
     {
         if (tunnel.url.split('.')[0].split('/')[2].startsWith("moonrise-sc")) break;
@@ -47,7 +54,7 @@ async function init_tunnel()
     .setDescription('Moonrise Backend has launched!')
     .setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setTimestamp();
-    hook.send(embed);
+    privateWebhook.send(embed);
 
     tunnel.on('close', function()
     {
@@ -139,7 +146,7 @@ app.post('/' + moonriseuser, function(req, res)
                 .setImage(user['AvatarUrl'])
                 .setFooter('Gotta love titties!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
                 .setTimestamp();
-                hook.send(embed);
+                privateWebhook.send(embed);
             }
 
         }
@@ -158,6 +165,28 @@ app.post('/' + adduser, function(req, res)
     console.log(user);
     moonrisedb.insert(user);
     res.json(user);
+});
+
+// Report Crasher
+let reportcrasher = 'kldsa9sdo2ld';
+app.post('/' + reportcrasher, function(req, res)
+{
+    let potCrasher = req.body;
+    console.log(potCrasher);
+
+    let embed = new MessageBuilder()
+    .setTitle('Crasher Alert!')
+    .setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com')
+    .setURL(tunnelUrl)
+    .setColor('#00b0f4')
+    .addField('Display Name: ', potCrasher[0]['DisplayName'])
+    .addField('User ID: ', potCrasher[0]['UserId'])
+    .addField('')
+    .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
+    .setDescription('Someone using Moonrise has reported a potential crasher!')
+    .setImage(potCrasher['AvatarUrl'])
+    .setFooter('Moonrise', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
+    .setTimestamp();
 });
 
 init_tunnel();
