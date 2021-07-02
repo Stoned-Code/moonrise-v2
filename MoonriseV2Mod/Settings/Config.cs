@@ -11,7 +11,7 @@ namespace MoonriseV2Mod.Settings
 {
     public class Config
     {
-        [JsonIgnore]public static Config config;
+        [JsonIgnore] public static Config config;
         [JsonProperty] public string moonriseKey { get; set; } = "FreeUser";
         [JsonProperty] public Dictionary<string, string> ignoreList { get; set; } = new Dictionary<string, string>();
         [JsonProperty] public int avatarHiderState { get; set; } = 1;

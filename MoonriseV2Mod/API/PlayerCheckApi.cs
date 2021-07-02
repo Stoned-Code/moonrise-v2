@@ -54,13 +54,13 @@ namespace MoonriseV2Mod.API
             return selectedPlayer;
         }
 
-        public static Player LocalPlayer
-        {
-            get
-            {
-                return Player.prop_Player_0;
-            }
-        }
+        //public static Player LocalPlayer
+        //{
+        //    get
+        //    {
+        //        return Player.prop_Player_0;
+        //    }
+        //}
 
         public static VRCPlayer LocalVRCPlayer
         {
@@ -71,104 +71,104 @@ namespace MoonriseV2Mod.API
 
         }
 
-        public static Player[] FriendsInRoom
-        {
-            get
-            {
-                var playerList = new List<Player>();
+        //public static Player[] FriendsInRoom
+        //{
+        //    get
+        //    {
+        //        var playerList = new List<Player>();
 
-                for (int i = 0; i < PlayerManager.field_Private_Static_PlayerManager_0.prop_ArrayOf_Player_0.Length; i++)
-                {
-                    var player = PlayerManager.field_Private_Static_PlayerManager_0.prop_ArrayOf_Player_0[i];
-                    var apiUser = player.prop_APIUser_0;
+        //        for (int i = 0; i < PlayerManager.field_Private_Static_PlayerManager_0.prop_ArrayOf_Player_0.Length; i++)
+        //        {
+        //            var player = PlayerManager.field_Private_Static_PlayerManager_0.prop_ArrayOf_Player_0[i];
+        //            var apiUser = player.prop_APIUser_0;
 
-                    var isFriend = IsFriendsWith(apiUser.id);
+        //            var isFriend = IsFriendsWith(apiUser.id);
 
-                    if (!isFriend) continue;
+        //            if (!isFriend) continue;
 
-                    playerList.Add(player);
-                }
+        //            playerList.Add(player);
+        //        }
 
-                playerList.Sort();
+        //        playerList.Sort();
 
-                return playerList.ToArray();
-            }
-        }
+        //        return playerList.ToArray();
+        //    }
+        //}
 
-        public static bool MasterCheck(string UserID)
-        {
-            bool isMaster = false;
-            foreach (Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_0())
-            {
-                var playerApi = player.field_Private_VRCPlayerApi_0;
-                if (playerApi.isMaster)
-                {
-                    if (player.prop_APIUser_0.id != UserID)
-                    {
-                        isMaster = false;
-                        break;
-                    }
+        //public static bool MasterCheck(string UserID)
+        //{
+        //    bool isMaster = false;
+        //    foreach (Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_0())
+        //    {
+        //        var playerApi = player.field_Private_VRCPlayerApi_0;
+        //        if (playerApi.isMaster)
+        //        {
+        //            if (player.prop_APIUser_0.id != UserID)
+        //            {
+        //                isMaster = false;
+        //                break;
+        //            }
 
-                    else
-                    {
-                        isMaster = true;
-                        break;
-                    }
-                }
+        //            else
+        //            {
+        //                isMaster = true;
+        //                break;
+        //            }
+        //        }
 
-                else continue;
-            }
+        //        else continue;
+        //    }
 
-            return isMaster;
-        }
+        //    return isMaster;
+        //}
 
-        public static bool SuperCheck(string UserID)
-        {
-            bool isSuper = false;
-            foreach (Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_0())
-            {
-                var playerApi = player.field_Private_VRCPlayerApi_0;
-                if (playerApi.isSuper)
-                {
-                    if (player.prop_APIUser_0.id != UserID)
-                    {
-                        isSuper = false;
-                        break;
-                    }
+        //public static bool SuperCheck(string UserID)
+        //{
+        //    bool isSuper = false;
+        //    foreach (Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_0())
+        //    {
+        //        var playerApi = player.field_Private_VRCPlayerApi_0;
+        //        if (playerApi.isSuper)
+        //        {
+        //            if (player.prop_APIUser_0.id != UserID)
+        //            {
+        //                isSuper = false;
+        //                break;
+        //            }
 
-                    else
-                    {
-                        isSuper = true;
-                        break;
-                    }
-                }
+        //            else
+        //            {
+        //                isSuper = true;
+        //                break;
+        //            }
+        //        }
 
-                else continue;
-            }
+        //        else continue;
+        //    }
 
-            return isSuper;
-        }
+        //    return isSuper;
+        //}
 
-        public static bool FriendsWithMaster()
-        {
-            var playerManager = PlayerManager.field_Private_Static_PlayerManager_0.prop_ArrayOf_Player_0;
+        //public static bool FriendsWithMaster()
+        //{
+        //    var playerManager = PlayerManager.field_Private_Static_PlayerManager_0.prop_ArrayOf_Player_0;
 
-            for (int i = 0; i < playerManager.Length; i++)
-            {
-                var player = playerManager[i];
-                var apiUser = player.prop_APIUser_0;
-                var isFriends = IsFriendsWith(apiUser.id);
+        //    for (int i = 0; i < playerManager.Length; i++)
+        //    {
+        //        var player = playerManager[i];
+        //        var apiUser = player.prop_APIUser_0;
+        //        var isFriends = IsFriendsWith(apiUser.id);
 
-                if (!player.field_Private_VRCPlayerApi_0.isMaster) continue;
-                if (isFriends) return true;
-            }
+        //        if (!player.field_Private_VRCPlayerApi_0.isMaster) continue;
+        //        if (isFriends) return true;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
-        public static Player GetPlayer(string userId)
-        {
-            return PlayerManager.Method_Public_Static_Player_String_0(userId);
-        }
+        //public static Player GetPlayer(string userId)
+        //{
+        //    return PlayerManager.Method_Public_Static_Player_String_0(userId);
+        //}
     }
 }

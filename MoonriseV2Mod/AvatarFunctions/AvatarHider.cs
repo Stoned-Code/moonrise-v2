@@ -102,10 +102,12 @@ namespace MoonriseV2Mod.AvatarFunctions
                                         db.enabled = true;
                                     }
                                 }
+
+                                continue;
                             }
 
                             if (avtrObject == null) continue;
-
+                            if (PlayerCheckApi.IsFriendsWith(apiUser.id) && m_IgnoreFriends) continue;
                             float dist = Vector3.Distance(PlayerCheckApi.LocalVRCPlayer.transform.position, avtrObject.transform.position);
 
                             if (dist > Config.config.avatarHiderDistance && m_HideAvatars)

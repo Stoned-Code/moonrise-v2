@@ -47,23 +47,19 @@ namespace MoonriseV2Mod.BaseFunctions
             var muteAllButton = new QMToggleButton(functions, 1, 0, "Mute All", delegate
             {
                 PlayerMute.muteAll = true;
-                //MelonCoroutines.Start(mainFunctions.PlayerMute(WhosAffected.All, muteAll));
             }, "Disabled", delegate
             {
                 PlayerMute.muteAll = false;
                 PlayerMute.UnmutePlayers();
-                //MelonCoroutines.Start(mainFunctions.PlayerMute(WhosAffected.All, muteAll));
             }, "Mutes all players in the world except friends", null, null, false, false);
 
             //Mute Friends
             var muteFriendsTransform = new QMToggleButton(functions, 2, 0, "Mute Friends", delegate
             {
                 PlayerMute.muteFriends = true;
-                //MelonCoroutines.Start(mainFunctions.PlayerMute(WhosAffected.Friends, true));
             }, "Disabled", delegate
             {
                 PlayerMute.muteFriends = false;
-                //MelonCoroutines.Start(mainFunctions.PlayerMute(WhosAffected.Friends, false));
                 PlayerMute.UnmutePlayers();
             }, "Mutes all friends in the world", null, null, false, false);
         }

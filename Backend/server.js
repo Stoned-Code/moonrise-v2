@@ -76,7 +76,7 @@ app.use(express.json({limit: '10mb'}));
 // Get Requests  //
 ///////////////////
 
-let moonriseapi = 'kaik23kdsal'
+let moonriseapi = 'kaik23kdsal'; // Gets all users in database.
 app.get('/' + moonriseapi, function(req, res)
 {
     moonrisedb.find({}, function(err, data)
@@ -179,9 +179,10 @@ app.post('/' + reportcrasher, function(req, res)
     .setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com')
     .setURL(tunnelUrl)
     .setColor('#00b0f4')
-    .addField('Display Name: ', potCrasher[0]['DisplayName'])
-    .addField('User ID: ', potCrasher[0]['UserId'])
-    .addField('')
+    .addField('Display Name: ', potCrasher['DisplayName'])
+    .addField('User ID: ', potCrasher['UserId'])
+    .addField('Avatar Id: ', potCrasher['AvatarId'])
+    .addField('Avatar Author: ', potCrasher['AvatarAuthor'])
     .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setDescription('Someone using Moonrise has reported a potential crasher!')
     .setImage(potCrasher['AvatarUrl'])

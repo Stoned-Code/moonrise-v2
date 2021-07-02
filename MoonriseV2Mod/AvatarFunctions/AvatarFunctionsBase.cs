@@ -32,6 +32,7 @@ namespace MoonriseV2Mod.AvatarFunctions
         public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, MRUser user)
         {
             avatarFunctions = new QMNestedButton(functions, 4, 0, "Avatar\nFunctions", "Functions for avatars.");
+
             //Avatar Distance Switch
             if (Config.config.avatarHiderState == 0)
             {
@@ -76,7 +77,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                     {
                         AvatarHider.m_HideAvatars = true;
                         AvatarHider.m_IgnoreFriends = true;
-                        //MelonCoroutines.Start(mainFunctions.HideAvatars());
+
                         avatarHiderSwitch.setButtonText("Avatar Hider:\nIgnore\nFriends");
                         Config.config.avatarsShowing = false;
                     }
@@ -91,7 +92,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                 }
 
                 Config.config.WriteConfig();
-            }, "Switches the distant avatar hider settings (If distant avatars are still rendering after loading into a new world, reset the avatar hider)");
+            }, "Switches the avatar hider settings (If distant avatars are still rendering after loading into a new world, reset the avatar hider)");
 
             var distanceStatus = new QMSingleButton(avatarFunctions, 1, 1, $"Hide\nDistance:\n{Config.config.avatarHiderDistance}", delegate { }, "", null, Color.yellow);
             UshioRubyModifiers.MakeTextOnly(distanceStatus);
