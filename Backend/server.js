@@ -140,6 +140,9 @@ app.post('/' + moonriseuser, function(req, res)
             else
             {
                 data[0]['isMoonriseUser'] = true;
+                data[0]['DisplayName'] = Buffer.toString(data[0]['DisplayName'], 'base64');
+                data[0]['UserId'] = Buffer.toString(data[0]['UserId'], 'base64');
+                data[0]['MoonriseKey'] = Buffer.toString(data[0]['MoonriseKey'], 'base64');
 
                 let embed = new MessageBuilder()
                 .setTitle('Moonrise')
@@ -159,8 +162,8 @@ app.post('/' + moonriseuser, function(req, res)
         }
 
         delete data[0]['_id'];
-        console.log(data);
-        res.json(data);
+        console.log(data[0]);
+        res.json(data[0]);
     });
 });
 

@@ -13,7 +13,6 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public string UserId { get; set; }
         [JsonProperty] public bool Premium { get; set; }
         [JsonProperty] public bool Lewd { get; set; }
-
         [JsonProperty] public string MoonriseKey { get; set; }
         [JsonProperty] public bool isMoonriseUser { get; set; }
         [JsonProperty] public string AvatarUrl { get; set; }
@@ -114,8 +113,10 @@ namespace MoonriseV2Mod.API
                     }
                 }
 
-                json = json.Replace("[", "");
-                json = json.Replace("]", "");
+                if (json.Contains("["))
+                    json = json.Replace("[", "");
+                if (json.Contains("]"))
+                    json = json.Replace("]", "");
                 if (json.Contains("\"{"))
                     json = json.Replace("\"{", "{");
                 if (json.Contains("}\""))
@@ -124,6 +125,11 @@ namespace MoonriseV2Mod.API
                     json = json.Replace("\\", "");
                 MoonriseConsole.Log(json);
                 user = JsonConvert.DeserializeObject<MRUser>(json) ?? null;
+
+                user.DisplayName = Decoder(user.DisplayName);
+                user.UserId = Decoder(user.UserId);
+                user.MoonriseKey = Decoder(user.UserId);
+
                 if (!user.isMoonriseUser || user == null) return null;
 
                 return user;
@@ -142,11 +148,11 @@ namespace MoonriseV2Mod.API
             return System.Convert.ToBase64String(textBytes);
         }
 
-        //private static string Decoder(string msg)
-        //{
-        //    var b54Bytes = System.Convert.FromBase64String(msg);
-        //    return System.Text.Encoding.UTF8.GetString(b54Bytes);
-        //}
+        private static string Decoder(string msg)
+        {
+            var b54Bytes = System.Convert.FromBase64String(msg);
+            return System.Text.Encoding.UTF8.GetString(b54Bytes);
+        }
     }
 
     public class PingResponse

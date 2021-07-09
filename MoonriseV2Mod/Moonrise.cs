@@ -55,7 +55,7 @@ namespace MoonriseV2Mod
 
             while (APIUser.CurrentUser == null) yield return null;
 
-            if (Config.config.moonriseKey == "FreeUser")
+            if (Config.config.moonriseKey != "FreeUser")
                 user = MRUser.GetUser(Config.config.moonriseKey);
 
             if (!isInitialized)
