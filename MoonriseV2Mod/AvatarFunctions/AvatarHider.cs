@@ -89,17 +89,19 @@ namespace MoonriseV2Mod.AvatarFunctions
                             bool isIgnored = Config.config.ignoreList.TryGetValue(apiUser.id, out displayName);
                             GameObject avtrObject = GetAvatarObject(player);
                             DynamicBoneController dynamicBoneController = PlayerCheckApi.GetDynamicBoneController(player);
-
-                            if (!avtrObject.activeInHierarchy && isIgnored)
+                            if (isIgnored)
                             {
-                                avtrObject.SetActive(true);
-                                if (dynamicBoneController != null)
+                                if (!avtrObject.activeInHierarchy)
                                 {
-                                    for (int dbIndex = 0; dbIndex < dynamicBoneController.field_Private_List_1_DynamicBone_0.Count; dbIndex++)
+                                    avtrObject.SetActive(true);
+                                    if (dynamicBoneController != null)
                                     {
-                                        var db = dynamicBoneController.field_Private_List_1_DynamicBone_0[dbIndex];
-                                        if (db.enabled) continue;
-                                        db.enabled = true;
+                                        for (int dbIndex = 0; dbIndex < dynamicBoneController.field_Private_List_1_DynamicBone_0.Count; dbIndex++)
+                                        {
+                                            var db = dynamicBoneController.field_Private_List_1_DynamicBone_0[dbIndex];
+                                            if (db.enabled) continue;
+                                            db.enabled = true;
+                                        }
                                     }
                                 }
 

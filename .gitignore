@@ -511,3 +511,5 @@ Backend/node_modules/
 Backend/index/
 Backend/videos/
 Backend/moornise.db
+ssh
+ssh.pub

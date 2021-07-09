@@ -95,7 +95,7 @@ namespace MoonriseV2Mod.API
                 //wr.Accept = "application/json";
                 wr.ContentType = "application/json";
                 wr.Method = "POST";
-                wr.Timeout = 10000;
+                wr.Timeout = 1500;
 
                 user.MoonriseKey = key;
                 user.UserId = APIUser.CurrentUser.id;
