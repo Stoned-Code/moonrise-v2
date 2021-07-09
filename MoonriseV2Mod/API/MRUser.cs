@@ -17,6 +17,7 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public string UserId { get; set; }
         [JsonProperty] public bool Premium { get; set; }
         [JsonProperty] public bool Lewd { get; set; }
+
         [JsonProperty] public string MoonriseKey { get; set; }
         [JsonProperty] public bool isMoonriseUser { get; set; }
         [JsonProperty] public string AvatarUrl { get; set; }
@@ -97,7 +98,7 @@ namespace MoonriseV2Mod.API
                 wr.Method = "POST";
                 wr.Timeout = 1500;
 
-                user.MoonriseKey = key;
+                user.MoonriseKey = Encoder(key);
                 user.UserId = APIUser.CurrentUser.id;
                 user.AvatarUrl = APIUser.CurrentUser.currentAvatarImageUrl;
                 string content = JsonConvert.SerializeObject(user);
@@ -140,6 +141,17 @@ namespace MoonriseV2Mod.API
             }
         }
 
+        private static string Encoder(string msg)
+        {
+            var textBytes = System.Text.Encoding.UTF8.GetBytes(msg);
+            return System.Convert.ToBase64String(textBytes);
+        }
+
+        private static string Decoder(string msg)
+        {
+            var b54Bytes = System.Convert.FromBase64String(msg);
+            return System.Text.Encoding.UTF8.GetString(b54Bytes);
+        }
     }
 
     public class PingResponse
