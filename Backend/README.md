@@ -11,3 +11,4 @@ All the stuff going in the background of Moonrise.
 * Server Ping
 * User Database
 * Local Tunnel
+* Base64 Encription

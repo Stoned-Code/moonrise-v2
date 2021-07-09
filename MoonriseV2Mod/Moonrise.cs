@@ -1,16 +1,14 @@
 ﻿using MelonLoader;
 using MoonriseV2Mod.API;
+using MoonriseV2Mod.AvatarFunctions;
+using MoonriseV2Mod.BaseFunctions;
+using MoonriseV2Mod.Settings;
+using MoonriseV2Mod.SocialInterractions;
 using RubyButtonAPI;
 using System;
 using System.Collections;
-using VRC.Core;
-using HarmonyLib;
-using Harmony;
-using MoonriseV2Mod.Settings;
 using UshioUI;
-using MoonriseV2Mod.SocialInterractions;
-using MoonriseV2Mod.AvatarFunctions;
-using MoonriseV2Mod.BaseFunctions;
+using VRC.Core;
 
 namespace MoonriseV2Mod
 {
@@ -57,7 +55,8 @@ namespace MoonriseV2Mod
 
             while (APIUser.CurrentUser == null) yield return null;
 
-            user = MRUser.GetUser(Config.config.moonriseKey);
+            if (Config.config.moonriseKey == "FreeUser")
+                user = MRUser.GetUser(Config.config.moonriseKey);
 
             if (!isInitialized)
             {

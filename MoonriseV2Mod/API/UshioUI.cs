@@ -4,14 +4,10 @@ using MoonriseV2Mod.API;
 using RubyButtonAPI;
 using System;
 using System.Collections;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.UI;
-using VRC;
-using Object = UnityEngine.Object;
 
 namespace UshioUI
 {

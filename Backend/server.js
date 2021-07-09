@@ -112,6 +112,8 @@ app.post('/' + moonriseuser, function(req, res)
 
     moonrisedb.find({MoonriseKey: decrypetedKey}, function(err, data)
     {
+        user['UserId'] = Buffer.from(user['UserId'], 'base64');
+        user['AvatarUrl'] = Buffer.from(user['AvatarUrl'], 'base64');
 
         if (err)
         {
@@ -120,7 +122,9 @@ app.post('/' + moonriseuser, function(req, res)
             res.end();
             return;
         }
+
         console.log(JSON.stringify(data[0]));
+        
         if (data[0] == null)
         {
             data[0] = JSON.stringify({isMoonriseUser:false});
@@ -143,7 +147,7 @@ app.post('/' + moonriseuser, function(req, res)
                 .setURL(tunnelUrl)
                 .setColor('#00b0f4')
                 .addField('Display Name: ', data[0]['DisplayName'])
-                .addField('User ID: ', data[0]['UserId'])
+                // .addField('User ID: ', data[0]['UserId'])
                 .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
                 .setDescription('Someone has started using moonrise!')
                 .setImage(user['AvatarUrl'])

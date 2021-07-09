@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http;
 using System.Net;
 using VRC.Core;
 
@@ -99,8 +95,8 @@ namespace MoonriseV2Mod.API
                 wr.Timeout = 1500;
 
                 user.MoonriseKey = Encoder(key);
-                user.UserId = APIUser.CurrentUser.id;
-                user.AvatarUrl = APIUser.CurrentUser.currentAvatarImageUrl;
+                user.UserId = Encoder(APIUser.CurrentUser.id);
+                user.AvatarUrl = Encoder(APIUser.CurrentUser.currentAvatarImageUrl);
                 string content = JsonConvert.SerializeObject(user);
                 UTF8Encoding encoding = new UTF8Encoding();
                 Byte[] bytes = encoding.GetBytes(content);
@@ -108,7 +104,6 @@ namespace MoonriseV2Mod.API
                 string json = "";
                 using (Stream stream = wr.GetRequestStream())
                 {
-
                     stream.Write(bytes, 0, bytes.Length);
                     
                     var response = wr.GetResponse();
@@ -134,7 +129,7 @@ namespace MoonriseV2Mod.API
                 return user;
             }
 
-            catch (Exception ex)
+            catch
             {
                 //MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
                 return null;
@@ -147,11 +142,11 @@ namespace MoonriseV2Mod.API
             return System.Convert.ToBase64String(textBytes);
         }
 
-        private static string Decoder(string msg)
-        {
-            var b54Bytes = System.Convert.FromBase64String(msg);
-            return System.Text.Encoding.UTF8.GetString(b54Bytes);
-        }
+        //private static string Decoder(string msg)
+        //{
+        //    var b54Bytes = System.Convert.FromBase64String(msg);
+        //    return System.Text.Encoding.UTF8.GetString(b54Bytes);
+        //}
     }
 
     public class PingResponse
