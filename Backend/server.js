@@ -106,16 +106,9 @@ let moonriseuser = 'ykmhuuvlby';
 app.post('/' + moonriseuser, function(req, res)
 {
     let user = req.body;
-    let decrypetedKey = "";
-    
-    if (typeof Buffer.from === "function") {
-        // Node 5.10+
-        decrypetedKey = Buffer.from(user['MoonriseKey'], 'base64'); // Ta-da
-    } else {
-        // older Node versions, now deprecated
-        decrypetedKey = new Buffer(user['MoonriseKey'], 'base64'); // Ta-da
-    }
+    let decrypetedKey = Buffer.from(user['MoonriseKey'], 'base64');
 
+    decrypetedKey = decrypetedKey.toString();
 
     moonrisedb.find({MoonriseKey: decrypetedKey}, function(err, data)
     {
