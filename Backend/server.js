@@ -107,8 +107,8 @@ app.post('/' + moonriseuser, function(req, res)
 {
     let user = req.body;
 
-    user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64');
-    moonrisedb.find({MoonriseKey: user['MoonriseKey']}, function(err, data)
+    let decrypetedKey = Buffer.from(user['MoonriseKey'], 'base64');
+    moonrisedb.find({MoonriseKey: decrypetedKey}, function(err, data)
     {
 
         if (err)
