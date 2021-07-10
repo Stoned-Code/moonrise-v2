@@ -21,25 +21,36 @@ const privateWebhook = new Webhook("https://discord.com/api/webhooks/80162990949
 
 let tunnelUrl = "";
 moonrise_port = 8080;
+let debugging = true;
+let mainDomain = "moonrise-sc";
+let testDomain = "moonrise-sct"
+
+let officialDomain;
+
+if (debugging = true)
+    officialDomain = testDomain;
+else
+    officialDomain = mainDomain;
 
 // Local Tunnel Stuff
 async function init_tunnel() 
 {
-    let tunnel = await localtunnel({ port: moonrise_port, subdomain: "moonrise-sc"});
+    let tunnel = await localtunnel({ port: moonrise_port, subdomain: officialDomain});
     let number = 1;
 
     while (true && number < 10)
     {
-        if (tunnel.url.split('.')[0].split('/')[2].startsWith("moonrise-sc")) break;
+        if (tunnel.url.split('.')[0].split('/')[2].startsWith(officialDomain)) break;
 
         console.log(tunnel.url.split('.')[0].split('/')[2]);
         tunnel.close();
 
-        tunnel = await localtunnel({port:moonrise_port, subdomain: "moonrise-sc-" + number.toString()});
+        tunnel = await localtunnel({port:moonrise_port, subdomain: officialDomain + "-" + number.toString()});
 
         console.log(number);
         number++;
     }
+
     tunnelUrl = tunnel.url;
     console.log(moonrise_port);
     console.log(tunnel.url);
@@ -112,8 +123,6 @@ app.post('/' + moonriseuser, function(req, res)
 
     moonrisedb.find({MoonriseKey: decrypetedKey}, function(err, data)
     {
-        user['UserId'] = Buffer.from(user['UserId'], 'base64');
-        user['AvatarUrl'] = Buffer.from(user['AvatarUrl'], 'base64');
 
         if (err)
         {
@@ -132,6 +141,9 @@ app.post('/' + moonriseuser, function(req, res)
 
         else
         {
+            user['UserId'] = Buffer.from(user['UserId'], 'base64');
+            user['AvatarUrl'] = Buffer.from(user['AvatarUrl'], 'base64');
+            
             if (user['UserId'] != data[0]['UserId'])
             {
                 data[0] = JSON.stringify({isMoonriseUser:false})
@@ -140,16 +152,15 @@ app.post('/' + moonriseuser, function(req, res)
             else
             {
                 data[0]['isMoonriseUser'] = true;
-                data[0]['DisplayName'] = Buffer.toString(data[0]['DisplayName'], 'base64');
-                data[0]['UserId'] = Buffer.toString(data[0]['UserId'], 'base64');
-                data[0]['MoonriseKey'] = Buffer.toString(data[0]['MoonriseKey'], 'base64');
-
+                let dpn = data[0]['DisplayName'];
+                let uid = data[0]['UserId'];
+                let mk = data[0]['MoonriseKey'];
                 let embed = new MessageBuilder()
                 .setTitle('Moonrise')
                 .setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com')
                 .setURL(tunnelUrl)
                 .setColor('#00b0f4')
-                .addField('Display Name: ', data[0]['DisplayName'])
+                .addField('Display Name: ', dpn)
                 // .addField('User ID: ', data[0]['UserId'])
                 .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
                 .setDescription('Someone has started using moonrise!')
@@ -157,6 +168,10 @@ app.post('/' + moonriseuser, function(req, res)
                 .setFooter('Gotta love titties!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
                 .setTimestamp();
                 privateWebhook.send(embed);
+
+                data[0]['DisplayName'] = Buffer.from(dpn).toString('base64');
+                data[0]['UserId'] = Buffer.from(uid).toString('base64');
+                data[0]['MoonriseKey'] = Buffer.from(mk).toString('base64');
             }
 
         }

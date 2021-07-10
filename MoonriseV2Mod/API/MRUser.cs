@@ -17,11 +17,13 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public bool isMoonriseUser { get; set; }
         [JsonProperty] public string AvatarUrl { get; set; }
         [JsonIgnore] internal static string baseUrl = "loca.lt";
+        [JsonIgnore] internal static bool debug = true;
         internal static string WorkingUrl
         {
             get
             {
-                string tempUrl = $"https://moonrise-sc.{baseUrl}";
+                string extra = debug ? "t" : "";
+                string tempUrl = $"https://moonrise-sc{extra}.{baseUrl}";
                 WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                 wr.Timeout = 1500;
                 wr.Method = "GET";
@@ -53,7 +55,7 @@ namespace MoonriseV2Mod.API
                 {
                     try
                     {
-                        tempUrl = $"https://moonrise-sc-{i}.{baseUrl}";
+                        tempUrl = $"https://moonrise-sc{extra}-{i}.{baseUrl}";
 
                         wr.Abort();
                         wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
@@ -113,10 +115,10 @@ namespace MoonriseV2Mod.API
                     }
                 }
 
-                if (json.Contains("["))
-                    json = json.Replace("[", "");
-                if (json.Contains("]"))
-                    json = json.Replace("]", "");
+                //if (json.Contains("["))
+                //    json = json.Replace("[", "");
+                //if (json.Contains("]"))
+                //    json = json.Replace("]", "");
                 if (json.Contains("\"{"))
                     json = json.Replace("\"{", "{");
                 if (json.Contains("}\""))
@@ -125,33 +127,48 @@ namespace MoonriseV2Mod.API
                     json = json.Replace("\\", "");
                 MoonriseConsole.Log(json);
                 user = JsonConvert.DeserializeObject<MRUser>(json) ?? null;
-
                 user.DisplayName = Decoder(user.DisplayName);
                 user.UserId = Decoder(user.UserId);
-                user.MoonriseKey = Decoder(user.UserId);
+                user.MoonriseKey = Decoder(user.MoonriseKey);
+
+                MoonriseConsole.Log(user.ToString());
 
                 if (!user.isMoonriseUser || user == null) return null;
 
                 return user;
             }
 
-            catch
+            catch (Exception ex)
             {
-                //MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
+                MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
                 return null;
             }
         }
 
         private static string Encoder(string msg)
         {
-            var textBytes = System.Text.Encoding.UTF8.GetBytes(msg);
-            return System.Convert.ToBase64String(textBytes);
+            byte[] textBytes = Encoding.UTF8.GetBytes(msg);
+            return Convert.ToBase64String(textBytes);
         }
 
         private static string Decoder(string msg)
         {
-            var b54Bytes = System.Convert.FromBase64String(msg);
-            return System.Text.Encoding.UTF8.GetString(b54Bytes);
+            try
+            {
+                byte[] b54Bytes = Convert.FromBase64String(msg);
+                return Encoding.UTF8.GetString(b54Bytes);
+            }
+
+            catch (Exception ex)
+            {
+                MoonriseConsole.ErrorLog($"Error Decoding \"{msg}\"\n{ex}");
+                return "Error...";
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"Display Name: {DisplayName}\nUser ID: {UserId}\nPremium: {Premium}\nLewd: {Lewd}\nMoonrise Key: {MoonriseKey}";
         }
     }
 

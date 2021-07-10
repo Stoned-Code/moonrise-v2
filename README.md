@@ -10,7 +10,8 @@ A quality of life mod.
 * Realtime Light Toggle
 * Report Crasher
 * Force Clone (Premium)
-* Add Base64 Encription
+* Base64 Encription
+* Auto Update
 
 ## Client Side Completed
 * Player Mute
