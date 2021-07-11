@@ -221,6 +221,23 @@ app.post('/' + adduser, function(req, res)
     res.json(user);
 });
 
+// Remove user
+let removeUser = 'kwe90adsko90';
+app.post('/' + removeUser, function(req, res)
+{
+    let user = req.body;
+
+    user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
+    user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
+    user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
+
+    moonrisedb.remove({MoonriseKey: user['MoonriseKey']}, {}, function(err, numRemoved)
+    {
+        if (err)
+        res.end();
+    });
+})
+
 // Update user
 let updateUser = 'k83jdaa-ok3ka'
 app.post('/' + updateUser, function(req, res)
