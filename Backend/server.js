@@ -96,7 +96,7 @@ app.get('/' + moonriseapi, function(req, res)
             res.end();
             return;
         }
-        res.json(Buffer.from(data, 'base64').toString());
+        res.json(Buffer.from(JSON.stringify(data), 'base64').toString());
     });
 });
 
