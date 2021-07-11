@@ -216,7 +216,7 @@ app.post('/' + adduser, function(req, res)
     user['UserId'] = Buffer.from(user['UserId'], 'base64');
     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64');
     
-    console.log(user);
+    console.log(JSON.stringify(user));
     // moonrisedb.insert(user);
     res.json(user);
 });
