@@ -19,7 +19,7 @@ crasherdb.loadDatabase();
 // Discord Webhooks
 const {Webhook, MessageBuilder} = require('discord-webhook-node');
 
-const testWebhook = "https://discord.com/api/webhooks/863554237442031626/QYKVVT7MWO-raOLKwzhTdm3OdxcH4Ny72PceLdhi9cbnd4dG_nHFO8NhL2p4j3R5WtAw";
+//const publicWebhook = "https://discord.com/api/webhooks/863554237442031626/QYKVVT7MWO-raOLKwzhTdm3OdxcH4Ny72PceLdhi9cbnd4dG_nHFO8NhL2p4j3R5WtAw";
 const mainWebhook = "https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6";
 
 let usedWebhook = mainWebhook;
@@ -96,7 +96,7 @@ app.get('/' + moonriseapi, function(req, res)
             res.end();
             return;
         }
-        res.json(data);
+        res.json(Buffer.from(data, 'base64').toString());
     });
 });
 
