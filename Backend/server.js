@@ -89,7 +89,6 @@ app.use(express.json({limit: '10mb'}));
 let moonriseapi = 'kaik23kdsal'; // Gets all users in database.
 app.get('/' + moonriseapi, function(req, res)
 {
-    console.clear();
     moonrisedb.find({}, function(err, data)
     {
         if (err)
@@ -99,42 +98,25 @@ app.get('/' + moonriseapi, function(req, res)
         }
 
         let dbLength = data.length;
-        data.forEach(userElement =>
+
+        for (var i = 0 ; i < dbLength; i++)
         {
-            let displayName = userElement['DisplayName'] || "N/A";
-            let userId = userElement['UserId'] || "N/A";
-            let moonriseKey = userElement['MoonriseKey'] || "N/A";
             try
             {
-                userElement['DisplayName'] = Buffer.from(displayName).toString('base64');
-                userElement['UserId'] = Buffer.from(userId).toString('base64');
-                userElement['MoonriseKey'] = Buffer.from(moonriseKey).toString('base64');
-            }
+                let displayName = data[i]['DisplayName'];
+                let userId = data[i]['UserId'];
+                let moonriseKey = data[i]['MoonriseKey'];
 
-            catch(error)
+                data[i]['DisplayName'] = Buffer.from(displayName).toString('base64');
+                data[i]['UserId'] = Buffer.from(userId).toString('base64');
+                data[i]['MoonriseKey'] = Buffer.from(moonriseKey).toString('base64');
+            }
+            
+            catch (error)
             {
                 console.log(error);
             }
-        })
-
-        // for (var i = 0 ; i < dbLength; i++)
-        // {
-        //     try
-        //     {
-        //         let displayName = data[i]['DisplayName'];
-        //         let userId = data[i]['UserId'];
-        //         let moonriseKey = data[i]['MoonriseKey'];
-
-        //         data[i]['DisplayName'] = Buffer.from(displayName).toString('base64');
-        //         data[i]['UserId'] = Buffer.from(userId).toString('base64');
-        //         data[i]['MoonriseKey'] = Buffer.from(moonriseKey).toString('base64');
-        //     }
-            
-        //     catch (error)
-        //     {
-        //         console.log(error);
-        //     }
-        // }
+        }
 
         res.json(data);
     });
