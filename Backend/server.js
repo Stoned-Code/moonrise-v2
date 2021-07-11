@@ -101,9 +101,9 @@ app.get('/' + moonriseapi, function(req, res)
         let dbLength = data.length;
         data.forEach(userElement =>
         {
-            let displayName = userElement['DisplayName'];
-            let userId = userElement['UserId'];
-            let moonriseKey = userElement['MoonriseKey'];
+            let displayName = userElement['DisplayName'] || "N/A";
+            let userId = userElement['UserId'] || "N/A";
+            let moonriseKey = userElement['MoonriseKey'] || "N/A";
             try
             {
                 userElement['DisplayName'] = Buffer.from(displayName).toString('base64');
