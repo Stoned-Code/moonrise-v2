@@ -98,25 +98,35 @@ app.get('/' + moonriseapi, function(req, res)
         }
 
         let dbLength = data.length;
-
-        for (var i = 0 ; i < dbLength; i++)
+        data.forEach(userElement =>
         {
-            try
-            {
-                let displayName = data[i]['DisplayName'];
-                let userId = data[i]['UserId'];
-                let moonriseKey = data[i]['MoonriseKey'];
+            let displayName = userElement['DisplayName'];
+            let userId = userElement['UserId'];
+            let moonriseKey = userElement['MoonriseKey'];
 
-                data[i]['DisplayName'] = Buffer.from(displayName).toString('base64');
-                data[i]['UserId'] = Buffer.from(userId).toString('base64');
-                data[i]['MoonriseKey'] = Buffer.from(moonriseKey).toString('base64');
-            }
+            userElement['DisplayName'] = Buffer.from(displayName).toString('base64');
+            userElement['UserId'] = Buffer.from(userId).toString('base64');
+            userElement['MoonriseKey'] = Buffer.from(moonriseKey).toString('base64');
+        })
+
+        // for (var i = 0 ; i < dbLength; i++)
+        // {
+        //     try
+        //     {
+        //         let displayName = data[i]['DisplayName'];
+        //         let userId = data[i]['UserId'];
+        //         let moonriseKey = data[i]['MoonriseKey'];
+
+        //         data[i]['DisplayName'] = Buffer.from(displayName).toString('base64');
+        //         data[i]['UserId'] = Buffer.from(userId).toString('base64');
+        //         data[i]['MoonriseKey'] = Buffer.from(moonriseKey).toString('base64');
+        //     }
             
-            catch (error)
-            {
-                console.log(error);
-            }
-        }
+        //     catch (error)
+        //     {
+        //         console.log(error);
+        //     }
+        // }
 
         res.json(data);
     });
