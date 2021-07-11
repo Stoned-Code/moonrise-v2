@@ -198,9 +198,9 @@ app.post('/' + adduser, function(req, res)
 {
     let user = req.body;
 
-    user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64');
-    user['UserId'] = Buffer.from(user['UserId'], 'base64');
-    user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64');
+    user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
+    user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
+    user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
     
     console.log(user);
     // moonrisedb.insert(user);
