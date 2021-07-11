@@ -89,6 +89,7 @@ app.use(express.json({limit: '10mb'}));
 let moonriseapi = 'kaik23kdsal'; // Gets all users in database.
 app.get('/' + moonriseapi, function(req, res)
 {
+    console.clear();
     moonrisedb.find({}, function(err, data)
     {
         if (err)
@@ -103,10 +104,17 @@ app.get('/' + moonriseapi, function(req, res)
             let displayName = userElement['DisplayName'];
             let userId = userElement['UserId'];
             let moonriseKey = userElement['MoonriseKey'];
+            try
+            {
+                userElement['DisplayName'] = Buffer.from(displayName).toString('base64');
+                userElement['UserId'] = Buffer.from(userId).toString('base64');
+                userElement['MoonriseKey'] = Buffer.from(moonriseKey).toString('base64');
+            }
 
-            userElement['DisplayName'] = Buffer.from(displayName).toString('base64');
-            userElement['UserId'] = Buffer.from(userId).toString('base64');
-            userElement['MoonriseKey'] = Buffer.from(moonriseKey).toString('base64');
+            catch(error)
+            {
+                console.log(error);
+            }
         })
 
         // for (var i = 0 ; i < dbLength; i++)
