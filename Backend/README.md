@@ -6,6 +6,7 @@ All the stuff going in the background of Moonrise.
 * Public Webhook Logging
 * Malicious User Database
 * Discord Bot
+* Websocket Client
 
 ## Backend Completed
 * Server Ping
@@ -14,4 +15,6 @@ All the stuff going in the background of Moonrise.
 * Base64 Encription
 
 ## Backend Issues
+
+## Fixed Issues
 * Webhook Error

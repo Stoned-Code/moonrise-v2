@@ -67,6 +67,13 @@ namespace MoonriseV2Mod.SocialInterractions
                 MelonCoroutines.Start(AvatarHider.ResetHideDistantAvatars());
             }, "Removes selected user from distant avatar hider ignore list");
             UshioRubyModifiers.SetHalfButton(removeFromIgnoreListButton, UshioRubyModifiers.HalfPosition.Bottom, UshioRubyModifiers.Rotation.Horizontal);
+
+            var playerTeleport = new QMSingleButton(socialInterractions, 1, 1, "Teleport\nTo", delegate
+            {
+                var foundPlayer = QuickMenu.prop_QuickMenu_0.field_Private_APIUser_0;
+
+                PlayerTeleport.TeleportTo(foundPlayer.id);
+            }, "Teleports you to the selected player.");
         }
     }
 }

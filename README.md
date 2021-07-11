@@ -11,6 +11,7 @@ A quality of life mod.
 * Report Crasher
 * Force Clone (Premium)
 * Auto Update
+* Player Teleport Points
 
 ## Client Side Completed
 * Player Mute
@@ -18,6 +19,7 @@ A quality of life mod.
 * Ad Blocker
 * Ignore List
 * Base64 Encription
+* Player Teleport
 
 ## Client Issues
 * Backend Post Timeouts

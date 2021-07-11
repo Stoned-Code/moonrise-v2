@@ -112,6 +112,7 @@
     <Compile Include="Settings\AddBlocker.cs" />
     <Compile Include="Settings\Config.cs" />
     <Compile Include="Settings\SettingsFunctions.cs" />
+    <Compile Include="SocialInterractions\PlayerTeleport.cs" />
     <Compile Include="SocialInterractions\SocialInterractionsBase.cs" />
   </ItemGroup>
   <ItemGroup>

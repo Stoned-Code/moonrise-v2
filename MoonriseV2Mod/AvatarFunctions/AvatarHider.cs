@@ -88,19 +88,17 @@ namespace MoonriseV2Mod.AvatarFunctions
                             if (isIgnored)
                             {
                                 if (!avtrObject.activeInHierarchy)
-                                {
                                     avtrObject.SetActive(true);
-                                    if (dynamicBoneController != null)
+
+                                if (dynamicBoneController != null)
+                                {
+                                    for (int dbIndex = 0; dbIndex < dynamicBoneController.field_Private_List_1_DynamicBone_0.Count; dbIndex++)
                                     {
-                                        for (int dbIndex = 0; dbIndex < dynamicBoneController.field_Private_List_1_DynamicBone_0.Count; dbIndex++)
-                                        {
-                                            var db = dynamicBoneController.field_Private_List_1_DynamicBone_0.ToArray()[dbIndex];
-                                            if (db.enabled) continue;
-                                            db.enabled = true;
-                                        }
+                                        var db = dynamicBoneController.field_Private_List_1_DynamicBone_0.ToArray()[dbIndex];
+                                        if (db.enabled) continue;
+                                        db.enabled = true;
                                     }
                                 }
-
                                 continue;
                             }
 

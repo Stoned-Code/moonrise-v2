@@ -21,10 +21,12 @@ const {Webhook, MessageBuilder} = require('discord-webhook-node');
 
 //const publicWebhook = "https://discord.com/api/webhooks/863554237442031626/QYKVVT7MWO-raOLKwzhTdm3OdxcH4Ny72PceLdhi9cbnd4dG_nHFO8NhL2p4j3R5WtAw";
 const mainWebhook = "https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6";
-
+const logsWebhook = "https://discord.com/api/webhooks/747734429597827123/e5PU_9Oo-QIJLChZHZW59RSfFEIvqzJ_NXzxUrcHLdSJiGW5JfWC8xiG925j0xrcUiRS";
 let usedWebhook = mainWebhook;
 
 const privateWebhook = new Webhook(usedWebhook);
+const loggingWebhook = new Webhook(logsWebhook);
+
 privateWebhook.setUsername("Moonrise V2");
 privateWebhook.setAvatar("https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png");
 let tunnelUrl = "";
