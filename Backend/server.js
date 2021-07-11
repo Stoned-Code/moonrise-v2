@@ -231,10 +231,9 @@ app.post('/' + updateUser, function(req, res)
     user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
 
-    moonrisedb.update({UserId: user['MoonriseKey']}, {$set: { DisplayName: user['DisplayName']}}, {multi: true});
-    moonrisedb.update({UserId: user['MoonriseKey']}, {$set: { UserId: user['UserId']}}, {multi: true});
-    moonrisedb.update({UserId: user['MoonriseKey']}, {$set: { Premium: user['Premium'] }}, {multi: true});
-    moonrisedb.update({UserId: user['MoonriseKey']}, {$set: { Lewd: user['Lewd'] }}, {multi: true});
+    moonrisedb.update({MoonriseKey: user['MoonriseKey']}, {$set: { DisplayName: user['DisplayName']}}, {multi: true});
+    moonrisedb.update({MoonriseKey: user['MoonriseKey']}, {$set: { Premium: user['Premium'] }}, {multi: true});
+    moonrisedb.update({MoonriseKey: user['MoonriseKey']}, {$set: { Lewd: user['Lewd'] }}, {multi: true});
     console.log(JSON.stringify(user));
     res.json(JSON.stringify({successful: true}));
 });
