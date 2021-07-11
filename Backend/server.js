@@ -217,8 +217,32 @@ app.post('/' + adduser, function(req, res)
     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
     
     console.log(JSON.stringify(user));
-    // moonrisedb.insert(user);
+    moonrisedb.insert(user);
     res.json(user);
+});
+
+// Update user
+let updateUser = 'k83jdaa-ok3ka'
+app.post('/' + updateUser, function(req, res)
+{
+    let user = req.body;
+
+    user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
+    user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
+    user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
+
+    moonrisedb.update({UserId: user['UserId']}, {$set: 
+        {
+            DisplayName: user['DisplayName'], 
+            UserId: user['UserId'], 
+            MoonriseKey: user['MoonriseKey'],
+            Premium: user['Premium'],
+            Lewd: user['Lewd']
+        }}, {multi: true}, function(err, numReplaced)
+        {
+
+        });
+    res.end();
 });
 
 // Report Crasher
