@@ -115,10 +115,6 @@ namespace MoonriseV2Mod.API
                     }
                 }
 
-                if (json.Contains("["))
-                    json = json.Replace("[", "");
-                if (json.Contains("]"))
-                    json = json.Replace("]", "");
                 if (json.Contains("\"{"))
                     json = json.Replace("\"{", "{");
                 if (json.Contains("}\""))

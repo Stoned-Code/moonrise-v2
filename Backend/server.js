@@ -3,7 +3,6 @@
 // videos = kdfo9kf7r
 // Server monitor command "journalctl -fu moonrise_backend"
 console.clear();
-let debugging = false;
 
 const express = require('express');
 const datastore = require('nedb')
@@ -36,7 +35,7 @@ let tunnelUrl = "";
 moonrise_port = 8080;
 
 let mainDomain = "moonrise-sc";
-let testDomain = "moonrise-sct"
+let testDomain = "moonrise-sct";
 
 let officialDomain = "moonrise-sc";
 
@@ -70,7 +69,7 @@ async function init_tunnel()
     .setColor('#00b0f4')
     .addField('Tunnel Url: ', tunnelUrl)
     .addField('Port: ', moonrise_port)
-    .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
+    .setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png')
     .setDescription('Moonrise Backend has launched!')
     .setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setTimestamp();
@@ -167,7 +166,7 @@ app.post('/' + moonriseuser, function(req, res)
                 usrEmbed.setTitle('Moonrise');
                 usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
                 usrEmbed.setURL(tunnelUrl);
-                usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
+                usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
                 usrEmbed.setColor('#00b0f4');
                 usrEmbed.addField('Display Name: ', dpn);
                 usrEmbed.setDescription('Someone has started using Moonrise!');
