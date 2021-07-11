@@ -96,12 +96,22 @@ app.get('/' + moonriseapi, function(req, res)
             res.end();
             return;
         }
+
         let dbLength = data.length;
-        for (let i = 0 ; i < dbLength; i++)
+
+        for (var i = 0 ; i < dbLength; i++)
         {
-            data[i]['DisplayName'] = Buffer.from(data[i]['DisplayName']).toString('base64');
-            data[i]['UserId'] = Buffer.from(data[i]['UserId']).toString('base64');
-            data[i]['MoonriseKey'] = Buffer.from(data[i]['MoonriseKey']).toString('base64');
+            try
+            {
+                data[i]['DisplayName'] = Buffer.from(data[i]['DisplayName']).toString('base64');
+                data[i]['UserId'] = Buffer.from(data[i]['UserId']).toString('base64');
+                data[i]['MoonriseKey'] = Buffer.from(data[i]['MoonriseKey']).toString('base64');
+            }
+            
+            catch (error)
+            {
+                console.log(error);
+            }
         }
 
         res.json(data);
