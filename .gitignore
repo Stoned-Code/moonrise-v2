@@ -510,6 +510,6 @@ dist
 Backend/node_modules/
 Backend/index/
 Backend/videos/
-Backend/moornise.db
+Backend/data/moonrise.db
 ssh
 ssh.pub
