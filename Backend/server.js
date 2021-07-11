@@ -230,12 +230,24 @@ app.post('/' + removeUser, function(req, res)
     user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
     user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
-
-    moonrisedb.remove({MoonriseKey: user['MoonriseKey']}, {}, function(err, numRemoved)
+    moonrisedb.find({MoonriseKey: user['MoonriseKey']}, function(err, data)
     {
         if (err)
-        res.end();
+        {
+            console.log(err);
+            res.end();
+        }
+        
+        moonrisedb.remove({_id: data[0]['_id']}, {}, function(error, numRemoved)
+        {
+            if (err)
+            {
+                console.log(error);
+                res.end();
+            }
+        });
     });
+
 })
 
 // Update user
