@@ -22,11 +22,7 @@ const {Webhook, MessageBuilder} = require('discord-webhook-node');
 const testWebhook = "https://discord.com/api/webhooks/863554237442031626/QYKVVT7MWO-raOLKwzhTdm3OdxcH4Ny72PceLdhi9cbnd4dG_nHFO8NhL2p4j3R5WtAw";
 const mainWebhook = "https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6";
 
-let usedWebhook;
-if (debugging)
-    usedWebhook = testWebhook;
-else
-    usedWebhook = mainWebhook;
+let usedWebhook = mainWebhook;
 
 const privateWebhook = new Webhook(usedWebhook);
 privateWebhook.setUsername("Moonrise V2");
