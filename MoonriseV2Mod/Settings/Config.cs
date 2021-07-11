@@ -14,9 +14,10 @@ namespace MoonriseV2Mod.Settings
         [JsonProperty] public bool avatarsShowing { get; set; }
         [JsonProperty] public float avatarHiderDistance { get; set; } = 7f;
         [JsonProperty] public bool addBlocker { get; set; } = true;
+        [JsonIgnore] public static string rootDirectory = Environment.CurrentDirectory;
         public static void Initialize()
         {
-            string rootDirectory = Environment.CurrentDirectory;
+
 
             // rootDirectory += @"\..\";
 

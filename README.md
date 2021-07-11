@@ -10,7 +10,6 @@ A quality of life mod.
 * Realtime Light Toggle
 * Report Crasher
 * Force Clone (Premium)
-* Base64 Encription
 * Auto Update
 
 ## Client Side Completed
@@ -18,6 +17,7 @@ A quality of life mod.
 * Avatar Hider
 * Ad Blocker
 * Ignore List
+* Base64 Encription
 
 ## Client Issues
 * Backend Post Timeouts

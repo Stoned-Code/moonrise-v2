@@ -7,6 +7,8 @@ using MoonriseV2Mod.SocialInterractions;
 using RubyButtonAPI;
 using System;
 using System.Collections;
+using System.IO;
+using System.Net;
 using UshioUI;
 using VRC.Core;
 
@@ -14,7 +16,6 @@ namespace MoonriseV2Mod
 {
     public class Moonrise : MelonMod
     {
-
         internal class ModInfo
         {
             public const string modName = "Moonrise";
@@ -42,8 +43,6 @@ namespace MoonriseV2Mod
 
         public IEnumerator ModStart()
         {
-            HarmonyLib.Harmony harmony = new HarmonyLib.Harmony("com.VRChat.patch");
-
             Config.Initialize();
             MoonriseAssetBundles.InitializeAssetBundle();
             while (!MoonriseAssetBundles.isInitialized) yield return null;

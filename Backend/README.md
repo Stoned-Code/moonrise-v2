@@ -12,3 +12,6 @@ All the stuff going in the background of Moonrise.
 * User Database
 * Local Tunnel
 * Base64 Encription
+
+## Backend Issues
+* Webhook Error

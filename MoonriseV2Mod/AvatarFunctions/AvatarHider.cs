@@ -94,7 +94,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                                     {
                                         for (int dbIndex = 0; dbIndex < dynamicBoneController.field_Private_List_1_DynamicBone_0.Count; dbIndex++)
                                         {
-                                            var db = dynamicBoneController.field_Private_List_1_DynamicBone_0[dbIndex];
+                                            var db = dynamicBoneController.field_Private_List_1_DynamicBone_0.ToArray()[dbIndex];
                                             if (db.enabled) continue;
                                             db.enabled = true;
                                         }
@@ -114,7 +114,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                                 {
                                     for (int dbIndex = 0; dbIndex < dynamicBoneController.field_Private_List_1_DynamicBone_0.Count; dbIndex++)
                                     {
-                                        var db = dynamicBoneController.field_Private_List_1_DynamicBone_0[dbIndex];
+                                        var db = dynamicBoneController.field_Private_List_1_DynamicBone_0.ToArray()[dbIndex];
                                         if (!db.enabled) continue;
                                         db.enabled = false;
                                     }
@@ -131,7 +131,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                                 {
                                     for (int dbIndex = 0; dbIndex < dynamicBoneController.field_Private_List_1_DynamicBone_0.Count; dbIndex++)
                                     {
-                                        var db = dynamicBoneController.field_Private_List_1_DynamicBone_0[dbIndex];
+                                        var db = dynamicBoneController.field_Private_List_1_DynamicBone_0.ToArray()[dbIndex];
                                         if (db.enabled) continue;
                                         db.enabled = true;
                                     }
@@ -146,7 +146,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                                 {
                                     for (int dbIndex = 0; dbIndex < dynamicBoneController.field_Private_List_1_DynamicBone_0.Count; dbIndex++)
                                     {
-                                        var db = dynamicBoneController.field_Private_List_1_DynamicBone_0[dbIndex];
+                                        var db = dynamicBoneController.field_Private_List_1_DynamicBone_0.ToArray()[dbIndex];
                                         if (db.enabled) continue;
                                         db.enabled = true;
                                     }

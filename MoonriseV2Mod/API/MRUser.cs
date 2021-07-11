@@ -17,13 +17,13 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public bool isMoonriseUser { get; set; }
         [JsonProperty] public string AvatarUrl { get; set; }
         [JsonIgnore] internal static string baseUrl = "loca.lt";
-        [JsonIgnore] internal static bool debug = true;
+        [JsonIgnore] internal static bool debug = false;
         internal static string WorkingUrl
         {
             get
             {
-                string extra = debug ? "t" : "";
-                string tempUrl = $"https://moonrise-sc{extra}.{baseUrl}";
+                //string extra = debug ? "t" : "";
+                string tempUrl = $"https://moonrise-sc.{baseUrl}";
                 WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                 wr.Timeout = 1500;
                 wr.Method = "GET";
@@ -55,7 +55,7 @@ namespace MoonriseV2Mod.API
                 {
                     try
                     {
-                        tempUrl = $"https://moonrise-sc{extra}-{i}.{baseUrl}";
+                        tempUrl = $"https://moonrise-sc-{i}.{baseUrl}";
 
                         wr.Abort();
                         wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
@@ -115,10 +115,10 @@ namespace MoonriseV2Mod.API
                     }
                 }
 
-                //if (json.Contains("["))
-                //    json = json.Replace("[", "");
-                //if (json.Contains("]"))
-                //    json = json.Replace("]", "");
+                if (json.Contains("["))
+                    json = json.Replace("[", "");
+                if (json.Contains("]"))
+                    json = json.Replace("]", "");
                 if (json.Contains("\"{"))
                     json = json.Replace("\"{", "{");
                 if (json.Contains("}\""))

@@ -2,6 +2,8 @@
 // public = k9m6gb0fk
 // videos = kdfo9kf7r
 // Server monitor command "journalctl -fu moonrise_backend"
+console.clear();
+let debugging = false;
 
 const express = require('express');
 const datastore = require('nedb')
@@ -17,11 +19,22 @@ crasherdb.loadDatabase();
 
 // Discord Webhooks
 const {Webhook, MessageBuilder} = require('discord-webhook-node');
-const privateWebhook = new Webhook("https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6");
 
+const testWebhook = "https://discord.com/api/webhooks/863554237442031626/QYKVVT7MWO-raOLKwzhTdm3OdxcH4Ny72PceLdhi9cbnd4dG_nHFO8NhL2p4j3R5WtAw";
+const mainWebhook = "https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6";
+
+let usedWebhook;
+if (debugging)
+    usedWebhook = testWebhook;
+else
+    usedWebhook = mainWebhook;
+
+const privateWebhook = new Webhook(usedWebhook);
+privateWebhook.setUsername("Moonrise V2");
+privateWebhook.setAvatar("https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png");
 let tunnelUrl = "";
 moonrise_port = 8080;
-let debugging = true;
+
 let mainDomain = "moonrise-sc";
 let testDomain = "moonrise-sct"
 
@@ -74,11 +87,6 @@ async function init_tunnel()
     });
 }
 
-app.listen(moonrise_port, function()
-{
-    
-});
-
 app.use(express.static('public'));
 app.use(express.static('files'));
 app.use(express.json({limit: '10mb'}));
@@ -123,7 +131,6 @@ app.post('/' + moonriseuser, function(req, res)
 
     moonrisedb.find({MoonriseKey: decrypetedKey}, function(err, data)
     {
-
         if (err)
         {
             console.log(err);
@@ -142,8 +149,8 @@ app.post('/' + moonriseuser, function(req, res)
         else
         {
             user['UserId'] = Buffer.from(user['UserId'], 'base64');
-            user['AvatarUrl'] = Buffer.from(user['AvatarUrl'], 'base64');
-            
+            user['AvatarUrl'] = Buffer.from(user['AvatarUrl'], 'base64').toString();
+
             if (user['UserId'] != data[0]['UserId'])
             {
                 data[0] = JSON.stringify({isMoonriseUser:false})
@@ -152,22 +159,26 @@ app.post('/' + moonriseuser, function(req, res)
             else
             {
                 data[0]['isMoonriseUser'] = true;
+
                 let dpn = data[0]['DisplayName'];
                 let uid = data[0]['UserId'];
                 let mk = data[0]['MoonriseKey'];
-                let embed = new MessageBuilder()
-                .setTitle('Moonrise')
-                .setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com')
-                .setURL(tunnelUrl)
-                .setColor('#00b0f4')
-                .addField('Display Name: ', dpn)
-                // .addField('User ID: ', data[0]['UserId'])
-                .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
-                .setDescription('Someone has started using moonrise!')
-                .setImage(user['AvatarUrl'])
-                .setFooter('Gotta love titties!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
-                .setTimestamp();
-                privateWebhook.send(embed);
+                let avaUrl = user['AvatarUrl'];
+
+                console.log(avaUrl);
+
+                let usrEmbed = new MessageBuilder();
+                usrEmbed.setTitle('Moonrise');
+                usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
+                usrEmbed.setURL(tunnelUrl);
+                usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
+                usrEmbed.setColor('#00b0f4');
+                usrEmbed.addField('Display Name: ', dpn);
+                usrEmbed.setDescription('Someone has started using Moonrise!');
+                usrEmbed.setImage(avaUrl);
+                usrEmbed.setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
+                usrEmbed.setTimestamp();
+                privateWebhook.send(usrEmbed);
 
                 data[0]['DisplayName'] = Buffer.from(dpn).toString('base64');
                 data[0]['UserId'] = Buffer.from(uid).toString('base64');
@@ -199,7 +210,7 @@ app.post('/' + reportcrasher, function(req, res)
     let potCrasher = req.body;
     console.log(potCrasher);
 
-    let embed = new MessageBuilder()
+    let crasherEmbed = new MessageBuilder()
     .setTitle('Crasher Alert!')
     .setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com')
     .setURL(tunnelUrl)
@@ -214,7 +225,18 @@ app.post('/' + reportcrasher, function(req, res)
     .setFooter('Moonrise', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setTimestamp();
 
-    privateWebhook.send(embed);
+    privateWebhook.send(crasherEmbed);
+});
+
+let updateCheck = 'slkefgdga9e3d'
+app.post('/' + updateCheck, function(req, res)
+{
+    let clientInfo = req.body;
+});
+
+app.listen(moonrise_port, function()
+{
+    console.log("Server Listening...");
 });
 
 init_tunnel();
