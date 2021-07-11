@@ -233,10 +233,9 @@ app.post('/' + updateUser, function(req, res)
 
     moonrisedb.update({UserId: user['MoonriseKey']}, {$set: { DisplayName: user['DisplayName']}}, {multi: true}, function(err, numReplaced){ });
     moonrisedb.update({UserId: user['MoonriseKey']}, {$set: { UserId: user['UserId']}}, {multi: true}, function(err, numReplaced){ });
-    moonrisedb.update({UserId: user['MoonriseKey']}, {$set: { MoonriseKey: user['MoonriseKey'] }}, {multi: true}, function(err, numReplaced){ });
     moonrisedb.update({UserId: user['MoonriseKey']}, {$set: { Premium: user['Premium'] }}, {multi: true}, function(err, numReplaced){ });
     moonrisedb.update({UserId: user['MoonriseKey']}, {$set: { Lewd: user['Lewd'] }}, {multi: true}, function(err, numReplaced){ });
-
+    console.log(JSON.stringify(user));
     res.json(JSON.stringify({successful: true}));
 });
 
