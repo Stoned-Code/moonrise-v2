@@ -103,9 +103,13 @@ app.get('/' + moonriseapi, function(req, res)
         {
             try
             {
-                data[i]['DisplayName'] = Buffer.from(data[i]['DisplayName']).toString('base64');
-                data[i]['UserId'] = Buffer.from(data[i]['UserId']).toString('base64');
-                data[i]['MoonriseKey'] = Buffer.from(data[i]['MoonriseKey']).toString('base64');
+                let displayName = data[i]['DisplayName'];
+                let userId = data[i]['UserId'];
+                let moonriseKey = data[i]['MoonriseKey'];
+
+                data[i]['DisplayName'] = Buffer.from(displayName).toString('base64');
+                data[i]['UserId'] = Buffer.from(userId).toString('base64');
+                data[i]['MoonriseKey'] = Buffer.from(moonriseKey).toString('base64');
             }
             
             catch (error)
