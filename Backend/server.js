@@ -38,12 +38,8 @@ moonrise_port = 8080;
 let mainDomain = "moonrise-sc";
 let testDomain = "moonrise-sct"
 
-let officialDomain;
+let officialDomain = "moonrise-sc";
 
-if (debugging = true)
-    officialDomain = testDomain;
-else
-    officialDomain = mainDomain;
 
 // Local Tunnel Stuff
 async function init_tunnel() 
