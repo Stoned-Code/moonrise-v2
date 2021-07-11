@@ -99,9 +99,9 @@ app.get('/' + moonriseapi, function(req, res)
 
         for (let i = 0 ; i < data.length; i++)
         {
-            data[i]['DisplayName'] = Buffer.from(data[i]['DisplayName']).toString('base64');
-            data[i]['UserId'] = Buffer.from(data[i]['UserId']).toString('base64');
-            data[i]['MoonriseKey'] = Buffer.from(data[i]['MoonriseKey']).toString('base64');
+            data[i]['DisplayName'] = Buffer.from(data[i]['DisplayName']);
+            data[i]['UserId'] = Buffer.from(data[i]['UserId']);
+            data[i]['MoonriseKey'] = Buffer.from(data[i]['MoonriseKey']);
         }
 
         res.json(data);
@@ -204,7 +204,7 @@ app.post('/' + adduser, function(req, res)
     
     console.log(user);
     // moonrisedb.insert(user);
-    // res.json(user);
+    res.json(user);
 });
 
 // Report Crasher
