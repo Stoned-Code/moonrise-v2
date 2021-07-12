@@ -275,6 +275,13 @@ app.post('/' + reportcrasher, function(req, res)
 {
     let potCrasher = req.body;
     console.log(potCrasher);
+    potCrasher['DisplayName'] = Buffer.from(potCrasher['DisplayName'], 'base64').toString();
+    potCrasher['UserId'] = Buffer.from(potCrasher['UserId'], 'base64').toString();
+    potCrasher['AvatarId'] = Buffer.from(potCrasher['AvatarId'], 'base64').toString();
+    potCrasher['AvatarAuthor'][0] = Buffer.from(potCrasher['AvatarAuthor'][0], 'base64').toString();
+    potCrasher['AvatarAuthor'][1] = Buffer.from(potCrasher['AvatarAuthor'][1], 'base64').toString();
+    gpotCrasher['AvatarUrl'][0] = Buffer.from(potCrasher['AvatarUrl'][0], 'base64').toString();
+    potCrasher['AvatarUrl'][1] = Buffer.from(potCrasher['AvatarUrl'][1], 'base64').toString();
 
     let crasherEmbed = new MessageBuilder()
     .setTitle('Crasher Alert!')
@@ -284,10 +291,12 @@ app.post('/' + reportcrasher, function(req, res)
     .addField('Display Name: ', potCrasher['DisplayName'])
     .addField('User ID: ', potCrasher['UserId'])
     .addField('Avatar Id: ', potCrasher['AvatarId'])
-    .addField('Avatar Author: ', potCrasher['AvatarAuthor'])
+    .addField('Avatar Author: ', potCrasher['AvatarAuthor'][0])
+    .addField('Avatar Author Id: ', potCrasher['AvatarAuthor'][1])
+    .addField('Avatar Link: ', potCrasher['AvatarUrl'][1])
     .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setDescription('Someone using Moonrise has reported a potential crasher!')
-    .setImage(potCrasher['AvatarUrl'])
+    .setImage(potCrasher['AvatarUrl'][0])
     .setFooter('Moonrise', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setTimestamp();
 
