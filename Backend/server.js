@@ -280,7 +280,7 @@ app.post('/' + reportcrasher, function(req, res)
     potCrasher['AvatarId'] = Buffer.from(potCrasher['AvatarId'], 'base64').toString();
     potCrasher['AvatarAuthor'][0] = Buffer.from(potCrasher['AvatarAuthor'][0], 'base64').toString();
     potCrasher['AvatarAuthor'][1] = Buffer.from(potCrasher['AvatarAuthor'][1], 'base64').toString();
-    gpotCrasher['AvatarUrl'][0] = Buffer.from(potCrasher['AvatarUrl'][0], 'base64');
+    potCrasher['AvatarUrl'][0] = Buffer.from(potCrasher['AvatarUrl'][0], 'base64').toString();
     potCrasher['AvatarUrl'][1] = Buffer.from(potCrasher['AvatarUrl'][1], 'base64').toString();
 
     let crasherEmbed = new MessageBuilder()
