@@ -1,15 +1,8 @@
 ﻿using MoonriseTabApi;
 using MoonriseV2Mod.API;
 using RubyButtonAPI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnhollowerRuntimeLib;
 using UnityEngine;
-using Harmony;
-using HarmonyLib;
 
 namespace MoonriseV2Mod.BaseFunctions
 {

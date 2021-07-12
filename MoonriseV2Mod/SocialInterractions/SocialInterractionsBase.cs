@@ -3,11 +3,6 @@ using MoonriseV2Mod.API;
 using MoonriseV2Mod.AvatarFunctions;
 using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoonriseV2Mod.SocialInterractions
 {
@@ -68,12 +63,23 @@ namespace MoonriseV2Mod.SocialInterractions
             }, "Removes selected user from distant avatar hider ignore list");
             UshioRubyModifiers.SetHalfButton(removeFromIgnoreListButton, UshioRubyModifiers.HalfPosition.Bottom, UshioRubyModifiers.Rotation.Horizontal);
 
-            var playerTeleport = new QMSingleButton(socialInterractions, 1, 1, "Teleport\nTo", delegate
+            var playerTeleport = new QMSingleButton(socialInterractions, 1, 0, "Teleport\nTo", delegate
             {
                 var foundPlayer = QuickMenu.prop_QuickMenu_0.field_Private_APIUser_0;
 
                 PlayerTeleport.TeleportTo(foundPlayer.id);
             }, "Teleports you to the selected player.");
+            if (user == null) return;
+            if (user.Premium)
+            {
+                var reportCrasher = new QMSingleButton(socialInterractions, 5, 0, "Report as\nCrasher", delegate
+                {
+                    var foundPlayer = QuickMenu.prop_QuickMenu_0.field_Private_APIUser_0;
+                    var foundVrcPlayer = PlayerCheckApi.GetSelectedPlayer(foundPlayer.id);
+                    CrasherReport.ReportCrasher(foundPlayer.displayName, foundPlayer.id, foundVrcPlayer.prop_ApiAvatar_0);
+                }, "Sends a report to the Moonrise database of the selected player as a potential crasher");
+            }
+
         }
     }
 }

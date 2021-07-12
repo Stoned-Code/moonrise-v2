@@ -94,6 +94,7 @@
     <Reference Include="VRCSDKBase, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\EncodingApi.cs" />
     <Compile Include="API\MoonriseAssetBundles.cs" />
     <Compile Include="API\MoonriseTabApi.cs" />
     <Compile Include="API\MRUser.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Settings\AddBlocker.cs" />
     <Compile Include="Settings\Config.cs" />
     <Compile Include="Settings\SettingsFunctions.cs" />
+    <Compile Include="SocialInterractions\CrasherReport.cs" />
     <Compile Include="SocialInterractions\PlayerTeleport.cs" />
     <Compile Include="SocialInterractions\SocialInterractionsBase.cs" />
   </ItemGroup>

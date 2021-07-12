@@ -200,11 +200,11 @@ namespace MoonriseTabApi
         }
 
         // Returns the tab's back button component
-        public Button MenuBackButton
+        public GameObject MenuBackButton
         {
             get
             {
-                return MenuBackSingleButton.getGameObject().GetComponent<Button>();
+                return MenuBackSingleButton.getGameObject();
             }
         }
 
@@ -213,7 +213,7 @@ namespace MoonriseTabApi
         {
             get
             {
-                return MenuBackButton.gameObject.activeInHierarchy;
+                return MenuBackButton.activeInHierarchy;
             }
         }
 

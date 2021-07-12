@@ -7,8 +7,6 @@ using MoonriseV2Mod.SocialInterractions;
 using RubyButtonAPI;
 using System;
 using System.Collections;
-using System.IO;
-using System.Net;
 using UshioUI;
 using VRC.Core;
 
