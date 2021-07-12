@@ -32,35 +32,43 @@ namespace MoonriseV2Mod.SocialInterractions
 
         public static void ReportCrasher(string crasherName, string crasherId, ApiAvatar avatarApi)
         {
-            string[] aa = new string[2];
-            aa[0] = EncodingApi.Encoder(avatarApi.authorName);
-            aa[1] = EncodingApi.Encoder(avatarApi.authorId);
-            CrasherReport report = new CrasherReport(EncodingApi.Encoder(crasherName), EncodingApi.Encoder(crasherId), EncodingApi.Encoder(avatarApi.id), aa, EncodingApi.Encoder(avatarApi.imageUrl), EncodingApi.Encoder(avatarApi.assetUrl));
-
-            string json = JsonConvert.SerializeObject(report, Formatting.Indented);
-            MoonriseConsole.Log(json);
-            string requestUrl = MRUser.WorkingUrl;
-            if (requestUrl == "N/A") return;
-
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(requestUrl + "/kldsa9sdo2ld");
-            //wr.Accept = "application/json";
-            wr.ContentType = "application/json";
-            wr.Method = "POST";
-            wr.Timeout = 1500;
-
-            UTF8Encoding encoding = new UTF8Encoding();
-            Byte[] bytes = encoding.GetBytes(json);
-
-            using (Stream stream = wr.GetRequestStream())
+            try
             {
-                stream.Write(bytes, 0, bytes.Length);
+                string[] aa = new string[2];
+                aa[0] = EncodingApi.Encoder(avatarApi.authorName);
+                aa[1] = EncodingApi.Encoder(avatarApi.authorId);
+                CrasherReport report = new CrasherReport(EncodingApi.Encoder(crasherName), EncodingApi.Encoder(crasherId), EncodingApi.Encoder(avatarApi.id), aa, EncodingApi.Encoder(avatarApi.imageUrl), EncodingApi.Encoder(avatarApi.assetUrl));
 
-                var response = wr.GetResponse();
+                string json = JsonConvert.SerializeObject(report, Formatting.Indented);
+                MoonriseConsole.Log(json);
+                string requestUrl = MRUser.WorkingUrl;
+                if (requestUrl == "N/A") return;
 
-                using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(requestUrl + "/kldsa9sdo2ld");
+                //wr.Accept = "application/json";
+                wr.ContentType = "application/json";
+                wr.Method = "POST";
+                wr.Timeout = 1500;
+
+                UTF8Encoding encoding = new UTF8Encoding();
+                Byte[] bytes = encoding.GetBytes(json);
+
+                using (Stream stream = wr.GetRequestStream())
                 {
-                    json = sr.ReadToEnd();
+                    stream.Write(bytes, 0, bytes.Length);
+
+                    var response = wr.GetResponse();
+
+                    using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                    {
+                        json = sr.ReadToEnd();
+                    }
                 }
+            }
+
+            catch
+            {
+
             }
         }
     }

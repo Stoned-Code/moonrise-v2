@@ -290,9 +290,9 @@ app.post('/' + reportcrasher, function(req, res)
     .setColor('#00b0f4')
     .addField('Display Name: ', potCrasher['DisplayName'])
     .addField('User ID: ', potCrasher['UserId'])
-    .addField('Avatar Id: ', potCrasher['AvatarId'])
+    .addField('Avatar ID: ', potCrasher['AvatarId'])
     .addField('Avatar Author: ', potCrasher['AvatarAuthor'][0])
-    .addField('Avatar Author Id: ', potCrasher['AvatarAuthor'][1])
+    .addField('Avatar Author ID: ', potCrasher['AvatarAuthor'][1])
     .addField('Avatar Link: ', potCrasher['AvatarUrl'][1])
     .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
     .setDescription('Someone using Moonrise has reported a potential crasher!')
@@ -301,6 +301,7 @@ app.post('/' + reportcrasher, function(req, res)
     .setTimestamp();
 
     privateWebhook.send(crasherEmbed);
+    res.end();v
 });
 
 let updateCheck = 'slkefgdga9e3d'
