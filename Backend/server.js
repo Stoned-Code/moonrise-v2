@@ -160,7 +160,7 @@ app.post('/' + moonriseuser, async function(req, res)
     
             if (data[0] == null)
             {
-                res.send("Denied access...");
+                res.send("Denied access... Not in Moonrise database.");
                 res.end();
                 return;
             }
@@ -177,7 +177,7 @@ app.post('/' + moonriseuser, async function(req, res)
                     {
                         if (user['UserId'] != data[0]['UserId'])
                         {
-                            res.send("Denied access...");
+                            res.send("Denied access... Key Doesn't Match.");
                         }
             
                         else
@@ -211,7 +211,7 @@ app.post('/' + moonriseuser, async function(req, res)
     
                     else
                     {
-                        res.send("Denied access...");
+                        res.send("Denied access... Wrong Key...");
                     }
                 }
     
