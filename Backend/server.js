@@ -134,31 +134,6 @@ app.get('/' + ping, function(req, res)
     res.send(JSON.stringify({foundBackend:true}));
 });
 
-let encryptKeys = 'kas903khjasd0';
-app.get('/' + encryptKeys, async function(req, res)
-{
-    moonrisedb.find({}, async function(err, data)
-    {   
-        if (err)
-        {
-            console.log(err);
-            res.end();
-        }
-        for (i=0; i < data.length; i++)
-        {
-            const hashedKey = await bcrypt.hash(data[i]['MoonriseKey'], 10);
-
-            console.log(data[i]['DisplayName']);
-            console.log(hashedKey);
-
-            moonrisedb.update({_id: data[i]['_id']}, {$set: { MoonriseKey: hashedKey}}, {multi: true});
-        }
-
-    });
-
-    res.end();
-});
-
 ////////////////////
 // Post Requests  //
 ////////////////////
@@ -264,7 +239,7 @@ app.post('/' + adduser, async function(req, res)
     user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
     
-    user['MoonriseKey'] = await bcrypt.hash(user['MoonriseKey'], 10);
+    user['MoonriseKey'] = Buffer.from(user['MoonriseKey']).toString('base64');
     
     console.log(JSON.stringify(user));
     moonrisedb.insert(user);
