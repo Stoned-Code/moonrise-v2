@@ -173,7 +173,7 @@ app.post('/' + moonriseuser, async function(req, res)
                     user['UserId'] = Buffer.from(user['UserId'], 'base64');
                     user['AvatarUrl'] = Buffer.from(user['AvatarUrl'], 'base64').toString();
 
-                    if (await bcrypt.compare(decrypetedKey, Buffer.from(data[0]['MoonriseKey'], 'base64')))
+                    if (decrypetedKey == Buffer.from(data[0]['MoonriseKey'], 'base64'))
                     {
                         if (user['UserId'] != data[0]['UserId'])
                         {
