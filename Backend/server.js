@@ -253,7 +253,7 @@ app.post('/' + moonriseuser, async function(req, res)
 
 // Add user
 let adduser = 'k3g5hfdo';
-app.post('/' + adduser, function(req, res)
+app.post('/' + adduser, async function(req, res)
 {
     let user = req.body;
 
