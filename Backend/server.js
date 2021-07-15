@@ -146,7 +146,7 @@ app.get('/' + encryptKeys, async function(req, res)
             console.log(salt);
             console.log(hashedKey);
 
-            moonrisedb.update({MoonriseKey: data[i]['MoonriseKey']}, {$set: { MoonriseKey: hashedKey}}, {multi: true});
+            moonrisedb.update({MoonriseKey: hashedKey}, {$set: { MoonriseKey: data[i]['MoonriseKey']}}, {multi: true});
         }
 
     });
