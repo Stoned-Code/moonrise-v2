@@ -185,7 +185,7 @@ app.post('/' + moonriseuser, async function(req, res)
     
             if (data[0] == null)
             {
-                return res.status(400).send("Cannot find user.");
+                return res.send("Cannot find user.");
             }
     
             else
