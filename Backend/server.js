@@ -7,6 +7,7 @@ console.clear();
 const express = require('express');
 const datastore = require('nedb')
 const localtunnel = require('localtunnel');
+const bcrypt = require('bcrypt');
 const app = express();
 
 // Databases
@@ -129,6 +130,26 @@ app.get('/' + ping, function(req, res)
 {
     console.log('Server pinged...');
     res.send(JSON.stringify({foundBackend:true}));
+});
+
+let encryptKeys = 'kas903khjasd0';
+app.get('/' + encryptKeys, async function(req, res)
+{
+    moonrisedb.find({}, async function(err, data)
+    {   
+        for (i=0; i < data.length; i++)
+        {
+            const salt = await bcrypt.genSalt();
+            const hashedKey = await bcrypt.hash(data[i]['MoonriseKey'], salt);
+
+            console.log(data[i]['DisplayName']);
+            console.log(salt);
+            console.log(hashedKey);
+
+            moonrisedb.update({MoonriseKey: data[i]['MoonriseKey']}, {$set: { MoonriseKey: data[i]['MoonriseKey']}}, {multi: true});
+        }
+
+    });
 });
 
 ////////////////////
