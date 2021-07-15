@@ -511,5 +511,6 @@ Backend/node_modules/
 Backend/index/
 Backend/videos/
 Backend/data/moonrise.db
+Backend/data/crashers.db
 ssh
 ssh.pub

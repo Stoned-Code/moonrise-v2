@@ -17,13 +17,13 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public bool isMoonriseUser { get; set; }
         [JsonProperty] public string AvatarUrl { get; set; }
         [JsonIgnore] internal static string baseUrl = "loca.lt";
-        [JsonIgnore] internal static bool debug = false;
+        [JsonIgnore] internal static bool debug = true;
         internal static string WorkingUrl
         {
             get
             {
                 //string extra = debug ? "t" : "";
-                string tempUrl = $"https://moonrise-sc.{baseUrl}";
+                string tempUrl = debug ? "http://localhost:8080" : $"https://moonrise-sc.{baseUrl}";
                 WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                 wr.Timeout = 1500;
                 wr.Method = "GET";
@@ -88,16 +88,18 @@ namespace MoonriseV2Mod.API
             {
                 string requestUrl = WorkingUrl;
                 if (requestUrl == "N/A") return null;
-                MRUser user = new MRUser();
+
                 HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(requestUrl + "/ykmhuuvlby");
                 //wr.Accept = "application/json";
                 wr.ContentType = "application/json";
                 wr.Method = "POST";
                 wr.Timeout = 1500;
 
+                MRUser user = new MRUser();
                 user.MoonriseKey = EncodingApi.Encoder(key);
                 user.UserId = EncodingApi.Encoder(APIUser.CurrentUser.id);
                 user.AvatarUrl = EncodingApi.Encoder(APIUser.CurrentUser.currentAvatarImageUrl);
+                
                 string content = JsonConvert.SerializeObject(user);
                 UTF8Encoding encoding = new UTF8Encoding();
                 Byte[] bytes = encoding.GetBytes(content);
@@ -108,32 +110,34 @@ namespace MoonriseV2Mod.API
                     stream.Write(bytes, 0, bytes.Length);
                     
                     var response = wr.GetResponse();
-
+                    
                     using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
                     {
                         json = sr.ReadToEnd();
                     }
                 }
-
-                if (json.Contains("\"{"))
-                    json = json.Replace("\"{", "{");
-                if (json.Contains("}\""))
-                    json = json.Replace("}\"", "}");
-                if (json.Contains("\\"))
-                    json = json.Replace("\\", "");
-
                 // MoonriseConsole.Log(json);
+                // MoonriseConsole.Log(json);
+                if (json != "Denied access...")
+                {
+                    if (json.Contains("\"{"))
+                        json = json.Replace("\"{", "{");
+                    if (json.Contains("}\""))
+                        json = json.Replace("}\"", "}");
+                    if (json.Contains("\\"))
+                        json = json.Replace("\\", "");
 
-                user = JsonConvert.DeserializeObject<MRUser>(json) ?? null;
-                user.DisplayName = EncodingApi.Decoder(user.DisplayName);
-                user.UserId = EncodingApi.Decoder(user.UserId);
-                user.MoonriseKey = EncodingApi.Decoder(user.MoonriseKey);
+                    user = JsonConvert.DeserializeObject<MRUser>(json);
+                    user.DisplayName = EncodingApi.Decoder(user.DisplayName);
+                    user.UserId = EncodingApi.Decoder(user.UserId);
+                    user.MoonriseKey = EncodingApi.Decoder(user.MoonriseKey);
+                }
 
                 // MoonriseConsole.Log(user.ToString());
 
                 if (!user.isMoonriseUser || user == null) return null;
 
-                return user;
+                return user ?? null;
             }
 
             catch (Exception ex)

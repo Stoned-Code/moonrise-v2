@@ -1,8 +1,10 @@
-﻿using MoonriseTabApi;
+﻿using MelonLoader;
+using MoonriseTabApi;
 using MoonriseV2Mod.API;
 using RubyButtonAPI;
 using UnhollowerRuntimeLib;
 using UnityEngine;
+using static MoonriseV2Mod.BaseFunctions.EmojiSpam;
 
 namespace MoonriseV2Mod.BaseFunctions
 {
@@ -55,6 +57,71 @@ namespace MoonriseV2Mod.BaseFunctions
                 PlayerMute.muteFriends = false;
                 PlayerMute.UnmutePlayers();
             }, "Mutes all friends in the world", null, null, false, false);
+
+            if (user == null) return;
+
+            if (user.Premium)
+            {
+                EmojiSpam.emoji = 17;
+                EmojiSpam.maxTime = true;
+
+                var emojiSpam = new QMToggleButton(functions, 4, 1, $"Emoji Spam\n{(Emoji)emoji}", delegate
+                {
+                    EmojiSpam.emojiSpam = true;
+                    MelonCoroutines.Start(EmojiSpam.SpamEmojis());
+                }, "Disabled", delegate
+                {
+                    EmojiSpam.emojiSpam = false;
+                }, $"Spams {(Emoji)emoji} emoji every {spamInterval} seconds");
+                UshioRubyModifiers.MoveHalf(emojiSpam, UshioRubyModifiers.HalfPosition.Bottom);
+
+                var timeSpanToggle = new QMToggleButton(functions, 4, 0, $"10 Seconds", delegate
+                {
+                    EmojiSpam.maxTime = true;
+                    emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {EmojiSpam.spamInterval} seconds");
+                }, "5 Seconds", delegate
+                {
+                    EmojiSpam.maxTime = false;
+                    emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {EmojiSpam.spamInterval} seconds");
+                }, "Emoji spam interval", null, null, false, EmojiSpam.maxTime);
+
+                var cycleEmojisUp = new QMSingleButton(functions, 4, 1, "", delegate
+                {
+                    if (EmojiSpam.emoji >= 57)
+                    {
+                        EmojiSpam.emoji = 0;
+                    }
+
+                    else
+                    {
+                        EmojiSpam.emoji++;
+                    }
+                    if (EmojiSpam.emoji == 39) EmojiSpam.emoji++;
+                    emojiSpam.setOnText($"Emoji Spam\n{(Emoji)emoji}");
+                    emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {EmojiSpam.spamInterval} seconds");
+                }, "Cycles through emojis");
+                UshioRubyModifiers.MakeArrowButton(cycleEmojisUp, UshioRubyModifiers.ArrowDirection.Up);
+                UshioRubyModifiers.SetHalfButton(cycleEmojisUp, UshioRubyModifiers.HalfPosition.Top, UshioRubyModifiers.Rotation.Verticle);
+
+                var cycleEmojisDown = new QMSingleButton(functions, 4, 2, "", delegate
+                {
+                    if (EmojiSpam.emoji <= 0)
+                    {
+                        EmojiSpam.emoji = 57;
+                    }
+
+                    else
+                    {
+                        EmojiSpam.emoji--;
+                    }
+                    if (EmojiSpam.emoji == 39) EmojiSpam.emoji--;
+                    emojiSpam.setOnText($"Emoji Spam\n{(Emoji)emoji}");
+                    emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every 5 seconds");
+                }, "Cycles through emojis");
+                UshioRubyModifiers.MakeArrowButton(cycleEmojisDown, UshioRubyModifiers.ArrowDirection.Down);
+                UshioRubyModifiers.SetHalfButton(cycleEmojisDown, UshioRubyModifiers.HalfPosition.Bottom, UshioRubyModifiers.Rotation.Verticle);
+
+            }
         }
     }
 }

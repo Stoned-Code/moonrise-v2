@@ -1,5 +1,6 @@
 ﻿using MelonLoader;
 using MoonriseV2Mod;
+using MoonriseV2Mod.Settings;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -37,5 +38,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 // MelonLoader Stuff
-[assembly: MelonInfo(typeof(Moonrise), Moonrise.ModInfo.modName, Moonrise.ModInfo.modVersion, Moonrise.ModInfo.modAuthor, Moonrise.ModInfo.modDownload)]
+[assembly: MelonInfo(typeof(Moonrise), ModInfo.modName, ModInfo.modVersion, ModInfo.modAuthor, ModInfo.modDownload)]
 [assembly: MelonGame("VRChat", "VRChat")]

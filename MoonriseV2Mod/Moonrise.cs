@@ -14,13 +14,6 @@ namespace MoonriseV2Mod
 {
     public class Moonrise : MelonMod
     {
-        internal class ModInfo
-        {
-            public const string modName = "Moonrise";
-            public const string modVersion = "2.0.0";
-            public const string modAuthor = "Stoned Code";
-            public const string modDownload = "N/A";
-        }
 
         internal MRUser user;
 
@@ -34,6 +27,14 @@ namespace MoonriseV2Mod
             MelonCoroutines.Start(ModStart());
         }
 
+        public override void OnLevelWasLoaded(int level)
+        {
+            if (level == -1)
+            {
+                ModInfo.CheckUpdate();
+            }
+        }
+
         public override void OnUpdate()
         {
             modUpdate?.Invoke();
@@ -45,6 +46,7 @@ namespace MoonriseV2Mod
             MoonriseAssetBundles.InitializeAssetBundle();
             while (!MoonriseAssetBundles.isInitialized) yield return null;
 
+            ModInfo.Initialize();
             MoonriseBaseFunctions.Initialize();
             SocialInterractionsBase.Initialize();
             AvatarFunctionsBase.Initialize();
@@ -52,8 +54,8 @@ namespace MoonriseV2Mod
 
             while (APIUser.CurrentUser == null) yield return null;
 
-            MoonriseConsole.Log(APIUser.CurrentUser.ToString());
-
+            // MoonriseConsole.Log(APIUser.CurrentUser.ToString());
+            // ModInfo.CheckUpdate();
             if (Config.config.moonriseKey != "FreeUser")
                 user = MRUser.GetUser(Config.config.moonriseKey);
 

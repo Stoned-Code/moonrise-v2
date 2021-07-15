@@ -208,18 +208,18 @@ app.post('/' + moonriseuser, async function(req, res)
 
                             console.log(user['AvatarUrl']);
             
-                            // let usrEmbed = new MessageBuilder();
-                            // usrEmbed.setTitle('Moonrise');
-                            // usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
-                            // usrEmbed.setURL(tunnelUrl);
-                            // usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
-                            // usrEmbed.setColor('#00b0f4');
-                            // usrEmbed.addField('Display Name: ', data[0]['DisplayName']);
-                            // usrEmbed.setDescription('Someone has started using Moonrise!');
-                            // usrEmbed.setImage(user['AvatarUrl']);
-                            // usrEmbed.setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
-                            // usrEmbed.setTimestamp();
-                            // privateWebhook.send(usrEmbed);
+                            let usrEmbed = new MessageBuilder();
+                            usrEmbed.setTitle('Moonrise');
+                            usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
+                            usrEmbed.setURL(tunnelUrl);
+                            usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
+                            usrEmbed.setColor('#00b0f4');
+                            usrEmbed.addField('Display Name: ', data[0]['DisplayName']);
+                            usrEmbed.setDescription('Someone has started using Moonrise!');
+                            usrEmbed.setImage(user['AvatarUrl']);
+                            usrEmbed.setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
+                            usrEmbed.setTimestamp();
+                            privateWebhook.send(usrEmbed);
             
                             data[0]['DisplayName'] = Buffer.from(data[0]['DisplayName']).toString('base64');
                             data[0]['UserId'] = Buffer.from(data[0]['UserId']).toString('base64');
@@ -423,4 +423,4 @@ app.listen(moonrise_port, function()
     console.log("Server Listening...");
 });
 
-// init_tunnel();
+init_tunnel();

@@ -10,7 +10,7 @@ A quality of life mod.
 * Realtime Light Toggle
 * Report Crasher
 * Force Clone (Premium)
-* Auto Update
+* Auto Update Notification
 * Player Teleport Points
 
 ## Client Side Completed
