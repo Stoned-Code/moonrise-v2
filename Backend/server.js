@@ -226,7 +226,7 @@ app.post('/' + moonriseuser, async function(req, res)
             
                             data[0]['DisplayName'] = Buffer.from(data[0]['DisplayName']).toString('base64');
                             data[0]['UserId'] = Buffer.from(data[0]['UserId']).toString('base64');
-                            data[0]['MoonriseKey'] = decrypetedKey;
+                            data[0]['MoonriseKey'] = Buffer.from(decrypetedKey).toString('base64');
     
                             delete data[0]['_id'];
                             console.log(data[0]);
