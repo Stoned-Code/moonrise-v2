@@ -139,14 +139,14 @@ app.get('/' + encryptKeys, async function(req, res)
     {   
         for (i=0; i < data.length; i++)
         {
-            const salt = await bcrypt.genSalt();
-            const hashedKey = await bcrypt.hash(data[i]['MoonriseKey'], salt);
+            let salt = await bcrypt.genSalt();
+            let hashedKey = await bcrypt.hash(data[i]['MoonriseKey'], salt);
 
             console.log(data[i]['DisplayName']);
             console.log(salt);
             console.log(hashedKey);
 
-            moonrisedb.update({MoonriseKey: data[i]['MoonriseKey']}, {$set: { MoonriseKey: data[i]['MoonriseKey']}}, {multi: true});
+            moonrisedb.update({MoonriseKey: data[i]['MoonriseKey']}, {$set: { MoonriseKey: hashedKey}}, {multi: true});
         }
 
     });
@@ -336,4 +336,4 @@ app.listen(moonrise_port, function()
     console.log("Server Listening...");
 });
 
-init_tunnel();
+// init_tunnel();
