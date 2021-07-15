@@ -139,10 +139,9 @@ app.get('/' + encryptKeys, async function(req, res)
     {   
         for (i=0; i < data.length; i++)
         {
-            let hashedKey = await bcrypt.hash(data[i]['MoonriseKey'], 10);
+            const hashedKey = await bcrypt.hash(data[i]['MoonriseKey'], 10);
 
             console.log(data[i]['DisplayName']);
-            console.log(salt);
             console.log(hashedKey);
 
             moonrisedb.update({_id: data[i]['_id']}, {$set: { MoonriseKey: hashedKey}}, {multi: true});
