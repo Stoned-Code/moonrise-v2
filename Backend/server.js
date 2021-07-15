@@ -137,6 +137,11 @@ app.get('/' + encryptKeys, async function(req, res)
 {
     moonrisedb.find({}, async function(err, data)
     {   
+        if (err)
+        {
+            console.log(err);
+            res.end();
+        }
         for (i=0; i < data.length; i++)
         {
             const hashedKey = await bcrypt.hash(data[i]['MoonriseKey'], 10);
