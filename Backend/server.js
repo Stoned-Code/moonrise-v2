@@ -139,8 +139,7 @@ app.get('/' + encryptKeys, async function(req, res)
     {   
         for (i=0; i < data.length; i++)
         {
-            let salt = await bcrypt.genSalt();
-            let hashedKey = await bcrypt.hash(data[i]['MoonriseKey'], salt);
+            let hashedKey = await bcrypt.hash(data[i]['MoonriseKey'], 10);
 
             console.log(data[i]['DisplayName']);
             console.log(salt);
