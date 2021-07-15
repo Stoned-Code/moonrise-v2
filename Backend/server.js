@@ -13,9 +13,11 @@ const app = express();
 // Databases
 const moonrisedb = new datastore('data/moonrise.db');
 const crasherdb = new datastore('data/crashers.db');
+const modInfo = new datastore('data/modInfo.db');
 
 moonrisedb.loadDatabase();
 crasherdb.loadDatabase();
+modInfo.loadDatabase();
 
 // Discord Webhooks
 const {Webhook, MessageBuilder} = require('discord-webhook-node');
@@ -163,75 +165,90 @@ app.get('/' + encryptKeys, async function(req, res)
 
 // Get Moonrise user info
 let moonriseuser = 'ykmhuuvlby';
-app.post('/' + moonriseuser, function(req, res)
+app.post('/' + moonriseuser, async function(req, res)
 {
     let user = req.body;
     let decrypetedKey = Buffer.from(user['MoonriseKey'], 'base64');
 
     decrypetedKey = decrypetedKey.toString();
-
-    moonrisedb.find({MoonriseKey: decrypetedKey}, function(err, data)
+    try
     {
-        if (err)
+        moonrisedb.find({ UserId: Buffer.from(user['UserId'], 'base64').toString() }, async function(err, data)
         {
-            console.log(err);
-            res.send("Error getting information...");
-            res.end();
-            return;
-        }
-
-        console.log(JSON.stringify(data[0]));
-        
-        if (data[0] == null)
-        {
-            data[0] = JSON.stringify({isMoonriseUser:false});
-        }
-
-        else
-        {
-            user['UserId'] = Buffer.from(user['UserId'], 'base64');
-            user['AvatarUrl'] = Buffer.from(user['AvatarUrl'], 'base64').toString();
-
-            if (user['UserId'] != data[0]['UserId'])
+            if (err)
             {
-                data[0] = JSON.stringify({isMoonriseUser:false})
+                console.log(err);
+                res.send("Error getting information...");
+                res.end();
+                return;
             }
-
+    
+            if (data[0] == null)
+            {
+                return res.status(400).send("Cannot find user.");
+            }
+    
             else
             {
-                data[0]['isMoonriseUser'] = true;
+                try
+                {
+                    console.log(JSON.stringify(data[0]));
+                    user['UserId'] = Buffer.from(user['UserId'], 'base64');
+                    user['AvatarUrl'] = Buffer.from(user['AvatarUrl'], 'base64').toString();
+                    if (await bcrypt.compare(decrypetedKey, data[0]['MoonriseKey']))
+                    {
+                        if (user['UserId'] != data[0]['UserId'])
+                        {
+                            res.send("Denied access...");
+                        }
+            
+                        else
+                        {
+                            data[0]['isMoonriseUser'] = true;
 
-                let dpn = data[0]['DisplayName'];
-                let uid = data[0]['UserId'];
-                let mk = data[0]['MoonriseKey'];
-                let avaUrl = user['AvatarUrl'];
-
-                console.log(avaUrl);
-
-                let usrEmbed = new MessageBuilder();
-                usrEmbed.setTitle('Moonrise');
-                usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
-                usrEmbed.setURL(tunnelUrl);
-                usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
-                usrEmbed.setColor('#00b0f4');
-                usrEmbed.addField('Display Name: ', dpn);
-                usrEmbed.setDescription('Someone has started using Moonrise!');
-                usrEmbed.setImage(avaUrl);
-                usrEmbed.setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
-                usrEmbed.setTimestamp();
-                privateWebhook.send(usrEmbed);
-
-                data[0]['DisplayName'] = Buffer.from(dpn).toString('base64');
-                data[0]['UserId'] = Buffer.from(uid).toString('base64');
-                data[0]['MoonriseKey'] = Buffer.from(mk).toString('base64');
+                            console.log(user['AvatarUrl']);
+            
+                            // let usrEmbed = new MessageBuilder();
+                            // usrEmbed.setTitle('Moonrise');
+                            // usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
+                            // usrEmbed.setURL(tunnelUrl);
+                            // usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
+                            // usrEmbed.setColor('#00b0f4');
+                            // usrEmbed.addField('Display Name: ', data[0]['DisplayName']);
+                            // usrEmbed.setDescription('Someone has started using Moonrise!');
+                            // usrEmbed.setImage(user['AvatarUrl']);
+                            // usrEmbed.setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
+                            // usrEmbed.setTimestamp();
+                            // privateWebhook.send(usrEmbed);
+            
+                            data[0]['DisplayName'] = Buffer.from(data[0]['DisplayName']).toString('base64');
+                            data[0]['UserId'] = Buffer.from(data[0]['UserId']).toString('base64');
+                            data[0]['MoonriseKey'] = Buffer.from(data[0]['MoonriseKey']).toString('base64');
+    
+                            delete data[0]['_id'];
+                            console.log(data[0]);
+                            res.json(data[0]);
+                        }
+                    }
+    
+                    else
+                    {
+                        res.send("Denied access...");
+                    }
+                }
+    
+                catch
+                {
+                    res.status(500).send();
+                }
             }
+        });
+    }
 
-        }
-
-        delete data[0]['_id'];
-        console.log(data[0]);
-        res.json(data[0]);
-    });
+    catch
+    {
+        res.status(500).send();
+    }
 });
 
 // Add user
@@ -330,11 +347,76 @@ app.post('/' + reportcrasher, function(req, res)
     res.end();v
 });
 
+// Check mod version
 let updateCheck = 'slkefgdga9e3d'
 app.post('/' + updateCheck, function(req, res)
 {
+    console.log("Checking udpate...");
+    //const updateLink = Buffer.from().toString('base64');
     let clientInfo = req.body;
+    try
+    {
+        modInfo.find({mod: "MoonriseV2"}, function(err, data)
+        {
+            if (err)
+            {
+                console.log(err);
+                res.end();
+            }
+    
+            if (clientInfo['modBuild'] < data[0]['modBuild'])
+            {
+                delete data[0]['_id'];
+                delete data[0]['mod']
+                try
+                {
+                    data[0]['downloadLink'] = Buffer.from(data[0]['downloadLink']).toString('base64');
+                }
+                catch {}
+                
+                if (data[0]['modChanges'].length > 0)
+                    for (i=0; i < data[0]['modChanges'].length; i++)
+                    {
+                        data[0]['modChanges'][i] = Buffer.from(data[0]['modChanges'][i]).toString('base64');
+                    }
+    
+                res.json(data[0]);
+            }
+    
+            else
+            {
+                res.send("Up to date!");
+            }
+        });
+    }
+
+    catch
+    {
+        res.status(500).send();
+    }
 });
+
+// Push update
+let pushUpdate = 'la03dgadsg0923ioasdf'
+app.post('/' + pushUpdate, function(req, res)
+{
+    let modinfo = req.body;
+    console.log(modinfo);
+    modinfo['modBuild'] = parseInt(Buffer.from(modinfo['modBuild'], 'base64').toString());
+    if (modinfo['downloadLink'] != null)
+        modinfo['downloadLink'] = Buffer.from(modinfo['downloadLink'], 'base64').toString();
+    console.log(modinfo);
+    for (let i = 0; i < modinfo['modChanges'].length; i++)
+    {
+        modinfo['modChanges'][i] = Buffer.from(modinfo['modChanges'][i], 'base64').toString();
+    }
+    console.log(modinfo);
+    modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinfo['modBuild']}}, multi=true);
+    modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinfo['downloadLink']}}, multi=true);
+    modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinfo['modChanges']}}, multi=true);
+
+    res.send("Successful!");
+})
 
 app.listen(moonrise_port, function()
 {
