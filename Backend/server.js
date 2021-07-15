@@ -261,6 +261,8 @@ app.post('/' + adduser, function(req, res)
     user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
     
+    user['MoonriseKey'] = await bcrypt.hash(user['MoonriseKey'], 10);
+    
     console.log(JSON.stringify(user));
     moonrisedb.insert(user);
     res.json(user);
