@@ -143,7 +143,7 @@ let moonriseuser = 'ykmhuuvlby';
 app.post('/' + moonriseuser, async function(req, res)
 {
     let user = req.body;
-    let decrypetedKey = Buffer.from(user['MoonriseKey'], 'base64');
+    let decrypetedKey = Buffer.from(user['MoonriseKey'], 'base64').toString();
 
     decrypetedKey = decrypetedKey.toString();
     try
