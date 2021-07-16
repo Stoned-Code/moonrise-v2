@@ -397,6 +397,7 @@ app.post('/' + pushUpdate, function(req, res)
         changes += modinfo['modChanges'][i] + '\n';
     }
     console.log(modinfo);
+
     modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinfo['modBuild']}}, multi=true);
     modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinfo['downloadLink']}}, multi=true);
     modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinfo['modChanges']}}, multi=true);
@@ -409,7 +410,7 @@ app.post('/' + pushUpdate, function(req, res)
     usrEmbed.setColor('#00b0f4');
     usrEmbed.addField('Build:', modinfo['modBuild']);
     usrEmbed.addField('Changes:', changes);
-    usrEmbed.setDescription('@here Update Available for Moonrise!');
+    usrEmbed.setDescription('Update Available for Moonrise!');
     // usrEmbed.setImage();
     usrEmbed.setFooter('Moonrise Update!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
     usrEmbed.setTimestamp();

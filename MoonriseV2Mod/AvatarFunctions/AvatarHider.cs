@@ -72,7 +72,6 @@ namespace MoonriseV2Mod.AvatarFunctions
         {
             try
             {
-                PlayerManager
                 if (Config.config.avatarHiderState == 1 || Config.config.avatarHiderState == 2)
                 {
                     foreach (VRC.Player player in PlayerManager.field_Private_Static_PlayerManager_0.prop_ArrayOf_Player_0)
