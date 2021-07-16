@@ -397,24 +397,31 @@ app.post('/' + pushUpdate, function(req, res)
         changes += modinfo['modChanges'][i] + '\n';
     }
     console.log(modinfo);
+    try
+    {
+        modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinfo['modBuild']}}, multi=true);
+        modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinfo['downloadLink']}}, multi=true);
+        modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinfo['modChanges']}}, multi=true);
+    
+        let usrEmbed = new MessageBuilder();
+        usrEmbed.setTitle('Moonrise');
+        usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
+        // usrEmbed.setURL(tunnelUrl);
+        usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
+        usrEmbed.setColor('#00b0f4');
+        usrEmbed.addField('Build:', modinfo['modBuild']);
+        usrEmbed.addField('Changes:', changes);
+        usrEmbed.setDescription('Update Available for Moonrise!');
+        // usrEmbed.setImage();
+        usrEmbed.setFooter('Moonrise Update!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
+        usrEmbed.setTimestamp();
+        publicWebhook.send(usrEmbed);
+    }
 
-    modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinfo['modBuild']}}, multi=true);
-    modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinfo['downloadLink']}}, multi=true);
-    modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinfo['modChanges']}}, multi=true);
-
-    let usrEmbed = new MessageBuilder();
-    usrEmbed.setTitle('Moonrise');
-    usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
-    // usrEmbed.setURL(tunnelUrl);
-    usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
-    usrEmbed.setColor('#00b0f4');
-    usrEmbed.addField('Build:', modinfo['modBuild']);
-    usrEmbed.addField('Changes:', changes);
-    usrEmbed.setDescription('Update Available for Moonrise!');
-    // usrEmbed.setImage();
-    usrEmbed.setFooter('Moonrise Update!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
-    usrEmbed.setTimestamp();
-    publicWebhook.send(usrEmbed);
+    catch
+    {
+        console.log("Error updating mod info...");
+    }
 
     res.send("Successful!");
 })
