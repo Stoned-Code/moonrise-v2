@@ -8,12 +8,16 @@ namespace MoonriseV2Mod.Settings
     public class Config
     {
         [JsonIgnore] public static Config config;
-        [JsonProperty] public string moonriseKey { get; set; } = "FreeUser";
-        [JsonProperty] public Dictionary<string, string> ignoreList { get; set; } = new Dictionary<string, string>();
-        [JsonProperty] public int avatarHiderState { get; set; } = 1;
-        [JsonProperty] public bool avatarsShowing { get; set; }
-        [JsonProperty] public float avatarHiderDistance { get; set; } = 7f;
-        [JsonProperty] public bool addBlocker { get; set; } = true;
+        [JsonProperty] public string moonriseKey { get; internal set; } = "FreeUser";
+        [JsonProperty] public Dictionary<string, string> ignoreList { get; internal set; } = new Dictionary<string, string>();
+        [JsonProperty] public int avatarHiderState { get; internal set; } = 1;
+        [JsonProperty] public bool avatarsShowing { get; internal set; }
+        [JsonProperty] public float avatarHiderDistance { get; internal set; } = 7f;
+        [JsonProperty] public bool addBlocker { get; internal set; } = true;
+        [JsonProperty]public float portableMirrorWidth { get; internal set; } = 1;
+        [JsonProperty] public float portableMirrorHeight { get; internal set; } = 2;
+
+
         [JsonIgnore] public static string rootDirectory = Environment.CurrentDirectory;
         public static void Initialize()
         {

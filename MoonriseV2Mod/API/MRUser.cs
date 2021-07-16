@@ -17,13 +17,13 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public bool isMoonriseUser { get; set; }
         [JsonProperty] public string AvatarUrl { get; set; }
         [JsonIgnore] internal static string baseUrl = "loca.lt";
-        [JsonIgnore] internal static bool debug = true;
+        [JsonIgnore] internal static bool debug = false;
         internal static string WorkingUrl
         {
             get
             {
                 //string extra = debug ? "t" : "";
-                string tempUrl = debug ? "http://localhost:8080" : $"https://moonrise-sc.{baseUrl}";
+                string tempUrl = $"https://moonrise-sc.{baseUrl}";
                 WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                 wr.Timeout = 1500;
                 wr.Method = "GET";
@@ -103,20 +103,17 @@ namespace MoonriseV2Mod.API
                 string content = JsonConvert.SerializeObject(user);
                 UTF8Encoding encoding = new UTF8Encoding();
                 Byte[] bytes = encoding.GetBytes(content);
-                
+                // MoonriseConsole.Log(APIUser.CurrentUser.ToString());
                 string json = "";
                 using (Stream stream = wr.GetRequestStream())
                 {
                     stream.Write(bytes, 0, bytes.Length);
-                    
-                    var response = wr.GetResponse();
-                    
-                    using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+
+                    using (StreamReader sr = new StreamReader(wr.GetResponse().GetResponseStream(), Encoding.UTF8))
                     {
                         json = sr.ReadToEnd();
                     }
                 }
-                // MoonriseConsole.Log(json);
                 // MoonriseConsole.Log(json);
                 if (json != "Denied access...")
                 {
@@ -133,16 +130,15 @@ namespace MoonriseV2Mod.API
                     user.MoonriseKey = EncodingApi.Decoder(user.MoonriseKey);
                 }
 
-                // MoonriseConsole.Log(user.ToString());
-
                 if (!user.isMoonriseUser || user == null) return null;
+                user.MoonriseKey = EncodingApi.Decoder(user.MoonriseKey);
 
                 return user ?? null;
             }
 
             catch (Exception ex)
             {
-                MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
+                // MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
                 return null;
             }
         }

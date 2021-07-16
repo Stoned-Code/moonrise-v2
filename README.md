@@ -8,9 +8,7 @@ A quality of life mod.
 * Crasher Hider
 * Post Processing Toggle
 * Realtime Light Toggle
-* Report Crasher
 * Force Clone (Premium)
-* Auto Update Notification
 * Player Teleport Points
 
 ## Client Side Completed
@@ -19,7 +17,9 @@ A quality of life mod.
 * Ad Blocker
 * Ignore List
 * Base64 Encription
-* Player Teleport
+* Player Teleport* Auto Update Notification
+* Report Crasher (Premium)
+* Portable Mirror
 
 ## Client Issues
 * Backend Post Timeouts

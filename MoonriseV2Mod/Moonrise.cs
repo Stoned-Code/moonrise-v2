@@ -37,6 +37,7 @@ namespace MoonriseV2Mod
 
         public override void OnUpdate()
         {
+
             modUpdate?.Invoke();
         }
 
@@ -47,6 +48,7 @@ namespace MoonriseV2Mod
             while (!MoonriseAssetBundles.isInitialized) yield return null;
 
             ModInfo.Initialize();
+            PortableMirror.Initialize();
             MoonriseBaseFunctions.Initialize();
             SocialInterractionsBase.Initialize();
             AvatarFunctionsBase.Initialize();
@@ -54,8 +56,6 @@ namespace MoonriseV2Mod
 
             while (APIUser.CurrentUser == null) yield return null;
 
-            // MoonriseConsole.Log(APIUser.CurrentUser.ToString());
-            // ModInfo.CheckUpdate();
             if (Config.config.moonriseKey != "FreeUser")
                 user = MRUser.GetUser(Config.config.moonriseKey);
 
