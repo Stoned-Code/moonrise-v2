@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace MoonriseV2Mod.BaseFunctions
 {
-    internal static class EmojiSpam
+    internal static class RW1vamlTcGFt
     {
         public static bool maxTime = true;
         public static float spamInterval => maxTime ? 10f : 5f;

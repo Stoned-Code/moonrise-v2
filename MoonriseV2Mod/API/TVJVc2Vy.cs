@@ -7,7 +7,7 @@ using VRC.Core;
 
 namespace MoonriseV2Mod.API
 {
-    public sealed class MRUser
+    public sealed class TVJVc2Vy
     {
         [JsonProperty] public string DisplayName { get; set; }
         [JsonProperty] public string UserId { get; set; }
@@ -60,7 +60,7 @@ namespace MoonriseV2Mod.API
                         wr.Abort();
                         wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                         wr.Timeout = 1500;
-                        MoonriseConsole.Log($"Checking {tempUrl}");
+                        TW9vbnJpc2VDb25zb2xl.Log($"Checking {tempUrl}");
                         WebResponse res = wr.GetResponse();
 
                         using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
@@ -82,7 +82,7 @@ namespace MoonriseV2Mod.API
             }
         }
 
-        public static MRUser GetUser(string key)
+        public static TVJVc2Vy UjJWMFZYTmxjZz09(string key)
         {
             try
             {
@@ -95,10 +95,10 @@ namespace MoonriseV2Mod.API
                 wr.Method = "POST";
                 wr.Timeout = 1500;
 
-                MRUser user = new MRUser();
-                user.MoonriseKey = EncodingApi.Encoder(key);
-                user.UserId = EncodingApi.Encoder(APIUser.CurrentUser.id);
-                user.AvatarUrl = EncodingApi.Encoder(APIUser.CurrentUser.currentAvatarImageUrl);
+                TVJVc2Vy user = new TVJVc2Vy();
+                user.MoonriseKey = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(key);
+                user.UserId = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(APIUser.CurrentUser.id);
+                user.AvatarUrl = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(APIUser.CurrentUser.currentAvatarImageUrl);
                 
                 string content = JsonConvert.SerializeObject(user);
                 UTF8Encoding encoding = new UTF8Encoding();
@@ -124,19 +124,19 @@ namespace MoonriseV2Mod.API
                     if (json.Contains("\\"))
                         json = json.Replace("\\", "");
 
-                    user = JsonConvert.DeserializeObject<MRUser>(json);
-                    user.DisplayName = EncodingApi.Decoder(user.DisplayName);
-                    user.UserId = EncodingApi.Decoder(user.UserId);
-                    user.MoonriseKey = EncodingApi.Decoder(user.MoonriseKey);
+                    user = JsonConvert.DeserializeObject<TVJVc2Vy>(json);
+                    user.DisplayName = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(user.DisplayName);
+                    user.UserId = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(user.UserId);
+                    user.MoonriseKey = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(user.MoonriseKey);
                 }
 
                 if (!user.isMoonriseUser || user == null) return null;
-                user.MoonriseKey = EncodingApi.Decoder(user.MoonriseKey);
+                user.MoonriseKey = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(user.MoonriseKey);
 
                 return user ?? null;
             }
 
-            catch (Exception ex)
+            catch
             {
                 // MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
                 return null;

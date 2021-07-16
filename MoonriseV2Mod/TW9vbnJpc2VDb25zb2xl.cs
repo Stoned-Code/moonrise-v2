@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace MoonriseV2Mod
 {
-    public static class MoonriseConsole
+    public static class TW9vbnJpc2VDb25zb2xl
     {
         internal static bool logsEnabled = true;
         public static string consoleTime

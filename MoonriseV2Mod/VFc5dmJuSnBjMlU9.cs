@@ -12,26 +12,30 @@ using VRC.Core;
 
 namespace MoonriseV2Mod
 {
-    public class Moonrise : MelonMod
+    public class VFc5dmJuSnBjMlU9 : MelonMod
     {
 
-        internal MRUser user;
+        internal TVJVc2Vy user;
+        internal static bool debug = false;
 
-        internal static event Action<QMNestedButton, QMNestedButton, MRUser> loadMenu;
+        internal static event Action<QMNestedButton, QMNestedButton, TVJVc2Vy> loadMenu;
         internal static event Action modUpdate;
 
         internal bool isInitialized = false;
-
+        internal static HarmonyLib.Harmony harmonyInstance;
         public override void OnApplicationStart()
         {
+            harmonyInstance = new HarmonyLib.Harmony("com.StonedCode.MoonriseV2");
+            harmonyInstance.PatchAll();
             MelonCoroutines.Start(ModStart());
         }
 
+        [Obsolete]
         public override void OnLevelWasLoaded(int level)
         {
             if (level == -1)
             {
-                ModInfo.CheckUpdate();
+                VFc5a1NXNW1idz09.CheckUpdate();
             }
         }
 
@@ -43,21 +47,21 @@ namespace MoonriseV2Mod
 
         public IEnumerator ModStart()
         {
-            Config.Initialize();
+            Q29uZmln.Initialize();
             MoonriseAssetBundles.InitializeAssetBundle();
             while (!MoonriseAssetBundles.isInitialized) yield return null;
 
-            ModInfo.Initialize();
-            PortableMirror.Initialize();
-            MoonriseBaseFunctions.Initialize();
-            SocialInterractionsBase.Initialize();
-            AvatarFunctionsBase.Initialize();
-            SettingsFunctions.Initialize();
+            VFc5a1NXNW1idz09.Initialize();
+            VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.Initialize();
+            TW9vbnJpc2VCYXNlRnVuY3Rpb25z.Initialize();
+            VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9.Initialize();
+            QXZhdGFyRnVuY3Rpb25z.Initialize();
+            VTJWMGRHbHVaM05HZFc1amRHbHZibk09.Initialize();
 
             while (APIUser.CurrentUser == null) yield return null;
 
-            if (Config.config.moonriseKey != "FreeUser")
-                user = MRUser.GetUser(Config.config.moonriseKey);
+            if (Q29uZmln.config.moonriseKey != "FreeUser")
+                user = TVJVc2Vy.UjJWMFZYTmxjZz09(Q29uZmln.config.moonriseKey);
 
             if (!isInitialized)
             {

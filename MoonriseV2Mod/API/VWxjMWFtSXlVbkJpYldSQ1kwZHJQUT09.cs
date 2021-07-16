@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace MoonriseV2Mod.API
 {
-    public static class EncodingApi
+    public static class VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09
     {
-        public static string Encoder(string msg)
+        public static string Ulc1amIyUmxjZz09(string msg)
         {
             byte[] textBytes = Encoding.UTF8.GetBytes(msg);
             return Convert.ToBase64String(textBytes);
         }
 
-        public static string Decoder(string msg)
+        public static string UkdWamIyUmxjZz09(string msg)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace MoonriseV2Mod.API
 
             catch (Exception ex)
             {
-                MoonriseConsole.ErrorLog($"Error Decoding \"{msg}\"\n{ex}");
+                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Error Decoding \"{msg}\"\n{ex}");
                 return "Error...";
             }
         }

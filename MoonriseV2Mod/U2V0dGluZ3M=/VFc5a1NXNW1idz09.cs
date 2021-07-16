@@ -12,9 +12,9 @@ using UnityEngine;
 
 namespace MoonriseV2Mod.Settings
 {
-    internal class ModInfo
+    internal class VFc5a1NXNW1idz09
     {
-        public static ModInfo modInfo;
+        public static VFc5a1NXNW1idz09 modInfo;
         public const string modName = "Moonrise";
         public const string modVersion = "2.0.0";
         public const string modAuthor = "Stoned Code";
@@ -26,7 +26,7 @@ namespace MoonriseV2Mod.Settings
         {
             get
             {
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(MRUser.WorkingUrl + "/slkefgdga9e3d");
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(TVJVc2Vy.WorkingUrl + "/slkefgdga9e3d");
                 wr.ContentType = "application/json";
                 wr.Timeout = 1500;
                 wr.Method = "POST";
@@ -48,20 +48,20 @@ namespace MoonriseV2Mod.Settings
                         json = sr.ReadToEnd();
                         if (json == "Up to date!")
                         {
-                            MoonriseConsole.Log("Moonrise is up to date!");
+                            TW9vbnJpc2VDb25zb2xl.Log("Moonrise is up to date!");
                             return true;
                         }
                     }
                 }
 
-                ModInfo.modInfo = JsonConvert.DeserializeObject<ModInfo>(json);
+                VFc5a1NXNW1idz09.modInfo = JsonConvert.DeserializeObject<VFc5a1NXNW1idz09>(json);
 
                 return false;
             }
         }
         public static void Initialize()
         {
-            ModInfo.modInfo = new ModInfo();
+            VFc5a1NXNW1idz09.modInfo = new VFc5a1NXNW1idz09();
         }
 
         static bool isUpdating = false;
@@ -78,14 +78,15 @@ namespace MoonriseV2Mod.Settings
             File.Delete(modDirectory);
             using (WebClient webClient = new WebClient())
             {
-                modInfo.downloadLink = EncodingApi.Decoder(modInfo.downloadLink);
+                modInfo.downloadLink = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(modInfo.downloadLink);
                 // MoonriseConsole.Log(modInfo.downloadLink);
                 webClient.DownloadFile(modInfo.downloadLink, modDirectory);
             }
 
             isUpdating = false;
-            MoonriseBaseFunctions.baseFunctions.menuTab.SetBadgeActive(true, "Update!", Color.blue);
+            TW9vbnJpc2VCYXNlRnVuY3Rpb25z.baseFunctions.menuTab.SetBadgeActive(true, "Update!", Color.blue);
             UshioUI.UshioMenuApi.PopupUI("Moonrise Updated!\nRestart for update to take affect");
+            TW9vbnJpc2VDb25zb2xl.Log("Moonrise has updated! Restart for update to take affect.");
         }
     }
 }

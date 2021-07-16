@@ -8,7 +8,7 @@ using VRC.Core;
 
 namespace MoonriseV2Mod.AvatarFunctions
 {
-    public class AvatarHider
+    public class VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09
     {
         public static bool m_IgnoreFriends = true;
         public static bool m_HideAvatars = true;
@@ -26,7 +26,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                 for (int i = 0; i < list.Count; i++)
                 {
                     Player player = list[i];
-                    if (player == null || PlayerCheckApi.IsMe(player.prop_APIUser_0.id)) continue;
+                    if (player == null || VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsMe(player.prop_APIUser_0.id)) continue;
 
                     GameObject avtrObject = GetAvatarObject(player);
                     if (avtrObject == null || avtrObject.active) continue;
@@ -37,28 +37,28 @@ namespace MoonriseV2Mod.AvatarFunctions
 
             catch (Exception ex)
             {
-                MoonriseConsole.ErrorLog($"Failed to unhide avatar...\n{ex}");
+                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Failed to unhide avatar...\n{ex}");
             }
         }
 
         public static IEnumerator ResetHideDistantAvatars()
         {
-            var tempDistantAvatarState = Config.config.avatarHiderState;
+            var tempDistantAvatarState = Q29uZmln.config.avatarHiderState;
             m_HideAvatars = false;
             m_IgnoreFriends = false;
-            Config.config.avatarHiderState = 0;
+            Q29uZmln.config.avatarHiderState = 0;
             yield return new WaitForSeconds(0.25f);
-            Config.config.avatarHiderState = tempDistantAvatarState;
+            Q29uZmln.config.avatarHiderState = tempDistantAvatarState;
             yield return new WaitForSeconds(0.25f);
 
-            if (Config.config.avatarHiderState == 1)
+            if (Q29uZmln.config.avatarHiderState == 1)
             {
                 m_HideAvatars = true;
                 m_IgnoreFriends = true;
                 //MelonCoroutines.Start(HideAvatars());
             }
 
-            else if (Config.config.avatarHiderState == 2)
+            else if (Q29uZmln.config.avatarHiderState == 2)
             {
                 m_HideAvatars = true;
                 m_IgnoreFriends = false;
@@ -72,19 +72,19 @@ namespace MoonriseV2Mod.AvatarFunctions
         {
             try
             {
-                if (Config.config.avatarHiderState == 1 || Config.config.avatarHiderState == 2)
+                if (Q29uZmln.config.avatarHiderState == 1 || Q29uZmln.config.avatarHiderState == 2)
                 {
                     foreach (VRC.Player player in PlayerManager.field_Private_Static_PlayerManager_0.prop_ArrayOf_Player_0)
                     {
                         try
                         {
-                            if (player == null || PlayerCheckApi.IsMe(player.prop_APIUser_0.id)) continue;
+                            if (player == null || VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsMe(player.prop_APIUser_0.id)) continue;
 
                             APIUser apiUser = player.prop_APIUser_0;
                             string displayName;
-                            bool isIgnored = Config.config.ignoreList.TryGetValue(apiUser.id, out displayName);
+                            bool isIgnored = Q29uZmln.config.ignoreList.TryGetValue(apiUser.id, out displayName);
                             GameObject avtrObject = GetAvatarObject(player);
-                            DynamicBoneController dynamicBoneController = PlayerCheckApi.GetDynamicBoneController(player);
+                            DynamicBoneController dynamicBoneController = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.GetDynamicBoneController(player);
                             if (isIgnored)
                             {
                                 if (!avtrObject.activeInHierarchy)
@@ -103,10 +103,10 @@ namespace MoonriseV2Mod.AvatarFunctions
                             }
 
                             if (avtrObject == null) continue;
-                            if (PlayerCheckApi.IsFriendsWith(apiUser.id) && m_IgnoreFriends) continue;
-                            float dist = Vector3.Distance(PlayerCheckApi.LocalVRCPlayer.transform.position, avtrObject.transform.position);
+                            if (VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsFriendsWith(apiUser.id) && m_IgnoreFriends) continue;
+                            float dist = Vector3.Distance(VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position, avtrObject.transform.position);
 
-                            if (dist > Config.config.avatarHiderDistance && m_HideAvatars)
+                            if (dist > Q29uZmln.config.avatarHiderDistance && m_HideAvatars)
                             {
                                 if (dynamicBoneController != null)
                                 {
@@ -121,7 +121,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                                 avtrObject.SetActive(false);
                             }
 
-                            else if (dist <= Config.config.avatarHiderDistance && m_HideAvatars)
+                            else if (dist <= Q29uZmln.config.avatarHiderDistance && m_HideAvatars)
                             {
                                 avtrObject.SetActive(true);
 
@@ -154,14 +154,14 @@ namespace MoonriseV2Mod.AvatarFunctions
 
                         catch (Exception)
                         {
-                            MoonriseConsole.Log($"Failed to scan avatar: {player.prop_APIUser_0.displayName}");
+                            TW9vbnJpc2VDb25zb2xl.Log($"Failed to scan avatar: {player.prop_APIUser_0.displayName}");
                         }
                     }
                 }
 
                 else
                 {
-                    if (!Config.config.avatarsShowing) UnhideAvatars();
+                    if (!Q29uZmln.config.avatarsShowing) UnhideAvatars();
                 }
             }
 

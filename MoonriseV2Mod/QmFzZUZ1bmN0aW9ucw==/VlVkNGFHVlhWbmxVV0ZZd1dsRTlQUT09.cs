@@ -9,14 +9,14 @@ using VRC;
 
 namespace MoonriseV2Mod.BaseFunctions
 {
-    internal static class PlayerMute
+    internal static class VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09
     {
         public static bool isInitialize = false;
         public static bool muteFriends = false;
         public static bool muteAll = false;
         public static void Initialize()
         {
-            Moonrise.modUpdate += AudioUpdate;
+            VFc5dmJuSnBjMlU9.modUpdate += AudioUpdate;
             isInitialize = true;
         }
 
@@ -33,8 +33,8 @@ namespace MoonriseV2Mod.BaseFunctions
                     var speaker = player.prop_USpeaker_0;
                     string displayName;
 
-                    bool isFriend = PlayerCheckApi.IsFriendsWith(apiUser.id);
-                    bool isIgnored = Config.config.ignoreList.TryGetValue(apiUser.id, out displayName);
+                    bool isFriend = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsFriendsWith(apiUser.id);
+                    bool isIgnored = Q29uZmln.config.ignoreList.TryGetValue(apiUser.id, out displayName);
 
                     if (isFriend && !muteFriends)
                     {
@@ -69,7 +69,7 @@ namespace MoonriseV2Mod.BaseFunctions
                     var apiUser = player.prop_APIUser_0;
                     var speaker = player.prop_USpeaker_0;
 
-                    bool isFriend = PlayerCheckApi.IsFriendsWith(apiUser.id);
+                    bool isFriend = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsFriendsWith(apiUser.id);
 
                     if (isFriend && muteFriends) continue;
                     if (muteAll) continue;

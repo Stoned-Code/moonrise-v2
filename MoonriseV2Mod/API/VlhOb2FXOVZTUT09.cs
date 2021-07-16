@@ -1002,7 +1002,7 @@ namespace UshioUI
 
             catch (Exception ex)
             {
-                MoonriseConsole.ErrorLog($"Something fucked up setting variebles...\n{ex}");
+                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Something fucked up setting variebles...\n{ex}");
             }
 
             try
@@ -1032,7 +1032,7 @@ namespace UshioUI
 
             catch (Exception ex)
             {
-                MoonriseConsole.ErrorLog($"Something fucked up with setting variables...\n{ex}");
+                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Something fucked up with setting variables...\n{ex}");
             }
 
             this.Display.transform.localScale = new Vector3(5.15f, 5.15f, 5.15f);
@@ -1078,7 +1078,7 @@ namespace UshioUI
 
             catch (Exception ex)
             {
-                MoonriseConsole.ErrorLog($"Something fucked up setting variebles...\n{ex}");
+                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Something fucked up setting variebles...\n{ex}");
             }
 
             try
@@ -1106,7 +1106,7 @@ namespace UshioUI
 
             catch (Exception ex)
             {
-                MoonriseConsole.ErrorLog($"Something fucked up with setting variables...\n{ex}");
+                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Something fucked up with setting variables...\n{ex}");
             }
 
             this.Display.transform.localScale = new Vector3(5.15f, 5.15f, 5.15f);

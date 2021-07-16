@@ -8,14 +8,14 @@ namespace MoonriseV2Mod.SocialInterractions
     // <summary>
     // Teleport Player to Another Player
     // </summary>
-    internal class PlayerTeleport
+    internal class VUd4aGVXVnlWRkE9
     {
         public static void TeleportTo(string SelectedUserID)
         {
             try
             {
-                VRCPlayer player = PlayerCheckApi.LocalVRCPlayer;
-                Player foundPlayer = PlayerCheckApi.GetSelectedPlayer(SelectedUserID);
+                VRCPlayer player = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer;
+                Player foundPlayer = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.GetSelectedPlayer(SelectedUserID);
 
                 if (APIUser.CurrentUser.id != foundPlayer.prop_APIUser_0.id)
                 {
@@ -34,7 +34,7 @@ namespace MoonriseV2Mod.SocialInterractions
 
             catch
             {
-                MoonriseConsole.ErrorLog("Player is not in your world!");
+                TW9vbnJpc2VDb25zb2xl.ErrorLog("Player is not in your world!");
                 UshioMenuApi.CreateSingleButtonPopup("Something's Wrong Here...", "You can't teleport to a player that isn't in your world!", "OK", delegate
                 {
 

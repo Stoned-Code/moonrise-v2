@@ -5,9 +5,9 @@ using System.IO;
 
 namespace MoonriseV2Mod.Settings
 {
-    public class Config
+    public class Q29uZmln
     {
-        [JsonIgnore] public static Config config;
+        [JsonIgnore] public static Q29uZmln config;
         [JsonProperty] public string moonriseKey { get; internal set; } = "FreeUser";
         [JsonProperty] public Dictionary<string, string> ignoreList { get; internal set; } = new Dictionary<string, string>();
         [JsonProperty] public int avatarHiderState { get; internal set; } = 1;
@@ -36,7 +36,7 @@ namespace MoonriseV2Mod.Settings
                     json = sr.ReadToEnd();
                 }
 
-            config = JsonConvert.DeserializeObject<Config>(json) ?? new Config();
+            config = JsonConvert.DeserializeObject<Q29uZmln>(json) ?? new Q29uZmln();
 
             if (!Directory.Exists(moonriseDirectory))
                 Directory.CreateDirectory(moonriseDirectory);

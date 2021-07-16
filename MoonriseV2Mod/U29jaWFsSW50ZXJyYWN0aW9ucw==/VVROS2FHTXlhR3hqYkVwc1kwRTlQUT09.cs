@@ -11,9 +11,9 @@ using VRC.Core;
 
 namespace MoonriseV2Mod.SocialInterractions
 {
-    public class CrasherReport
+    public class VVROS2FHTXlhR3hqYkVwc1kwRTlQUT09
     {
-        public CrasherReport(string displayName, string uid, string aid, string[] aa, string au, string du)
+        public VVROS2FHTXlhR3hqYkVwc1kwRTlQUT09(string displayName, string uid, string aid, string[] aa, string au, string du)
         {
             this.AvatarUrl = new string[2];
 
@@ -24,6 +24,7 @@ namespace MoonriseV2Mod.SocialInterractions
             this.AvatarUrl[0] = au;
             this.AvatarUrl[1] = du;
         }
+
         [JsonProperty] public string DisplayName { get; set; }
         [JsonProperty] public string UserId { get; set; }
         [JsonProperty] public string AvatarId { get; set; }
@@ -35,13 +36,13 @@ namespace MoonriseV2Mod.SocialInterractions
             try
             {
                 string[] aa = new string[2];
-                aa[0] = EncodingApi.Encoder(avatarApi.authorName);
-                aa[1] = EncodingApi.Encoder(avatarApi.authorId);
-                CrasherReport report = new CrasherReport(EncodingApi.Encoder(crasherName), EncodingApi.Encoder(crasherId), EncodingApi.Encoder(avatarApi.id), aa, EncodingApi.Encoder(avatarApi.imageUrl), EncodingApi.Encoder(avatarApi.assetUrl));
+                aa[0] = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(avatarApi.authorName);
+                aa[1] = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(avatarApi.authorId);
+                VVROS2FHTXlhR3hqYkVwc1kwRTlQUT09 report = new VVROS2FHTXlhR3hqYkVwc1kwRTlQUT09(VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(crasherName), VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(crasherId), VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(avatarApi.id), aa, VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(avatarApi.imageUrl), VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(avatarApi.assetUrl));
 
                 string json = JsonConvert.SerializeObject(report, Formatting.Indented);
-                MoonriseConsole.Log(json);
-                string requestUrl = MRUser.WorkingUrl;
+                TW9vbnJpc2VDb25zb2xl.Log(json);
+                string requestUrl = TVJVc2Vy.WorkingUrl;
                 if (requestUrl == "N/A") return;
 
                 HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(requestUrl + "/kldsa9sdo2ld");

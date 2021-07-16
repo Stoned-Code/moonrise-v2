@@ -172,7 +172,7 @@ namespace MoonriseTabApi
         public MenuTab(QMNestedButton nestedButton, Image tabIcon, RawImage badge, string badgeText)
         {
             // Change the event to you're own update event
-            Moonrise.modUpdate += MenuTabsUpdate;
+            VFc5dmJuSnBjMlU9.modUpdate += MenuTabsUpdate;
 
             this.MenuSingleButton = nestedButton.getMainButton();
             this.MenuBackSingleButton = nestedButton.getBackButton();

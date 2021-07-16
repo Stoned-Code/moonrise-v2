@@ -94,31 +94,34 @@
     <Reference Include="VRCSDKBase, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\EncodingApi.cs" />
+    <Compile Include="API\VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.cs" />
     <Compile Include="API\MoonriseAssetBundles.cs" />
     <Compile Include="API\MoonriseTabApi.cs" />
-    <Compile Include="API\MRUser.cs" />
-    <Compile Include="API\PlayerCheckApi.cs" />
+    <Compile Include="API\TVJVc2Vy.cs" />
+    <Compile Include="API\VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.cs" />
     <Compile Include="API\RubyButtonApi.cs" />
     <Compile Include="API\UshioRubyModifiers.cs" />
-    <Compile Include="API\UshioUI.cs" />
-    <Compile Include="AvatarFunctions\AvatarFunctionsBase.cs" />
-    <Compile Include="AvatarFunctions\AvatarHider.cs" />
-    <Compile Include="BaseFunctions\EmojiSpam.cs" />
-    <Compile Include="BaseFunctions\PlayerMute.cs" />
-    <Compile Include="Moonrise.cs" />
-    <Compile Include="MoonriseConsole.cs" />
-    <Compile Include="BaseFunctions\MoonriseBaseFunctions.cs" />
-    <Compile Include="MoonriseObject.cs" />
-    <Compile Include="PortableMirror.cs" />
+    <Compile Include="API\VlhOb2FXOVZTUT09.cs" />
+    <Compile Include="Patches\AvatarPatches.cs" />
+    <Compile Include="Patches\PlayerManagerPatches.cs" />
+    <Compile Include="Patches\SocialContentButton.cs" />
+    <Compile Include="QXZhdGFyRnVuY3Rpb25z\QXZhdGFyRnVuY3Rpb25z.cs" />
+    <Compile Include="QXZhdGFyRnVuY3Rpb25z\VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.cs" />
+    <Compile Include="QmFzZUZ1bmN0aW9ucw==\RW1vamlTcGFt.cs" />
+    <Compile Include="QmFzZUZ1bmN0aW9ucw==\VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.cs" />
+    <Compile Include="VFc5dmJuSnBjMlU9.cs" />
+    <Compile Include="TW9vbnJpc2VDb25zb2xl.cs" />
+    <Compile Include="QmFzZUZ1bmN0aW9ucw==\TW9vbnJpc2VCYXNlRnVuY3Rpb25z.cs" />
+    <Compile Include="VkZjNWRtSnVTbkJqTWxaUVdXMXZQUT09.cs" />
+    <Compile Include="VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\AddBlocker.cs" />
-    <Compile Include="Settings\Config.cs" />
-    <Compile Include="Settings\ModInfo.cs" />
-    <Compile Include="Settings\SettingsFunctions.cs" />
-    <Compile Include="SocialInterractions\CrasherReport.cs" />
-    <Compile Include="SocialInterractions\PlayerTeleport.cs" />
-    <Compile Include="SocialInterractions\SocialInterractionsBase.cs" />
+    <Compile Include="U2V0dGluZ3M=\VVZkU2ExRnRlSFpaTW5Sc1kyYzlQUT09.cs" />
+    <Compile Include="U2V0dGluZ3M=\Q29uZmln.cs" />
+    <Compile Include="U2V0dGluZ3M=\VFc5a1NXNW1idz09.cs" />
+    <Compile Include="U2V0dGluZ3M=\VTJWMGRHbHVaM05HZFc1amRHbHZibk09.cs" />
+    <Compile Include="U29jaWFsSW50ZXJyYWN0aW9ucw==\VVROS2FHTXlhR3hqYkVwc1kwRTlQUT09.cs" />
+    <Compile Include="U29jaWFsSW50ZXJyYWN0aW9ucw==\VUd4aGVXVnlWRkE9.cs" />
+    <Compile Include="U29jaWFsSW50ZXJyYWN0aW9ucw==\VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="moonrise.assetbundle" />
