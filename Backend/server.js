@@ -22,13 +22,16 @@ modInfo.loadDatabase();
 // Discord Webhooks
 const {Webhook, MessageBuilder} = require('discord-webhook-node');
 
-//const publicWebhook = "https://discord.com/api/webhooks/863554237442031626/QYKVVT7MWO-raOLKwzhTdm3OdxcH4Ny72PceLdhi9cbnd4dG_nHFO8NhL2p4j3R5WtAw";
+
 const mainWebhook = "https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6";
 const logsWebhook = "https://discord.com/api/webhooks/747734429597827123/e5PU_9Oo-QIJLChZHZW59RSfFEIvqzJ_NXzxUrcHLdSJiGW5JfWC8xiG925j0xrcUiRS";
 let usedWebhook = mainWebhook;
 
+let publicWebhook = "https://discord.com/api/webhooks/753645492927463554/dbNag3stRbODU4ISoRCKBTfS-r_gkcKINJJEk3kcSeOJW1KTPrPl17bEMCPb-2oLaez3";
+publicWebhook = new Webhook(publicWebhook);
 const privateWebhook = new Webhook(usedWebhook);
 const loggingWebhook = new Webhook(logsWebhook);
+
 
 privateWebhook.setUsername("Moonrise V2");
 privateWebhook.setAvatar("https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png");
@@ -386,14 +389,31 @@ app.post('/' + pushUpdate, function(req, res)
     if (modinfo['downloadLink'] != null)
         modinfo['downloadLink'] = Buffer.from(modinfo['downloadLink'], 'base64').toString();
     console.log(modinfo);
+
+    let changes = "";
     for (let i = 0; i < modinfo['modChanges'].length; i++)
     {
         modinfo['modChanges'][i] = Buffer.from(modinfo['modChanges'][i], 'base64').toString();
+        changes += modinfo['modChanges'][i] + '\n';
     }
     console.log(modinfo);
     modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinfo['modBuild']}}, multi=true);
     modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinfo['downloadLink']}}, multi=true);
     modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinfo['modChanges']}}, multi=true);
+
+    let usrEmbed = new MessageBuilder();
+    usrEmbed.setTitle('Moonrise');
+    usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
+    // usrEmbed.setURL(tunnelUrl);
+    usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
+    usrEmbed.setColor('#00b0f4');
+    usrEmbed.addField('Build:', modinfo['modBuild']);
+    usrEmbed.addField('Changes:', changes);
+    usrEmbed.setDescription('@here Update Available for Moonrise!');
+    // usrEmbed.setImage();
+    usrEmbed.setFooter('Moonrise Update!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
+    usrEmbed.setTimestamp();
+    publicWebhook.send(usrEmbed);
 
     res.send("Successful!");
 })
@@ -403,4 +423,4 @@ app.listen(moonrise_port, function()
     console.log("Server Listening...");
 });
 
-init_tunnel();
+// init_tunnel();
