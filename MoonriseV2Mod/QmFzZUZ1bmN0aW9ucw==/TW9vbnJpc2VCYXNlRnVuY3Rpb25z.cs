@@ -121,7 +121,7 @@ namespace MoonriseV2Mod.BaseFunctions
                 UshioRubyModifiers.MakeArrowButton(cycleEmojisDown, UshioRubyModifiers.ArrowDirection.Down);
                 UshioRubyModifiers.SetHalfButton(cycleEmojisDown, UshioRubyModifiers.HalfPosition.Bottom, UshioRubyModifiers.Rotation.Verticle);
                 
-                var debugToggle = new QMToggleButton(functions, 4, -1, "Debug\nMode", delegate
+                var debugToggle = new QMToggleButton(functions, 5, -1, "Debug\nMode", delegate
                 {
                     VFc5dmJuSnBjMlU9.debug = true;
                 }, "Disabled", delegate
