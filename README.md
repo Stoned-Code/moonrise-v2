@@ -10,6 +10,7 @@ A quality of life mod.
 * Realtime Light Toggle
 * Force Clone (Premium)
 * Player Teleport Points
+* Make Custom MonoBehavior for Tab
 
 ## Client Side Completed
 * Player Mute
