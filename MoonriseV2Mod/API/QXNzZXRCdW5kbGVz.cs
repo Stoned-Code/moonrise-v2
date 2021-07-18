@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MoonriseV2Mod.API
 {
-    internal static class MoonriseAssetBundles
+    internal static class QXNzZXRCdW5kbGVz
     {
         //public static AssetBundle assetBundle { get; set; }
         public static AssetBundle UshioUiAssetBundle { get; private set; }

@@ -1,4 +1,5 @@
 ﻿using MoonriseV2Mod.API;
+using MoonriseV2Mod.MonoBehaviourScripts;
 using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
 using System;
@@ -12,7 +13,7 @@ namespace MoonriseV2Mod.AvatarFunctions
 
         public QXZhdGFyRnVuY3Rpb25z()
         {
-            VFc5dmJuSnBjMlU9.loadMenu += LoadMenu;
+            VFc5dmJuSnBjMlU9.loadMenu += VEc5aFpFMWxiblU9;
             VFc5dmJuSnBjMlU9.modUpdate += OnUpdate;
         }
 
@@ -25,7 +26,7 @@ namespace MoonriseV2Mod.AvatarFunctions
             avatarFunctionsBase.isInitialized = true;
         }
 
-        public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
+        public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             avatarFunctions = new QMNestedButton(functions, 3, 0, "Avatar\nFunctions", "Functions for avatars.");
 
@@ -62,7 +63,7 @@ namespace MoonriseV2Mod.AvatarFunctions
 
                     avatarHiderSwitch.setButtonText("Avatar Hider:\nDisabled");
 
-                    VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.UnhideAvatars();
+                    // VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.UnhideAvatars();
                 }
 
                 else
@@ -91,7 +92,7 @@ namespace MoonriseV2Mod.AvatarFunctions
             }, "Switches the avatar hider settings (If distant avatars are still rendering after loading into a new world, reset the avatar hider)");
 
             var distanceStatus = new QMSingleButton(avatarFunctions, 1, 1, $"Hide\nDistance:\n{Q29uZmln.config.avatarHiderDistance}", delegate { }, "", null, Color.yellow);
-            UshioRubyModifiers.MakeTextOnly(distanceStatus);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.MakeTextOnly(distanceStatus);
 
             var increaseAvatarHideDistanceButtonOne = new QMSingleButton(avatarFunctions, 1, 0, "+1", delegate
             {
@@ -99,7 +100,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                 Q29uZmln.config.WriteConfig();
                 distanceStatus.setButtonText($"Hide\nDistance:\n{Q29uZmln.config.avatarHiderDistance}");
             }, "Increases avatar hide distance by 1");
-            UshioRubyModifiers.SetHalfButton(increaseAvatarHideDistanceButtonOne, UshioRubyModifiers.HalfPosition.Bottom, UshioRubyModifiers.Rotation.Horizontal);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(increaseAvatarHideDistanceButtonOne, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Horizontal);
 
             var increaseAvatarHideDistanceButtonTwo = new QMSingleButton(avatarFunctions, 1, 0, "+2", delegate
             {
@@ -107,7 +108,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                 Q29uZmln.config.WriteConfig();
                 distanceStatus.setButtonText($"Hide\nDistance:\n{Q29uZmln.config.avatarHiderDistance}");
             }, "Increases avatar hide distance by 2");
-            UshioRubyModifiers.SetHalfButton(increaseAvatarHideDistanceButtonTwo, UshioRubyModifiers.HalfPosition.Top, UshioRubyModifiers.Rotation.Horizontal);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(increaseAvatarHideDistanceButtonTwo, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Top, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Horizontal);
 
             var decreaseAvatarHideDistanceButtonOne = new QMSingleButton(avatarFunctions, 1, 2, "-1", delegate
             {
@@ -124,7 +125,7 @@ namespace MoonriseV2Mod.AvatarFunctions
 
                 distanceStatus.setButtonText($"Hide\nDistance:\n{Q29uZmln.config.avatarHiderDistance}");
             }, "Decreases avatar hide distance by 1");
-            UshioRubyModifiers.SetHalfButton(decreaseAvatarHideDistanceButtonOne, UshioRubyModifiers.HalfPosition.Top, UshioRubyModifiers.Rotation.Horizontal);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(decreaseAvatarHideDistanceButtonOne, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Top, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Horizontal);
 
             var decreaseAvatarHideDistanceButtonTwo = new QMSingleButton(avatarFunctions, 1, 2, "-2", delegate
             {
@@ -141,13 +142,13 @@ namespace MoonriseV2Mod.AvatarFunctions
 
                 distanceStatus.setButtonText($"Hide\nDistance:\n{Q29uZmln.config.avatarHiderDistance}");
             }, "Decreases avatar hide distance by 2");
-            UshioRubyModifiers.SetHalfButton(decreaseAvatarHideDistanceButtonTwo, UshioRubyModifiers.HalfPosition.Bottom, UshioRubyModifiers.Rotation.Horizontal);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(decreaseAvatarHideDistanceButtonTwo, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Horizontal);
 
         }
 
         public void OnUpdate()
         {
-            VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.AvatarHiderUpdate();
+            // VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.AvatarHiderUpdate();
         }
 
         public string GetAvatarHiderState()

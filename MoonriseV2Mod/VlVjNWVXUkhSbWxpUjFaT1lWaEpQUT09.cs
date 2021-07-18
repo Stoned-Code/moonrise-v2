@@ -17,7 +17,7 @@ namespace MoonriseV2Mod
         public static VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09 portableMirror;
         public VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09()
         {
-            VFc5dmJuSnBjMlU9.loadMenu += LoadMenu;
+            VFc5dmJuSnBjMlU9.loadMenu += VEc5aFpFMWxiblU9;
         }
         public QMNestedButton portableMirrorNested;
         public static GameObject mirror;
@@ -25,7 +25,7 @@ namespace MoonriseV2Mod
         public static VRC_MirrorReflection mirrorReflection => mirror.GetComponent<VRC_MirrorReflection>();
         public static bool isPickupable = true;
 
-        public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
+        public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             portableMirrorNested = new QMNestedButton(functions, 3, 2, "Portable\nMirror", "Functions for a portable mirror");
 
@@ -79,7 +79,7 @@ namespace MoonriseV2Mod
         public static void SpawnMirror()
         {
             if (mirror != null) return;
-            var obj = MoonriseAssetBundles.MoonriseAssetBundle.LoadAsset("PortableMirror").Cast<GameObject>();
+            var obj = QXNzZXRCdW5kbGVz.MoonriseAssetBundle.LoadAsset("PortableMirror").Cast<GameObject>();
             mirror = GameObject.Instantiate(obj, VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.GetParent(), worldPositionStays: true);
             mirror.transform.localScale = new Vector3(Q29uZmln.config.portableMirrorWidth, Q29uZmln.config.portableMirrorHeight, 0f);
             pickup.pickupable = isPickupable;

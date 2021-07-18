@@ -11,7 +11,7 @@ namespace MoonriseV2Mod.SocialInterractions
         public static VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9 siBase;
         public VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9()
         {
-            VFc5dmJuSnBjMlU9.loadMenu += LoadMenu;
+            VFc5dmJuSnBjMlU9.loadMenu += VEc5aFpFMWxiblU9;
         }
 
         public static void Initialize()
@@ -20,13 +20,13 @@ namespace MoonriseV2Mod.SocialInterractions
             siBase.isInitialized = true;
         }
 
-        public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
+        public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             var clearIgnoreListButton = new QMSingleButton(socialInterractions, 0, 0, "Clear\nIgnore\nList", delegate
             {
                 Q29uZmln.config.ignoreList.Clear();
 
-                MelonCoroutines.Start(VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.ResetHideDistantAvatars());
+                // MelonCoroutines.Start(VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.ResetHideDistantAvatars());
             }, "Clears the distant avatar ignore list");
 
             var addToIgnoreListButton = new QMSingleButton(socialInterractions, 0, 1, "Add To\nIgnore List", delegate
@@ -44,7 +44,7 @@ namespace MoonriseV2Mod.SocialInterractions
                 else TW9vbnJpc2VDb25zb2xl.ErrorLog($"{displayName} is already ignored...");
 
             }, "Adds selected user to distant avatar hider ignore list");
-            UshioRubyModifiers.SetHalfButton(addToIgnoreListButton, UshioRubyModifiers.HalfPosition.Top, UshioRubyModifiers.Rotation.Horizontal);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(addToIgnoreListButton, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Top, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Horizontal);
 
             var removeFromIgnoreListButton = new QMSingleButton(socialInterractions, 0, 1, "Remove From\nIgnore List", delegate
             {
@@ -59,9 +59,9 @@ namespace MoonriseV2Mod.SocialInterractions
                     Q29uZmln.config.WriteConfig();
                 }
 
-                MelonCoroutines.Start(VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.ResetHideDistantAvatars());
+                // MelonCoroutines.Start(VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.ResetHideDistantAvatars());
             }, "Removes selected user from distant avatar hider ignore list");
-            UshioRubyModifiers.SetHalfButton(removeFromIgnoreListButton, UshioRubyModifiers.HalfPosition.Bottom, UshioRubyModifiers.Rotation.Horizontal);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(removeFromIgnoreListButton, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Horizontal);
 
             var playerTeleport = new QMSingleButton(socialInterractions, 1, 0, "Teleport\nTo", delegate
             {
@@ -69,7 +69,9 @@ namespace MoonriseV2Mod.SocialInterractions
 
                 VUd4aGVXVnlWRkE9.TeleportTo(foundPlayer.id);
             }, "Teleports you to the selected player.");
+
             if (user == null) return;
+
             if (user.Premium)
             {
                 var reportCrasher = new QMSingleButton(socialInterractions, 5, 0, "Report as\nCrasher", delegate

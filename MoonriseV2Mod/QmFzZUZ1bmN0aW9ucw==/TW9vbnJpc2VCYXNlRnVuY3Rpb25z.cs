@@ -14,7 +14,7 @@ namespace MoonriseV2Mod.BaseFunctions
 
         public TW9vbnJpc2VCYXNlRnVuY3Rpb25z()
         {
-            VFc5dmJuSnBjMlU9.loadMenu += LoadMenu;
+            VFc5dmJuSnBjMlU9.loadMenu += VEc5aFpFMWxiblU9;
         }
 
         private Sprite MoonriseIcon;
@@ -25,14 +25,14 @@ namespace MoonriseV2Mod.BaseFunctions
             VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.Initialize();
             baseFunctions = new TW9vbnJpc2VCYXNlRnVuY3Rpb25z();
 
-            baseFunctions.MoonriseIcon = MoonriseAssetBundles.MoonriseAssetBundle.LoadAsset_Internal("Assets/Moonrise/Sprites/MoonriseIcon.png", Il2CppType.Of<Sprite>()).Cast<Sprite>();
+            baseFunctions.MoonriseIcon = QXNzZXRCdW5kbGVz.MoonriseAssetBundle.LoadAsset_Internal("Assets/Moonrise/Sprites/MoonriseIcon.png", Il2CppType.Of<Sprite>()).Cast<Sprite>();
             baseFunctions.MoonriseIcon.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
 
             baseFunctions.isInitialized = true;
         }
 
-        public override void LoadMenu(QMNestedButton functions, QMNestedButton socielInterraction, TVJVc2Vy user)
+        public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socielInterraction, TVJVc2Vy user)
         {
             var quickMenuCollider = GameObject.Find("UserInterface/QuickMenu").GetComponent<BoxCollider>();
             quickMenuCollider.size = new Vector3(2517.34f, 2511.213f, 1);
@@ -73,7 +73,7 @@ namespace MoonriseV2Mod.BaseFunctions
                 {
                     RW1vamlTcGFt.emojiSpam = false;
                 }, $"Spams {(Emoji)emoji} emoji every {spamInterval} seconds");
-                UshioRubyModifiers.MoveHalf(emojiSpam, UshioRubyModifiers.HalfPosition.Bottom);
+                VXNoaW9SdWJ5TW9kaWZpZXJz.MoveHalf(emojiSpam, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom);
 
                 var timeSpanToggle = new QMToggleButton(functions, 4, 0, $"10 Seconds", delegate
                 {
@@ -100,8 +100,8 @@ namespace MoonriseV2Mod.BaseFunctions
                     emojiSpam.setOnText($"Emoji Spam\n{(Emoji)emoji}");
                     emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {RW1vamlTcGFt.spamInterval} seconds");
                 }, "Cycles through emojis");
-                UshioRubyModifiers.MakeArrowButton(cycleEmojisUp, UshioRubyModifiers.ArrowDirection.Up);
-                UshioRubyModifiers.SetHalfButton(cycleEmojisUp, UshioRubyModifiers.HalfPosition.Top, UshioRubyModifiers.Rotation.Verticle);
+                VXNoaW9SdWJ5TW9kaWZpZXJz.MakeArrowButton(cycleEmojisUp, VXNoaW9SdWJ5TW9kaWZpZXJz.ArrowDirection.Up);
+                VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(cycleEmojisUp, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Top, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Verticle);
 
                 var cycleEmojisDown = new QMSingleButton(functions, 4, 2, "", delegate
                 {
@@ -118,8 +118,8 @@ namespace MoonriseV2Mod.BaseFunctions
                     emojiSpam.setOnText($"Emoji Spam\n{(Emoji)emoji}");
                     emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every 5 seconds");
                 }, "Cycles through emojis");
-                UshioRubyModifiers.MakeArrowButton(cycleEmojisDown, UshioRubyModifiers.ArrowDirection.Down);
-                UshioRubyModifiers.SetHalfButton(cycleEmojisDown, UshioRubyModifiers.HalfPosition.Bottom, UshioRubyModifiers.Rotation.Verticle);
+                VXNoaW9SdWJ5TW9kaWZpZXJz.MakeArrowButton(cycleEmojisDown, VXNoaW9SdWJ5TW9kaWZpZXJz.ArrowDirection.Down);
+                VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(cycleEmojisDown, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Verticle);
                 
                 var debugToggle = new QMToggleButton(functions, 5, -1, "Debug\nMode", delegate
                 {

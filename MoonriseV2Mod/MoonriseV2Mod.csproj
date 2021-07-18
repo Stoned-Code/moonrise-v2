@@ -95,16 +95,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.cs" />
-    <Compile Include="API\MoonriseAssetBundles.cs" />
+    <Compile Include="API\QXNzZXRCdW5kbGVz.cs" />
     <Compile Include="API\MoonriseTabApi.cs" />
     <Compile Include="API\TVJVc2Vy.cs" />
     <Compile Include="API\VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.cs" />
     <Compile Include="API\RubyButtonApi.cs" />
-    <Compile Include="API\UshioRubyModifiers.cs" />
+    <Compile Include="API\VXNoaW9SdWJ5TW9kaWZpZXJz.cs" />
     <Compile Include="API\VlhOb2FXOVZTUT09.cs" />
-    <Compile Include="Patches\AvatarPatches.cs" />
-    <Compile Include="Patches\PlayerManagerPatches.cs" />
-    <Compile Include="Patches\SocialContentButton.cs" />
+    <Compile Include="Q3VzdG9tQmVoYXZpb3Vy\MRAvatarHider.cs" />
     <Compile Include="QXZhdGFyRnVuY3Rpb25z\QXZhdGFyRnVuY3Rpb25z.cs" />
     <Compile Include="QXZhdGFyRnVuY3Rpb25z\VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.cs" />
     <Compile Include="QmFzZUZ1bmN0aW9ucw==\RW1vamlTcGFt.cs" />
@@ -127,5 +125,6 @@
     <EmbeddedResource Include="moonrise.assetbundle" />
     <EmbeddedResource Include="ushioui.assetbundle" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

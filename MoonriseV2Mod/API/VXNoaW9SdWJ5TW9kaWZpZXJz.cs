@@ -6,7 +6,7 @@ using UshioUI;
 
 namespace MoonriseV2Mod.API
 {
-    public static class UshioRubyModifiers
+    public static class VXNoaW9SdWJ5TW9kaWZpZXJz
     {
         /// <summary>
         /// Makes a QMSingleButton a half button.
@@ -292,16 +292,16 @@ namespace MoonriseV2Mod.API
             {
                 PreviousPage();
             }, $"Move to the previous page of \"{menu.getMainButton().getGameObject().GetComponentInChildren<Text>().text}\"");
-            UshioRubyModifiers.MakeArrowButton(this.PageUp, UshioRubyModifiers.ArrowDirection.Up);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.MakeArrowButton(this.PageUp, VXNoaW9SdWJ5TW9kaWZpZXJz.ArrowDirection.Up);
 
             this.PageDown = new QMSingleButton(menu, 4, 2, "", delegate
             {
                 NextPage();
             }, $"Move to the next page of \"{menu.getMainButton().getGameObject().GetComponentInChildren<Text>().text}\"");
-            UshioRubyModifiers.MakeArrowButton(this.PageDown, UshioRubyModifiers.ArrowDirection.Down);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.MakeArrowButton(this.PageDown, VXNoaW9SdWJ5TW9kaWZpZXJz.ArrowDirection.Down);
 
             this.PageStatus = new QMSingleButton(menu, 4, 1, $"Page:\n1 of {pageNumbers}", delegate { }, "", null, Color.yellow);
-            UshioRubyModifiers.MakeTextOnly(this.PageStatus, Color.yellow);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.MakeTextOnly(this.PageStatus, Color.yellow);
 
             if (extraUpArrowAction != null) this.PageUp.getGameObject().GetComponentInChildren<Button>().onClick.AddListener(extraUpArrowAction);
 
@@ -325,7 +325,7 @@ namespace MoonriseV2Mod.API
             {
 
             }, $"Move to the previous page of \"{menu}\"");
-            UshioRubyModifiers.MakeArrowButton(this.PageUp, UshioRubyModifiers.ArrowDirection.Up);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.MakeArrowButton(this.PageUp, VXNoaW9SdWJ5TW9kaWZpZXJz.ArrowDirection.Up);
 
             this.PageDown = new QMSingleButton(menu, 4, 2, "", delegate
             {
@@ -333,7 +333,7 @@ namespace MoonriseV2Mod.API
             }, $"Move to the next page of \"{menu}\"");
 
             this.PageStatus = new QMSingleButton(menu, 4, 1, $"Page:\n1 of {pageNumbers}", delegate { }, "", null, Color.yellow);
-            UshioRubyModifiers.MakeTextOnly(this.PageStatus, Color.yellow);
+            VXNoaW9SdWJ5TW9kaWZpZXJz.MakeTextOnly(this.PageStatus, Color.yellow);
 
             if (extraUpArrowAction != null) this.PageUp.getGameObject().GetComponentInChildren<Button>().onClick.AddListener(extraUpArrowAction);
 

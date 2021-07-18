@@ -7,6 +7,6 @@ namespace MoonriseV2Mod
     {
         public bool isInitialized = false;
 
-        public virtual void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user) { }
+        public virtual void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user) { }
     }
 }

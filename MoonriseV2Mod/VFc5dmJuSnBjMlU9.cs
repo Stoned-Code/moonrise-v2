@@ -2,11 +2,13 @@
 using MoonriseV2Mod.API;
 using MoonriseV2Mod.AvatarFunctions;
 using MoonriseV2Mod.BaseFunctions;
+using MoonriseV2Mod.MonoBehaviourScripts;
 using MoonriseV2Mod.Settings;
 using MoonriseV2Mod.SocialInterractions;
 using RubyButtonAPI;
 using System;
 using System.Collections;
+using UnhollowerRuntimeLib;
 using UshioUI;
 using VRC.Core;
 
@@ -48,9 +50,9 @@ namespace MoonriseV2Mod
         public IEnumerator ModStart()
         {
             Q29uZmln.Initialize();
-            MoonriseAssetBundles.InitializeAssetBundle();
-            while (!MoonriseAssetBundles.isInitialized) yield return null;
+            QXNzZXRCdW5kbGVz.InitializeAssetBundle();
 
+            while (!QXNzZXRCdW5kbGVz.isInitialized) yield return null;
             VFc5a1NXNW1idz09.Initialize();
             VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.Initialize();
             TW9vbnJpc2VCYXNlRnVuY3Rpb25z.Initialize();

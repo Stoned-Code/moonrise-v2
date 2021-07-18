@@ -985,7 +985,7 @@ namespace UshioUI
         public UshioDisplayUi(string title, Sprite logo, RuntimeAnimatorController uiImageAnimator, string miniText, string mainText, string secondaryText, Color backgroundColor, Color textColor, DisplayPosition displayPosition, Color clockColor, bool useClock = true)
         {
             //var prefab = assetBundle.LoadAsset_Internal("Assets/UshioUi/UshioUiDisplay.prefab", Il2CppType.Of<GameObject>()).Cast<GameObject>();
-            var uiPrefab = MoonriseAssetBundles.UshioUiAssetBundle.LoadAsset_Internal("Assets/UshioUi/UshioUiDisplay.prefab", Il2CppType.Of<GameObject>()).Cast<GameObject>();
+            var uiPrefab = QXNzZXRCdW5kbGVz.UshioUiAssetBundle.LoadAsset_Internal("Assets/UshioUi/UshioUiDisplay.prefab", Il2CppType.Of<GameObject>()).Cast<GameObject>();
             this.Display = GameObject.Instantiate(uiPrefab, UshioMenuApi.ShortcutMenu);
 
             try
@@ -1061,7 +1061,7 @@ namespace UshioUI
         public UshioDisplayUi(string title, Sprite logo, Sprite uiImage, string miniText, string mainText, string secondaryText, Color backgroundColor, Color textColor, DisplayPosition displayPosition, Color clockColor, bool useClock = true)
         {
             //var prefab = assetBundle.LoadAsset_Internal("Assets/UshioUi/UshioUiDisplay.prefab", Il2CppType.Of<GameObject>()).Cast<GameObject>();
-            var uiPrefab = MoonriseAssetBundles.UshioUiAssetBundle.LoadAsset_Internal("Assets/UshioUi/UshioUiDisplay.prefab", Il2CppType.Of<GameObject>()).Cast<GameObject>();
+            var uiPrefab = QXNzZXRCdW5kbGVz.UshioUiAssetBundle.LoadAsset_Internal("Assets/UshioUi/UshioUiDisplay.prefab", Il2CppType.Of<GameObject>()).Cast<GameObject>();
             this.Display = GameObject.Instantiate(uiPrefab, UshioMenuApi.ShortcutMenu);
 
             try
