@@ -337,6 +337,7 @@ app.post('/' + updateCheck, function(req, res)
     console.log("Checking udpate...");
     //const updateLink = Buffer.from().toString('base64');
     let clientInfo = req.body;
+    console.log(clientInfo);
     try
     {
         modInfo.find({mod: "MoonriseV2"}, function(err, data)
@@ -346,29 +347,37 @@ app.post('/' + updateCheck, function(req, res)
                 console.log(err);
                 res.end();
             }
-    
-            if (clientInfo['modBuild'] < data[0]['modBuild'])
+
+            try
             {
-                delete data[0]['_id'];
-                delete data[0]['mod']
-                try
+                if (clientInfo['modBuild'] < data[0]['modBuild'])
                 {
-                    data[0]['downloadLink'] = Buffer.from(data[0]['downloadLink']).toString('base64');
-                }
-                catch {}
-                
-                if (data[0]['modChanges'].length > 0)
-                    for (i=0; i < data[0]['modChanges'].length; i++)
+                    delete data[0]['_id'];
+                    delete data[0]['mod']
+                    try
                     {
-                        data[0]['modChanges'][i] = Buffer.from(data[0]['modChanges'][i]).toString('base64');
+                        data[0]['downloadLink'] = Buffer.from(data[0]['downloadLink']).toString('base64');
                     }
-    
-                res.json(data[0]);
+                    catch {}
+                    
+                    if (data[0]['modChanges'].length > 0)
+                        for (i=0; i < data[0]['modChanges'].length; i++)
+                        {
+                            data[0]['modChanges'][i] = Buffer.from(data[0]['modChanges'][i]).toString('base64');
+                        }
+        
+                    res.json(data[0]);
+                }
+        
+                else
+                {
+                    res.send("Up to date!");
+                }
             }
-    
-            else
+
+            catch
             {
-                res.send("Up to date!");
+                res.status(500).send();
             }
         });
     }
@@ -383,43 +392,49 @@ app.post('/' + updateCheck, function(req, res)
 let pushUpdate = 'la03dgadsg0923ioasdf'
 app.post('/' + pushUpdate, function(req, res)
 {
-    let modinfo = req.body;
-    console.log(modinfo);
-    modinfo['modBuild'] = parseInt(Buffer.from(modinfo['modBuild'], 'base64').toString());
-    if (modinfo['downloadLink'] != null)
-        modinfo['downloadLink'] = Buffer.from(modinfo['downloadLink'], 'base64').toString();
-    console.log(modinfo);
+    let modinf = req.body;
+    console.log(modinf);
+    modinf['modBuild'] = parseInt(Buffer.from(modinf['modBuild'], 'base64').toString());
+    if (modinf['downloadLink'] != null)
+        modinf['downloadLink'] = Buffer.from(modinf['downloadLink'], 'base64').toString();
+    console.log(modinf);
 
     let changes = "";
-    for (let i = 0; i < modinfo['modChanges'].length; i++)
+    for (let i = 0; i < modinf['modChanges'].length; i++)
     {
-        modinfo['modChanges'][i] = Buffer.from(modinfo['modChanges'][i], 'base64').toString();
-        changes += modinfo['modChanges'][i] + '\n';
+        let change = Buffer.from(modinf['modChanges'][i], 'base64').toString();
+        if (change.startsWith("##") == false)
+            changes += modinf['modChanges'][i] + '\n';
     }
-    console.log(modinfo);
+    console.log(modinf);
     try
     {
-        modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinfo['modBuild']}}, multi=true);
-        modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinfo['downloadLink']}}, multi=true);
-        modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinfo['modChanges']}}, multi=true);
+        modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinf['modBuild']}}, multi=true);
+        modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinf['downloadLink']}}, multi=true);
+        modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinf['modChanges']}}, multi=true);
     
-        let usrEmbed = new MessageBuilder();
-        usrEmbed.setTitle('Moonrise');
-        usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
-        // usrEmbed.setURL(tunnelUrl);
-        usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
-        usrEmbed.setColor('#00b0f4');
-        usrEmbed.addField('Build:', modinfo['modBuild']);
-        usrEmbed.addField('Changes:', changes);
-        usrEmbed.setDescription('Update Available for Moonrise!');
-        // usrEmbed.setImage();
-        usrEmbed.setFooter('Moonrise Update!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
-        usrEmbed.setTimestamp();
-        publicWebhook.send(usrEmbed);
+        if (!debug)
+        {
+            let usrEmbed = new MessageBuilder();
+            usrEmbed.setTitle('Moonrise');
+            usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
+            // usrEmbed.setURL(tunnelUrl);
+            usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
+            usrEmbed.setColor('#00b0f4');
+            usrEmbed.addField('Build:', modinf['modBuild']);
+            usrEmbed.addField('Changes:', changes);
+            usrEmbed.setDescription('Update Available for Moonrise!');
+            // usrEmbed.setImage();
+            usrEmbed.setFooter('Moonrise Update!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
+            usrEmbed.setTimestamp();
+            publicWebhook.send(usrEmbed);
+        }
     }
 
     catch
     {
+        modinf['mod'] = "MoonriseV2";
+        modInfo.insert(modinf);
         console.log("Error updating mod info...");
     }
 
@@ -431,4 +446,4 @@ app.listen(moonrise_port, function()
     console.log("Server Listening...");
 });
 
-init_tunnel();
+// init_tunnel();
