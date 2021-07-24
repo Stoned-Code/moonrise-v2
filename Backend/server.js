@@ -232,68 +232,68 @@ app.post('/' + moonriseuser, async function(req, res)
     }
 });
 
-// Add user
-let adduser = 'k3g5hfdo';
-app.post('/' + adduser, async function(req, res)
-{
-    let user = req.body;
+// // Add user
+// let adduser = 'k3g5hfdo';
+// app.post('/' + adduser, async function(req, res)
+// {
+//     let user = req.body;
 
-    user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
-    user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
-    user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
+//     user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
+//     user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
+//     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
     
-    user['MoonriseKey'] = Buffer.from(user['MoonriseKey']).toString('base64');
+//     user['MoonriseKey'] = Buffer.from(user['MoonriseKey']).toString('base64');
     
-    console.log(JSON.stringify(user));
-    moonrisedb.insert(user);
-    res.json(user);
-});
+//     console.log(JSON.stringify(user));
+//     moonrisedb.insert(user);
+//     res.json(user);
+// });
 
-// Remove user
-let removeUser = 'kwe90adsko90';
-app.post('/' + removeUser, function(req, res)
-{
-    let user = req.body;
+// // Remove user
+// let removeUser = 'kwe90adsko90';
+// app.post('/' + removeUser, function(req, res)
+// {
+//     let user = req.body;
 
-    user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
-    user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
-    user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
-    moonrisedb.find({MoonriseKey: user['MoonriseKey']}, function(err, data)
-    {
-        if (err)
-        {
-            console.log(err);
-            res.end();
-        }
+//     user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
+//     user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
+//     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
+//     moonrisedb.find({MoonriseKey: user['MoonriseKey']}, function(err, data)
+//     {
+//         if (err)
+//         {
+//             console.log(err);
+//             res.end();
+//         }
         
-        moonrisedb.remove({_id: data[0]['_id']}, {}, function(error, numRemoved)
-        {
-            if (err)
-            {
-                console.log(error);
-                res.end();
-            }
-        });
-    });
+//         moonrisedb.remove({_id: data[0]['_id']}, {}, function(error, numRemoved)
+//         {
+//             if (err)
+//             {
+//                 console.log(error);
+//                 res.end();
+//             }
+//         });
+//     });
 
-})
+// })
 
-// Update user
-let updateUser = 'k83jdaa-ok3ka'
-app.post('/' + updateUser, function(req, res)
-{
-    let user = req.body;
+// // Update user
+// let updateUser = 'k83jdaa-ok3ka'
+// app.post('/' + updateUser, function(req, res)
+// {
+//     let user = req.body;
 
-    user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
-    user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
-    user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
+//     user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
+//     user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
+//     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
 
-    moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { DisplayName: user['DisplayName']}}, {multi: true});
-    moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { Premium: user['Premium'] }}, {multi: true});
-    moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { Lewd: user['Lewd'] }}, {multi: true});
-    console.log(JSON.stringify(user));
-    res.json(JSON.stringify({successful: true}));
-});
+//     moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { DisplayName: user['DisplayName']}}, {multi: true});
+//     moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { Premium: user['Premium'] }}, {multi: true});
+//     moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { Lewd: user['Lewd'] }}, {multi: true});
+//     console.log(JSON.stringify(user));
+//     res.json(JSON.stringify({successful: true}));
+// });
 
 // Report Crasher
 let reportcrasher = 'kldsa9sdo2ld';

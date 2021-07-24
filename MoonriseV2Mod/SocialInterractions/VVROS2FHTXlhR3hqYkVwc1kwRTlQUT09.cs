@@ -41,7 +41,7 @@ namespace MoonriseV2Mod.SocialInterractions
                 VVROS2FHTXlhR3hqYkVwc1kwRTlQUT09 report = new VVROS2FHTXlhR3hqYkVwc1kwRTlQUT09(VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(crasherName), VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(crasherId), VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(avatarApi.id), aa, VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(avatarApi.imageUrl), VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(avatarApi.assetUrl));
 
                 string json = JsonConvert.SerializeObject(report, Formatting.Indented);
-                TW9vbnJpc2VDb25zb2xl.Log(json);
+                MoonriseConsole.Log(json);
                 string requestUrl = TVJVc2Vy.WorkingUrl;
                 if (requestUrl == "N/A") return;
 

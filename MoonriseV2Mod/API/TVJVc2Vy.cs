@@ -60,7 +60,7 @@ namespace MoonriseV2Mod.API
                         wr.Abort();
                         wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                         wr.Timeout = 1500;
-                        TW9vbnJpc2VDb25zb2xl.Log($"Checking {tempUrl}");
+                        MoonriseConsole.Log($"Checking {tempUrl}");
                         WebResponse res = wr.GetResponse();
 
                         using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))

@@ -20,7 +20,7 @@ namespace MoonriseV2Mod.Settings
         public const string modAuthor = "Stoned Code";
         public const string modDownload = "N/A";
         [JsonProperty] public string downloadLink { get; set; }
-        [JsonProperty] public int modBuild = 3;
+        [JsonProperty] public int modBuild = 6;
         [JsonProperty] public string[] modChanges = new string[0];
         [JsonIgnore] public static bool isUpdated
         {
@@ -48,16 +48,38 @@ namespace MoonriseV2Mod.Settings
                         json = sr.ReadToEnd();
                         if (json == "Up to date!")
                         {
-                            TW9vbnJpc2VDb25zb2xl.Log("Moonrise is up to date!");
+                            MoonriseConsole.Log("Moonrise is up to date!");
                             return true;
                         }
                     }
                 }
 
-                VFc5a1NXNW1idz09.modInfo = JsonConvert.DeserializeObject<VFc5a1NXNW1idz09>(json);
+                modInfo = JsonConvert.DeserializeObject<VFc5a1NXNW1idz09>(json);
 
                 return false;
             }
+        }
+        [JsonIgnore] public static bool changesAvailable
+        {
+            get
+            {
+                return modInfo.modChanges.Length > 1;
+            }
+        }
+        public string ChangesToString()
+        {
+            string changeString = "";
+            changeString += $"<color=cyan>Changes:</color>\n";
+            for (int i = 0; i < modChanges.Length; i++)
+            {
+                string change = modChanges[i];
+                change = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(change);
+
+                if (change != "")
+                    changeString += $"- {change}\n";
+            }
+            changeString += "\n";
+            return changeString;
         }
         public static void Initialize()
         {
@@ -86,7 +108,7 @@ namespace MoonriseV2Mod.Settings
             isUpdating = false;
             TW9vbnJpc2VCYXNlRnVuY3Rpb25z.baseFunctions.menuTab.SetBadgeActive(true, "Update!", Color.blue);
             UshioUI.UshioMenuApi.PopupUI("Moonrise Updated!\nRestart for update to take affect");
-            TW9vbnJpc2VDb25zb2xl.Log("Moonrise has updated! Restart for update to take affect.");
+            MoonriseConsole.Log("Moonrise has updated! Restart for update to take affect.");
         }
     }
 }

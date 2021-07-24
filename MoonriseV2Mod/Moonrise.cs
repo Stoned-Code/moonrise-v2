@@ -14,13 +14,13 @@ using VRC.Core;
 
 namespace MoonriseV2Mod
 {
-    public class VFc5dmJuSnBjMlU9 : MelonMod
+    public class Moonrise : MelonMod
     {
 
         internal TVJVc2Vy user;
-        internal static bool debug = false;
+        // internal static bool debug = false;
 
-        internal static event Action<QMNestedButton, QMNestedButton, TVJVc2Vy> loadMenu;
+        public static event Action<QMNestedButton, QMNestedButton, TVJVc2Vy> loadMenu;
         internal static event Action modUpdate;
 
         internal bool isInitialized = false;
@@ -49,21 +49,22 @@ namespace MoonriseV2Mod
 
         public IEnumerator ModStart()
         {
-            Q29uZmln.Initialize();
+            MRConfiguration.Initialize();
             QXNzZXRCdW5kbGVz.InitializeAssetBundle();
 
             while (!QXNzZXRCdW5kbGVz.isInitialized) yield return null;
             VFc5a1NXNW1idz09.Initialize();
-            VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.Initialize();
+            PortableMirror.Initialize();
             TW9vbnJpc2VCYXNlRnVuY3Rpb25z.Initialize();
             VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9.Initialize();
             QXZhdGFyRnVuY3Rpb25z.Initialize();
             VTJWMGRHbHVaM05HZFc1amRHbHZibk09.Initialize();
+            AddonMods.Initialize();
 
             while (APIUser.CurrentUser == null) yield return null;
 
-            if (Q29uZmln.config.moonriseKey != "FreeUser")
-                user = TVJVc2Vy.UjJWMFZYTmxjZz09(Q29uZmln.config.moonriseKey);
+            if (MRConfiguration.config.moonriseKey != "FreeUser")
+                user = TVJVc2Vy.UjJWMFZYTmxjZz09(MRConfiguration.config.moonriseKey);
 
             if (!isInitialized)
             {

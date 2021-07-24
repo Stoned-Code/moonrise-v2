@@ -12,12 +12,12 @@ using VRC.SDKBase;
 
 namespace MoonriseV2Mod
 {
-    internal class VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09 : VkZjNWRtSnVTbkJqTWxaUVdXMXZQUT09
+    internal class PortableMirror : MoonriseObject
     {
-        public static VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09 portableMirror;
-        public VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09()
+        public static PortableMirror portableMirror;
+        public PortableMirror()
         {
-            VFc5dmJuSnBjMlU9.loadMenu += VEc5aFpFMWxiblU9;
+            Moonrise.loadMenu += VEc5aFpFMWxiblU9;
         }
         public QMNestedButton portableMirrorNested;
         public static GameObject mirror;
@@ -27,44 +27,44 @@ namespace MoonriseV2Mod
 
         public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
-            portableMirrorNested = new QMNestedButton(functions, 3, 2, "Portable\nMirror", "Functions for a portable mirror");
+            portableMirrorNested = new QMNestedButton(functions, 4, 0, "Portable\nMirror", "Functions for a portable mirror");
 
             var portableMirrorToggle = new QMToggleButton(portableMirrorNested, 1, 0, "Mirror", delegate
             {
-                VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.SpawnMirror();
+                PortableMirror.SpawnMirror();
             }, "Disabled", delegate
             {
-                VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.DespawnMirror();
+                PortableMirror.DespawnMirror();
             }, "Toggles portable mirror\nHotkey: LShift + 1");
 
             var mirrorResetButton = new QMSingleButton(portableMirrorNested, 2, 0, "Reset\nMirror\nPosition", delegate
             {
-                VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.ResetMirrorPosition();
+                PortableMirror.ResetMirrorPosition();
             }, "Resets position of portable mirror");
 
             var portableMirrorPickupToggle = new QMToggleButton(portableMirrorNested, 3, 0, "Pickupable", delegate
             {
-                VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.ToggleMirrorPickup(true);
+                PortableMirror.ToggleMirrorPickup(true);
             }, "Disabled", delegate
             {
-                VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.ToggleMirrorPickup(false);
-            }, "Toggles ability to pickup mirror", null, null, false, VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.isPickupable);
+                PortableMirror.ToggleMirrorPickup(false);
+            }, "Toggles ability to pickup mirror", null, null, false, PortableMirror.isPickupable);
 
-            var mirrorWidthSlider = new UshioMenuSlider(UshioMenuSlider.SliderPosition.CenterLeft, "Mirror Width:", portableMirrorNested, 1f, 5f, Q29uZmln.config.portableMirrorWidth, delegate (float value)
+            var mirrorWidthSlider = new UshioMenuSlider(UshioMenuSlider.SliderPosition.CenterLeft, "Mirror Width:", portableMirrorNested, 1f, 5f, MRConfiguration.config.portableMirrorWidth, delegate (float value)
             {
                 try
                 {
-                    VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.SetWidth(value);
+                    PortableMirror.SetWidth(value);
                 }
 
                 catch { }
             });
 
-            var mirrorHeightSlider = new UshioMenuSlider(UshioMenuSlider.SliderPosition.CenterRight, "Mirror Height:", portableMirrorNested, 1f, 5f, Q29uZmln.config.portableMirrorHeight, delegate (float value)
+            var mirrorHeightSlider = new UshioMenuSlider(UshioMenuSlider.SliderPosition.CenterRight, "Mirror Height:", portableMirrorNested, 1f, 5f, MRConfiguration.config.portableMirrorHeight, delegate (float value)
             {
                 try
                 {
-                    VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09.SetHeight(value);
+                    PortableMirror.SetHeight(value);
                 }
 
                 catch { }
@@ -73,7 +73,7 @@ namespace MoonriseV2Mod
 
         public static void Initialize()
         {
-            portableMirror = new VlVjNWVXUkhSbWxpUjFaT1lWaEpQUT09();
+            portableMirror = new PortableMirror();
             portableMirror.isInitialized = true;
         }
         public static void SpawnMirror()
@@ -81,7 +81,7 @@ namespace MoonriseV2Mod
             if (mirror != null) return;
             var obj = QXNzZXRCdW5kbGVz.MoonriseAssetBundle.LoadAsset("PortableMirror").Cast<GameObject>();
             mirror = GameObject.Instantiate(obj, VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.GetParent(), worldPositionStays: true);
-            mirror.transform.localScale = new Vector3(Q29uZmln.config.portableMirrorWidth, Q29uZmln.config.portableMirrorHeight, 0f);
+            mirror.transform.localScale = new Vector3(MRConfiguration.config.portableMirrorWidth, MRConfiguration.config.portableMirrorHeight, 0f);
             pickup.pickupable = isPickupable;
 
             ResetMirrorPosition();
@@ -95,18 +95,18 @@ namespace MoonriseV2Mod
 
         public static void SetWidth(float value)
         {
-            Q29uZmln.config.portableMirrorWidth = value;
-            Q29uZmln.config.WriteConfig();
+            MRConfiguration.config.portableMirrorWidth = value;
+            MRConfiguration.config.WriteConfig();
             if (portableMirror == null) return;
-            mirror.transform.localScale = new Vector3(Q29uZmln.config.portableMirrorWidth, Q29uZmln.config.portableMirrorHeight, 1f);
+            mirror.transform.localScale = new Vector3(MRConfiguration.config.portableMirrorWidth, MRConfiguration.config.portableMirrorHeight, 1f);
         }
 
         public static void SetHeight(float value)
         {
-            Q29uZmln.config.portableMirrorHeight = value;
-            Q29uZmln.config.WriteConfig();
+            MRConfiguration.config.portableMirrorHeight = value;
+            MRConfiguration.config.WriteConfig();
             if (mirror == null) return;
-            mirror.transform.localScale = new Vector3(Q29uZmln.config.portableMirrorWidth, Q29uZmln.config.portableMirrorHeight, 1f);
+            mirror.transform.localScale = new Vector3(MRConfiguration.config.portableMirrorWidth, MRConfiguration.config.portableMirrorHeight, 1f);
         }
 
         public static void ResetMirrorPosition()
@@ -115,12 +115,12 @@ namespace MoonriseV2Mod
             Vector3 pos = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position - mirror.transform.position;
             Quaternion rotation = Quaternion.LookRotation(pos);
             Quaternion trueRotation = Quaternion.Euler(0f, rotation.eulerAngles.y + 180f, 0f);
-            mirror.transform.SetPositionAndRotation(VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position + VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.forward + new Vector3(0f, Q29uZmln.config.portableMirrorHeight * 0.5f, 0f), trueRotation);
+            mirror.transform.SetPositionAndRotation(VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position + VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.forward + new Vector3(0f, MRConfiguration.config.portableMirrorHeight * 0.5f, 0f), trueRotation);
 
             Vector3 pos2 = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position - mirror.transform.position;
             Quaternion rotation2 = Quaternion.LookRotation(pos2);
             Quaternion trueRotation2 = Quaternion.Euler(0f, rotation2.eulerAngles.y + 180f, 0f);
-            mirror.transform.SetPositionAndRotation(VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position + VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.forward + new Vector3(0f, Q29uZmln.config.portableMirrorHeight * 0.5f, 0f), trueRotation2);
+            mirror.transform.SetPositionAndRotation(VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position + VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.forward + new Vector3(0f, MRConfiguration.config.portableMirrorHeight * 0.5f, 0f), trueRotation2);
         }
 
         public static void ToggleMirrorPickup(bool active)

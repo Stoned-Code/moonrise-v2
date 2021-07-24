@@ -38,5 +38,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 // MelonLoader Stuff
-[assembly: MelonInfo(typeof(VFc5dmJuSnBjMlU9), VFc5a1NXNW1idz09.modName, VFc5a1NXNW1idz09.modVersion, VFc5a1NXNW1idz09.modAuthor, VFc5a1NXNW1idz09.modDownload)]
+[assembly: MelonInfo(typeof(Moonrise), VFc5a1NXNW1idz09.modName, VFc5a1NXNW1idz09.modVersion, VFc5a1NXNW1idz09.modAuthor, VFc5a1NXNW1idz09.modDownload)]
 [assembly: MelonGame("VRChat", "VRChat")]

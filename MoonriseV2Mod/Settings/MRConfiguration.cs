@@ -5,17 +5,18 @@ using System.IO;
 
 namespace MoonriseV2Mod.Settings
 {
-    public class Q29uZmln
+    public class MRConfiguration
     {
-        [JsonIgnore] public static Q29uZmln config;
+        [JsonIgnore] public static MRConfiguration config;
         [JsonProperty] public string moonriseKey { get; internal set; } = "FreeUser";
         [JsonProperty] public Dictionary<string, string> ignoreList { get; internal set; } = new Dictionary<string, string>();
         [JsonProperty] public int avatarHiderState { get; internal set; } = 1;
         [JsonProperty] public bool avatarsShowing { get; internal set; }
         [JsonProperty] public float avatarHiderDistance { get; internal set; } = 7f;
         [JsonProperty] public bool addBlocker { get; internal set; } = true;
-        [JsonProperty]public float portableMirrorWidth { get; internal set; } = 1;
+        [JsonProperty] public float portableMirrorWidth { get; internal set; } = 1;
         [JsonProperty] public float portableMirrorHeight { get; internal set; } = 2;
+        [JsonProperty] public bool UiDisplayEnabled { get; internal set; } = true;
 
 
         [JsonIgnore] public static string rootDirectory = Environment.CurrentDirectory;
@@ -36,7 +37,7 @@ namespace MoonriseV2Mod.Settings
                     json = sr.ReadToEnd();
                 }
 
-            config = JsonConvert.DeserializeObject<Q29uZmln>(json) ?? new Q29uZmln();
+            config = JsonConvert.DeserializeObject<MRConfiguration>(json) ?? new MRConfiguration();
 
             if (!Directory.Exists(moonriseDirectory))
                 Directory.CreateDirectory(moonriseDirectory);

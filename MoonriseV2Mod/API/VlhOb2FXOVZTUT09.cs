@@ -1,13 +1,16 @@
 ﻿using MelonLoader;
 using MoonriseV2Mod;
 using MoonriseV2Mod.API;
+using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
 using System;
 using System.Collections;
 using System.Linq;
+using UnhollowerBaseLib.Attributes;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.UI;
+using VRC;
 
 namespace UshioUI
 {
@@ -980,239 +983,248 @@ namespace UshioUI
         }
     }
 
-    public class UshioDisplayUi
+    [RegisterTypeInIl2Cpp]
+    public class UshioDisplayUi : MonoBehaviour
     {
-        public UshioDisplayUi(string title, Sprite logo, RuntimeAnimatorController uiImageAnimator, string miniText, string mainText, string secondaryText, Color backgroundColor, Color textColor, DisplayPosition displayPosition, Color clockColor, bool useClock = true)
-        {
-            //var prefab = assetBundle.LoadAsset_Internal("Assets/UshioUi/UshioUiDisplay.prefab", Il2CppType.Of<GameObject>()).Cast<GameObject>();
-            var uiPrefab = QXNzZXRCdW5kbGVz.UshioUiAssetBundle.LoadAsset_Internal("Assets/UshioUi/UshioUiDisplay.prefab", Il2CppType.Of<GameObject>()).Cast<GameObject>();
-            this.Display = GameObject.Instantiate(uiPrefab, UshioMenuApi.ShortcutMenu);
+        public UshioDisplayUi(IntPtr ptr) : base(ptr) { }
 
+        private static Vector3 RightOfMenu = new Vector3(2010, 1120, 0);
+        private static Vector3 RightOfMenuAngled = new Vector3(1875, 1125, -440);
+        private static Vector3 LeftOfmenu = new Vector3(-2010, 1120, 0);
+        private static Vector3 LeftOfMenuAngled = new Vector3(-1875, 1125, -440);
+        public GameObject Display;
+        public Image Background;
+        public Text Clock;
+        public Text Title;
+        public Image Logo;
+        public Image UiImage;
+        public Text MiniText;
+        public Text MainText;
+        public Text SecondaryText;
+        public static string CurrentTime
+        {
+            [HideFromIl2Cpp]
+            get
+            {
+                string trueTime;
+                string AMPM;
+
+                var currentTime = DateTime.Now.TimeOfDay;
+
+                var currentHour = currentTime.Hours;
+                var currentMinutes = currentTime.Minutes;
+
+                string trueHour;
+                string trueMinute;
+
+                if (currentHour > 12)
+                {
+                    trueHour = (currentHour - 12).ToString();
+                    AMPM = "PM";
+                }
+
+                else if (currentHour == 0)
+                {
+                    trueHour = 12.ToString();
+                    AMPM = "AM";
+                }
+
+                else
+                {
+                    trueHour = currentHour.ToString();
+                    AMPM = "AM";
+                }
+
+                if (currentMinutes == 0 || currentMinutes == 1 || currentMinutes == 2 || currentMinutes == 3 || currentMinutes == 4 || currentMinutes == 5 || currentMinutes == 6 || currentMinutes == 7 || currentMinutes == 8 || currentMinutes == 9)
+                {
+                    trueMinute = "0" + currentMinutes.ToString();
+                }
+
+                else
+                {
+                    trueMinute = currentMinutes.ToString();
+                }
+
+                trueTime = trueHour + ":" + trueMinute + " " + AMPM;
+
+                return trueTime;
+            }
+        }
+
+        void Update()
+        {
+            var playersInRoomArray = GetPlayersInRoom();
+            SetText(playersInRoomArray[0], UshioDisplayUi.TextType.MainText);
+            SetText((VFc5a1NXNW1idz09.changesAvailable ? VFc5a1NXNW1idz09.modInfo.ChangesToString() : "") + playersInRoomArray[1], UshioDisplayUi.TextType.SecondaryText);
+            SetText(GetWorldInfo(), UshioDisplayUi.TextType.MiniText);
+            UpdateClocks();
+        }
+
+        [Obsolete]
+        [HideFromIl2Cpp]
+        public static UshioDisplayUi CreateDisplay(string title, Sprite logo, RuntimeAnimatorController uiImageAnimator, string miniText, string mainText, string secondaryText, Color backgroundColor, Color textColor, DisplayPosition displayPosition, Color clockColor, bool useClock = true)
+        {
+            var uiPrefab = QXNzZXRCdW5kbGVz.UshioUiAssetBundle.LoadAsset("Assets/UshioUi/UshioUiDisplay.prefab").Cast<GameObject>();
+            var obj = GameObject.Instantiate(uiPrefab, UshioMenuApi.ShortcutMenu).AddComponent<UshioDisplayUi>();
             try
             {
-                this.Clock = Display.transform.FindChild("UshioUiClock").GetComponent<Text>();
-                this.Title = Display.transform.FindChild("UshioUiTitle").GetComponent<Text>();
-                this.Logo = Display.transform.FindChild("UshioUiLogo").GetComponent<Image>();
-                this.Background = Display.transform.FindChild("UshioUiBackground").GetComponent<Image>();
-                this.UiImage = Display.transform.FindChild("UshioUiImage").GetComponent<Image>();
-                this.MiniText = Display.transform.FindChild("UshioUiMiniText").GetComponent<Text>();
-                this.MainText = Display.transform.FindChild("UshioUiMainText").GetComponent<Text>();
-                this.SecondaryText = Display.transform.FindChild("UshioUiSecondaryText").GetComponent<Text>();
+
+                obj.Display = obj.gameObject;
+                obj.Clock = obj.transform.FindChild("UshioUiClock").GetComponent<Text>();
+                obj.Title = obj.transform.FindChild("UshioUiTitle").GetComponent<Text>();
+                obj.Logo = obj.transform.FindChild("UshioUiLogo").GetComponent<Image>();
+                obj.Background = obj.transform.FindChild("UshioUiBackground").GetComponent<Image>();
+                obj.UiImage = obj.transform.FindChild("UshioUiImage").GetComponent<Image>();
+                obj.MiniText = obj.transform.FindChild("UshioUiMiniText").GetComponent<Text>();
+                obj.MainText = obj.transform.FindChild("UshioUiMainText").GetComponent<Text>();
+                obj.SecondaryText = obj.transform.FindChild("UshioUiSecondaryText").GetComponent<Text>();
             }
 
             catch (Exception ex)
             {
-                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Something fucked up setting variebles...\n{ex}");
+                MoonriseConsole.ErrorLog($"Something fucked up setting variebles...\n{ex}");
             }
 
             try
             {
 
-                this.Title.text = title;
-                this.Logo.sprite = logo;
-                this.UiImage.gameObject.AddComponent<Animator>().runtimeAnimatorController = uiImageAnimator;
-                this.MiniText.text = miniText;
-                this.MainText.text = mainText;
-                this.SecondaryText.text = secondaryText;
+                obj.Title.text = title;
+                obj.Logo.sprite = logo;
+                obj.UiImage.gameObject.AddComponent<Animator>().runtimeAnimatorController = uiImageAnimator;
+                obj.MiniText.text = miniText;
+                obj.MainText.text = mainText;
+                obj.SecondaryText.text = secondaryText;
 
-                this.Clock.color = clockColor;
-                this.Title.color = textColor;
-                this.MiniText.color = textColor;
-                this.MainText.color = textColor;
-                this.SecondaryText.color = textColor;
+                obj.Clock.color = clockColor;
+                obj.Title.color = textColor;
+                obj.MiniText.color = textColor;
+                obj.MainText.color = textColor;
+                obj.SecondaryText.color = textColor;
 
-                this.Background.color = backgroundColor;
+                obj.Background.color = backgroundColor;
 
 
                 if (!useClock)
                 {
-                    this.Clock.enabled = false;
+                    obj.Clock.enabled = false;
                 }
             }
 
             catch (Exception ex)
             {
-                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Something fucked up with setting variables...\n{ex}");
+                MoonriseConsole.ErrorLog($"Something fucked up with setting variables...\n{ex}");
             }
 
-            this.Display.transform.localScale = new Vector3(5.15f, 5.15f, 5.15f);
+            obj.Display.transform.localScale = new Vector3(5.15f, 5.15f, 5.15f);
 
             switch (displayPosition)
             {
                 case DisplayPosition.RightOfMenu:
-                    Display.transform.localPosition = RightOfMenu;
-                    Display.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                    obj.transform.localPosition = RightOfMenu;
+                    obj.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     break;
                 case DisplayPosition.LeftOfMenu:
-                    Display.transform.localPosition = LeftOfmenu;
-                    Display.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                    obj.transform.localPosition = LeftOfmenu;
+                    obj.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     break;
                 case DisplayPosition.RightOfMenuAngled:
-                    Display.transform.localPosition = RightOfMenuAngled;
-                    Display.transform.localRotation = Quaternion.Euler(new Vector3(0, 35, 0));
+                    obj.transform.localPosition = RightOfMenuAngled;
+                    obj.transform.localRotation = Quaternion.Euler(new Vector3(0, 35, 0));
                     break;
                 case DisplayPosition.LeftOfMenuAngled:
-                    Display.transform.localPosition = LeftOfMenuAngled;
-                    Display.transform.localRotation = Quaternion.Euler(new Vector3(0, -35, 0));
+                    obj.transform.localPosition = LeftOfMenuAngled;
+                    obj.transform.localRotation = Quaternion.Euler(new Vector3(0, -35, 0));
                     break;
             }
+
+            return obj;
         }
 
-        public UshioDisplayUi(string title, Sprite logo, Sprite uiImage, string miniText, string mainText, string secondaryText, Color backgroundColor, Color textColor, DisplayPosition displayPosition, Color clockColor, bool useClock = true)
+        [HideFromIl2Cpp]
+        public static UshioDisplayUi CreateDisplay(string title, Sprite logo, Sprite uiImage, string miniText, string mainText, string secondaryText, Color backgroundColor, Color textColor, DisplayPosition displayPosition, Color clockColor, bool useClock = true)
         {
             //var prefab = assetBundle.LoadAsset_Internal("Assets/UshioUi/UshioUiDisplay.prefab", Il2CppType.Of<GameObject>()).Cast<GameObject>();
-            var uiPrefab = QXNzZXRCdW5kbGVz.UshioUiAssetBundle.LoadAsset_Internal("Assets/UshioUi/UshioUiDisplay.prefab", Il2CppType.Of<GameObject>()).Cast<GameObject>();
-            this.Display = GameObject.Instantiate(uiPrefab, UshioMenuApi.ShortcutMenu);
+            var uiPrefab = QXNzZXRCdW5kbGVz.UshioUiAssetBundle.LoadAsset("Assets/UshioUi/UshioUiDisplay.prefab").Cast<GameObject>();
+            var obj = GameObject.Instantiate(uiPrefab, UshioMenuApi.ShortcutMenu).AddComponent<UshioDisplayUi>();
 
             try
             {
-                this.Clock = Display.transform.FindChild("UshioUiClock").GetComponent<Text>();
-                this.Title = Display.transform.FindChild("UshioUiTitle").GetComponent<Text>();
-                this.Logo = Display.transform.FindChild("UshioUiLogo").GetComponent<Image>();
-                this.Background = Display.transform.FindChild("UshioUiBackground").GetComponent<Image>();
-                this.UiImage = Display.transform.FindChild("UshioUiImage").GetComponent<Image>();
-                this.MiniText = Display.transform.FindChild("UshioUiMiniText").GetComponent<Text>();
-                this.MainText = Display.transform.FindChild("UshioUiMainText").GetComponent<Text>();
-                this.SecondaryText = Display.transform.FindChild("UshioUiSecondaryText").GetComponent<Text>();
+                obj.Display = obj.gameObject;
+                obj.Clock = obj.transform.FindChild("UshioUiClock").GetComponent<Text>();
+                obj.Title = obj.transform.FindChild("UshioUiTitle").GetComponent<Text>();
+                obj.Logo = obj.transform.FindChild("UshioUiLogo").GetComponent<Image>();
+                obj.Background = obj.transform.FindChild("UshioUiBackground").GetComponent<Image>();
+                obj.UiImage = obj.transform.FindChild("UshioUiImage").GetComponent<Image>();
+                obj.MiniText = obj.transform.FindChild("UshioUiMiniText").GetComponent<Text>();
+                obj.MainText = obj.transform.FindChild("UshioUiMainText").GetComponent<Text>();
+                obj.SecondaryText = obj.transform.FindChild("UshioUiSecondaryText").GetComponent<Text>();
             }
 
             catch (Exception ex)
             {
-                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Something fucked up setting variebles...\n{ex}");
+                MoonriseConsole.ErrorLog($"Something fucked up setting variebles...\n{ex}");
             }
 
             try
             {
-                this.Title.text = title;
-                this.Logo.sprite = logo;
-                this.UiImage.sprite = uiImage;
-                this.MiniText.text = miniText;
-                this.MainText.text = mainText;
-                this.SecondaryText.text = secondaryText;
+                obj.Title.text = title;
+                obj.Logo.sprite = logo;
+                obj.UiImage.sprite = uiImage;
+                obj.MiniText.text = miniText;
+                obj.MainText.text = mainText;
+                obj.SecondaryText.text = secondaryText;
 
-                this.Clock.color = clockColor;
-                this.Title.color = textColor;
-                this.MiniText.color = textColor;
-                this.MainText.color = textColor;
-                this.SecondaryText.color = textColor;
+                obj.Clock.color = clockColor;
+                obj.Title.color = textColor;
+                obj.MiniText.color = textColor;
+                obj.MainText.color = textColor;
+                obj.SecondaryText.color = textColor;
 
-                this.Background.color = backgroundColor;
+                obj.Background.color = backgroundColor;
 
                 if (!useClock)
                 {
-                    this.Clock.enabled = false;
+                    obj.Clock.enabled = false;
                 }
             }
 
             catch (Exception ex)
             {
-                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Something fucked up with setting variables...\n{ex}");
+                MoonriseConsole.ErrorLog($"Something fucked up with setting variables...\n{ex}");
             }
 
-            this.Display.transform.localScale = new Vector3(5.15f, 5.15f, 5.15f);
+            obj.Display.transform.localScale = new Vector3(5.15f, 5.15f, 5.15f);
 
             switch (displayPosition)
             {
                 case DisplayPosition.RightOfMenu:
-                    Display.transform.localPosition = RightOfMenu;
-                    Display.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                    obj.transform.localPosition = RightOfMenu;
+                    obj.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     break;
                 case DisplayPosition.LeftOfMenu:
-                    Display.transform.localPosition = LeftOfmenu;
-                    Display.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                    obj.transform.localPosition = LeftOfmenu;
+                    obj.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     break;
                 case DisplayPosition.RightOfMenuAngled:
-                    Display.transform.localPosition = RightOfMenuAngled;
-                    Display.transform.localRotation = Quaternion.Euler(new Vector3(0, 35, 0));
+                    obj.transform.localPosition = RightOfMenuAngled;
+                    obj.transform.localRotation = Quaternion.Euler(new Vector3(0, 35, 0));
                     break;
                 case DisplayPosition.LeftOfMenuAngled:
-                    Display.transform.localPosition = LeftOfMenuAngled;
-                    Display.transform.localRotation = Quaternion.Euler(new Vector3(0, -35, 0));
+                    obj.transform.localPosition = LeftOfMenuAngled;
+                    obj.transform.localRotation = Quaternion.Euler(new Vector3(0, -35, 0));
                     break;
             }
+
+            return obj;
         }
 
-        //public UshioDisplayUi(string uiHeader, string body, Color backgroundColor, DisplayPosition displayPosition)
-        //{
-        //    InitializeDisplayUi(uiHeader, body, backgroundColor, displayPosition);
-        //}
-        private static Vector3 RightOfMenu { get; } = new Vector3(2010, 1120, 0);
-        private static Vector3 RightOfMenuAngled { get; } = new Vector3(1875, 1125, -440);
-        private static Vector3 LeftOfmenu { get; } = new Vector3(-2010, 1120, 0);
-        private static Vector3 LeftOfMenuAngled { get; } = new Vector3(-1875, 1125, -440);
-        public GameObject Display { get; set; }
-        public Image Background { get; set; }
-        public Text Clock { get; set; }
-        public Text Title { get; set; }
-        public Image Logo { get; set; }
-        public Image UiImage { get; set; }
-        public Text MiniText { get; set; }
-        public Text MainText { get; set; }
-        public Text SecondaryText { get; set; }
-
+        [HideFromIl2Cpp]
         public GameObject GetDisplay()
         {
             return Display;
         }
 
-        //private void InitializeDisplayUi(string uiHeader, string body, Color backgroundColor, DisplayPosition displayPosition)
-        //{
-        //    var backgroundImage = GameObject.Find("UserInterface/QuickMenu/QuickMenu_NewElements/_CONTEXT/QM_Context_ToolTip/_ToolTipPanel").GetComponent<Image>();
-        //    Display = new GameObject();
-        //    Display.name = $"{ModInfo.modName}Display";
-        //    Background = Display.AddComponent<Image>();
-        //    var buttonImage = UshioMenuApi.ShortcutMenu.FindChild("SettingsButton").GetComponentInChildren<Image>();
-        //    Background.sprite = backgroundImage.sprite;
-        //    Background.type = Image.Type.Sliced;
-        //    var transform = Background.rectTransform;
-        //    transform.sizeDelta = new Vector2(1000, 1700);
-        //    Background.color = backgroundColor;
-
-        //    UiHeader = GameObject.Instantiate(buttonImage.GetComponentInChildren<Text>(), Display.transform);
-        //    UiHeader.rectTransform.sizeDelta = new Vector2(1000, 100);
-        //    UiHeader.text = uiHeader;
-        //    UiHeader.fontSize = 100;
-        //    UiHeader.transform.localScale = new Vector3(1, 1, 1);
-        //    UiHeader.rectTransform.localPosition = new Vector3(0, 760, 0);
-
-        //    Body = GameObject.Instantiate(buttonImage.GetComponentInChildren<Text>(), Display.transform);
-        //    Body.rectTransform.sizeDelta = new Vector2(850, (850 * 2) - 300);
-        //    Body.text = body;
-        //    Body.fontSize = 120;
-        //    Body.alignment = TextAnchor.UpperLeft;
-        //    Body.rectTransform.anchoredPosition = new Vector2(0, -420);
-        //    Body.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        //    Body.transform.localPosition = new Vector3(0, -75, 0);
-
-        //    transform.localScale = new Vector3(0.00069f / 2, 0.00069f / 2, 0.00069f / 2);
-
-        //    Display.transform.SetParent(UshioMenuApi.ShortcutMenu);
-        //    switch (displayPosition)
-        //    {
-        //        case DisplayPosition.RightOfMenu:
-        //            Display.transform.localPosition = new Vector3(1835, 1130, 0);
-        //            Display.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        //            break;
-        //        case DisplayPosition.LeftOfMenu:
-        //            Display.transform.localPosition = new Vector3(-1835, 1130, 0);
-        //            Display.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        //            break;
-        //        case DisplayPosition.RightOfMenuAngled:
-        //            Display.transform.localPosition = new Vector3(1785, 1130, -250);
-        //            Display.transform.localRotation = Quaternion.Euler(new Vector3(0, 25, 0));
-        //            break;
-        //        case DisplayPosition.LeftOfMenuAngled:
-        //            Display.transform.localPosition = new Vector3(-1785, 1130, -250);
-        //            Display.transform.localRotation = Quaternion.Euler(new Vector3(0, -25, 0));
-        //            break;
-        //    }
-        //}
-
-        //public void SetBodyText(string newBody)
-        //{
-        //    Body.text = newBody;
-        //}
-
+        [HideFromIl2Cpp]
         public void SetText(string text, TextType type)
         {
             if (type == TextType.MainText) this.MainText.text = text;
@@ -1220,6 +1232,7 @@ namespace UshioUI
             else if (type == TextType.MiniText) this.MiniText.text = text;
         }
 
+        [HideFromIl2Cpp]
         public void SetText(string mainText, string secondaryText, string miniText)
         {
             this.MainText.text = mainText;
@@ -1227,12 +1240,14 @@ namespace UshioUI
             this.MiniText.text = miniText;
         }
 
+        [HideFromIl2Cpp]
         public void SetImage(Sprite image, ImageType type)
         {
             if (type == ImageType.Logo) this.Logo.sprite = image;
             else if (type == ImageType.UiImage) this.UiImage.sprite = image;
         }
 
+        [HideFromIl2Cpp]
         public void SetDisplayActive(bool active)
         {
             this.Background.enabled = active;
@@ -1245,25 +1260,114 @@ namespace UshioUI
             this.Clock.enabled = active;
         }
 
-        public void UpdateClocks(string clockText)
+        [HideFromIl2Cpp]
+        public void UpdateClocks()
         {
             if (Clock.enabled)
             {
-                Clock.text = clockText;
+                Clock.text = CurrentTime;
             }
         }
 
+        [HideFromIl2Cpp]
         public void SetDisplayPosition(Vector3 position, Vector3 rotation)
         {
             Display.transform.localPosition += position;
             Display.transform.localRotation = Quaternion.Euler(rotation);
         }
 
+        [HideFromIl2Cpp]
         public void SetDisplayPosition(DisplayPosition position, Vector3 rotation)
         {
             if (position == DisplayPosition.RightOfMenu) Display.transform.localPosition = new Vector3(1835, 1130, 0);
             else if (position == DisplayPosition.LeftOfMenu) Display.transform.localPosition = new Vector3(-1835, 1130, 0);
             Display.transform.localRotation = Quaternion.Euler(rotation);
+        }
+
+        [HideFromIl2Cpp]
+        public static string[] GetPlayersInRoom()
+        {
+            var playerList = PlayerManager.field_Private_Static_PlayerManager_0.prop_ArrayOf_Player_0;
+            string friendsInRoom = "<color=cyan>Friends In Room:</color>\nYou have no friends...";
+            string[] playersInRoom = { "<color=cyan>Friends In Room:</color>\nNone", "<color=cyan>Ignored In Room:</color>\nNone" };
+            var firstFriend = true;
+            var firstIgnored = true;
+
+            for (int i = 0; i < playerList.Length; i++)
+            {
+                var player = playerList[i];
+                var apiUser = player.prop_APIUser_0;
+                bool isFriend = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsFriendsWith(apiUser.id);
+                bool isMaster = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.MasterCheck(apiUser.id);
+
+                if (MRConfiguration.config.ignoreList.TryGetValue(apiUser.id, out string displayName))
+                {
+                    if (displayName != apiUser.displayName)
+                    {
+                        displayName = apiUser.displayName;
+                        MRConfiguration.config.WriteConfig();
+                    }
+                    if (firstIgnored)
+                    {
+                        playersInRoom[1] = "<color=cyan>Ignored In Room:</color>";
+                        firstIgnored = false;
+                    }
+
+                    playersInRoom[1] += $"\n{displayName}";
+                    if (isMaster) playersInRoom[1] += "[<color=red>RM</color>]";
+                }
+
+                if (isFriend)
+                {
+                    if (firstFriend)
+                    {
+                        playersInRoom[0] = "<color=cyan>Friends In Room:</color>";
+                        firstFriend = false;
+                    }
+
+                    playersInRoom[0] += $"\n{apiUser.displayName}";
+                    if (isMaster) friendsInRoom += " [<color=red>RM</color>]";
+                }
+
+            }
+
+            return playersInRoom;
+        }
+
+        [HideFromIl2Cpp]
+        internal static string GetWorldInfo()
+        {
+            try
+            {
+                var playerManager = PlayerManager.field_Private_Static_PlayerManager_0.prop_ArrayOf_Player_0;
+                var worldApi = RoomManager.field_Internal_Static_ApiWorldInstance_0;
+
+                string roomMaster = "";
+
+                for (int i = 0; i < playerManager.Length; i++)
+                {
+                    var player = playerManager[i];
+                    var apiUser = player.prop_APIUser_0;
+                    bool isMaster = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.MasterCheck(apiUser.id);
+
+                    if (!isMaster) continue;
+
+                    roomMaster = apiUser.displayName;
+                }
+
+
+                string worldInfo;
+                worldInfo = $"<color=cyan>Player Count:</color> {playerManager.Length}\n" +
+                    $"<color=cyan>World Name:\n</color>{worldApi.world.name}\n" +
+                    $"<color=cyan>Room Master:</color>\n{roomMaster}";
+
+                return worldInfo;
+            }
+
+            catch
+            {
+                return "N/A";
+            }
         }
 
         public enum DisplayPosition

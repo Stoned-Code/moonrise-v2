@@ -34,7 +34,7 @@ namespace MoonriseV2Mod.SocialInterractions
 
             catch
             {
-                TW9vbnJpc2VDb25zb2xl.ErrorLog("Player is not in your world!");
+                MoonriseConsole.ErrorLog("Player is not in your world!");
                 UshioMenuApi.CreateSingleButtonPopup("Something's Wrong Here...", "You can't teleport to a player that isn't in your world!", "OK", delegate
                 {
 

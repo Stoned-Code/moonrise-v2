@@ -13,7 +13,32 @@ namespace MoonriseV2Mod.API
         public static bool IsFriendsWith(string id) => APIUser.CurrentUser.friendIDs.Contains(id);
 
         public static bool IsMe(string userId) => userId == APIUser.CurrentUser.id;
+        public static bool MasterCheck(string UserID)
+        {
+            bool isMaster = false;
+            foreach (Player player in PlayerManager.Method_Public_Static_ArrayOf_Player_0())
+            {
+                var playerApi = player.field_Private_VRCPlayerApi_0;
+                if (playerApi.isMaster)
+                {
+                    if (player.prop_APIUser_0.id != UserID)
+                    {
+                        isMaster = false;
+                        break;
+                    }
 
+                    else
+                    {
+                        isMaster = true;
+                        break;
+                    }
+                }
+
+                else continue;
+            }
+
+            return isMaster;
+        }
         public static bool UserStateCheck(string State)
         {
             bool state;
@@ -68,7 +93,6 @@ namespace MoonriseV2Mod.API
             {
                 return VRCPlayer.field_Internal_Static_VRCPlayer_0;
             }
-
         }
 
         //public static Player[] FriendsInRoom

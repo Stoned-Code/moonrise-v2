@@ -16,7 +16,7 @@ namespace MoonriseV2Mod.BaseFunctions
         public static bool muteAll = false;
         public static void Initialize()
         {
-            VFc5dmJuSnBjMlU9.modUpdate += AudioUpdate;
+            Moonrise.modUpdate += AudioUpdate;
             isInitialize = true;
         }
 
@@ -28,31 +28,39 @@ namespace MoonriseV2Mod.BaseFunctions
 
                 for (int i = 0; i < playerManager.Length; i++)
                 {
-                    var player = playerManager[i];
-                    var apiUser = player.prop_APIUser_0;
-                    var speaker = player.prop_USpeaker_0;
-                    string displayName;
-
-                    bool isFriend = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsFriendsWith(apiUser.id);
-                    bool isIgnored = Q29uZmln.config.ignoreList.TryGetValue(apiUser.id, out displayName);
-
-                    if (isFriend && !muteFriends)
+                    try
                     {
-                        if (speaker.field_Private_AudioSource_0.mute)
-                            speaker.field_Private_AudioSource_0.mute = false;
-                        continue;
+                        var player = playerManager[i];
+                        var apiUser = player.prop_APIUser_0;
+                        var speaker = player.prop_USpeaker_0;
+                        string displayName;
+
+                        bool isFriend = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsFriendsWith(apiUser.id);
+                        bool isIgnored = MRConfiguration.config.ignoreList.TryGetValue(apiUser.id, out displayName);
+
+                        if (isFriend && !muteFriends)
+                        {
+                            if (speaker.field_Private_AudioSource_0.mute)
+                                speaker.field_Private_AudioSource_0.mute = false;
+                            continue;
+                        }
+
+                        if (isIgnored)
+                        {
+                            if (speaker.field_Private_AudioSource_0.mute)
+                                speaker.field_Private_AudioSource_0.mute = false;
+                            continue;
+                        }
+
+                        if (speaker.field_Private_AudioSource_0.mute) continue;
+
+                        speaker.field_Private_AudioSource_0.mute = true;
                     }
 
-                    if (isIgnored)
+                    catch // (Exception ex)
                     {
-                        if (speaker.field_Private_AudioSource_0.mute)
-                            speaker.field_Private_AudioSource_0.mute = false;
-                        continue;
+                        // MoonriseConsole.ErrorLog($"Error muting someone...\n{ex}");
                     }
-
-                    if (speaker.field_Private_AudioSource_0.mute) continue;
-
-                    speaker.field_Private_AudioSource_0.mute = true;
                 }
             }
         }

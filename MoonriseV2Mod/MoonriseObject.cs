@@ -3,7 +3,7 @@ using RubyButtonAPI;
 
 namespace MoonriseV2Mod
 {
-    public class VkZjNWRtSnVTbkJqTWxaUVdXMXZQUT09
+    public class MoonriseObject
     {
         public bool isInitialized = false;
 

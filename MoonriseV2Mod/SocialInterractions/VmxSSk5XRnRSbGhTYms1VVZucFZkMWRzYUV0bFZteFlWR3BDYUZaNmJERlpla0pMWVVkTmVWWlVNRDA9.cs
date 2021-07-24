@@ -6,12 +6,12 @@ using RubyButtonAPI;
 
 namespace MoonriseV2Mod.SocialInterractions
 {
-    public class VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9 : VkZjNWRtSnVTbkJqTWxaUVdXMXZQUT09
+    public class VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9 : MoonriseObject
     {
         public static VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9 siBase;
         public VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9()
         {
-            VFc5dmJuSnBjMlU9.loadMenu += VEc5aFpFMWxiblU9;
+            Moonrise.loadMenu += VEc5aFpFMWxiblU9;
         }
 
         public static void Initialize()
@@ -24,7 +24,7 @@ namespace MoonriseV2Mod.SocialInterractions
         {
             var clearIgnoreListButton = new QMSingleButton(socialInterractions, 0, 0, "Clear\nIgnore\nList", delegate
             {
-                Q29uZmln.config.ignoreList.Clear();
+                MRConfiguration.config.ignoreList.Clear();
 
                 // MelonCoroutines.Start(VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.ResetHideDistantAvatars());
             }, "Clears the distant avatar ignore list");
@@ -35,13 +35,13 @@ namespace MoonriseV2Mod.SocialInterractions
 
                 string displayName;
 
-                if (!Q29uZmln.config.ignoreList.TryGetValue(apiUser.id, out displayName))
+                if (!MRConfiguration.config.ignoreList.TryGetValue(apiUser.id, out displayName))
                 {
-                    Q29uZmln.config.ignoreList.Add(apiUser.id, apiUser.displayName);
-                    Q29uZmln.config.WriteConfig();
+                    MRConfiguration.config.ignoreList.Add(apiUser.id, apiUser.displayName);
+                    MRConfiguration.config.WriteConfig();
                 }
 
-                else TW9vbnJpc2VDb25zb2xl.ErrorLog($"{displayName} is already ignored...");
+                else MoonriseConsole.ErrorLog($"{displayName} is already ignored...");
 
             }, "Adds selected user to distant avatar hider ignore list");
             VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(addToIgnoreListButton, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Top, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Horizontal);
@@ -53,10 +53,10 @@ namespace MoonriseV2Mod.SocialInterractions
 
                 string displayName;
 
-                if (Q29uZmln.config.ignoreList.TryGetValue(selectedId, out displayName))
+                if (MRConfiguration.config.ignoreList.TryGetValue(selectedId, out displayName))
                 {
-                    Q29uZmln.config.ignoreList.Remove(selectedId);
-                    Q29uZmln.config.WriteConfig();
+                    MRConfiguration.config.ignoreList.Remove(selectedId);
+                    MRConfiguration.config.WriteConfig();
                 }
 
                 // MelonCoroutines.Start(VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.ResetHideDistantAvatars());

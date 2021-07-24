@@ -1,24 +1,30 @@
 ﻿using MelonLoader;
 using MoonriseTabApi;
 using MoonriseV2Mod.API;
+using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
 using UnhollowerRuntimeLib;
 using UnityEngine;
+using UshioUI;
 using static MoonriseV2Mod.BaseFunctions.RW1vamlTcGFt;
 
 namespace MoonriseV2Mod.BaseFunctions
 {
-    internal sealed class TW9vbnJpc2VCYXNlRnVuY3Rpb25z : VkZjNWRtSnVTbkJqTWxaUVdXMXZQUT09
+    internal sealed class TW9vbnJpc2VCYXNlRnVuY3Rpb25z : MoonriseObject
     {
         public static TW9vbnJpc2VCYXNlRnVuY3Rpb25z baseFunctions;
 
         public TW9vbnJpc2VCYXNlRnVuY3Rpb25z()
         {
-            VFc5dmJuSnBjMlU9.loadMenu += VEc5aFpFMWxiblU9;
+            Moonrise.loadMenu += VEc5aFpFMWxiblU9;
+
         }
 
         private Sprite MoonriseIcon;
         public MenuTab menuTab;
+        public UshioDisplayUi display;
+        private Sprite MoonriseLogo;
+        private Sprite DisplayUiBanner;
 
         public static void Initialize()
         {
@@ -28,12 +34,24 @@ namespace MoonriseV2Mod.BaseFunctions
             baseFunctions.MoonriseIcon = QXNzZXRCdW5kbGVz.MoonriseAssetBundle.LoadAsset_Internal("Assets/Moonrise/Sprites/MoonriseIcon.png", Il2CppType.Of<Sprite>()).Cast<Sprite>();
             baseFunctions.MoonriseIcon.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
+            baseFunctions.MoonriseLogo = QXNzZXRCdW5kbGVz.MoonriseAssetBundle.LoadAsset_Internal("Assets/Moonrise/Sprites/MoonriseLogo.png", Il2CppType.Of<Sprite>()).Cast<Sprite>();
+            baseFunctions.MoonriseLogo.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+
+            baseFunctions.DisplayUiBanner = QXNzZXRCdW5kbGVz.MoonriseAssetBundle.LoadAsset_Internal("Assets/Moonrise/Sprites/Banner.png", Il2CppType.Of<Sprite>()).Cast<Sprite>();
+            baseFunctions.DisplayUiBanner.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
             baseFunctions.isInitialized = true;
         }
 
         public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socielInterraction, TVJVc2Vy user)
         {
+            // Moonrise Ui Display
+            display = UshioDisplayUi.CreateDisplay("Moonrise", MoonriseLogo, DisplayUiBanner, "This is pretty hot!", "This should be empty", "This is empty too", new Color(0.1f, 0.1f, 0.1f, 0.8f), Color.white, UshioDisplayUi.DisplayPosition.LeftOfMenuAngled, Color.cyan, true);
+            display.SetDisplayActive(MRConfiguration.config.UiDisplayEnabled);
+            display.MainText.fontStyle = FontStyle.Normal;
+            display.SecondaryText.fontStyle = FontStyle.Normal;
+            display.MiniText.fontStyle = FontStyle.Normal;
+
             var quickMenuCollider = GameObject.Find("UserInterface/QuickMenu").GetComponent<BoxCollider>();
             quickMenuCollider.size = new Vector3(2517.34f, 2511.213f, 1);
             menuTab = TabApi.MakeTabButton(functions, MoonriseIcon, MenuTab.MenuSide.Bottom, 1, "Update!", Color.blue);
@@ -65,7 +83,7 @@ namespace MoonriseV2Mod.BaseFunctions
                 RW1vamlTcGFt.emoji = 17;
                 RW1vamlTcGFt.maxTime = true;
 
-                var emojiSpam = new QMToggleButton(functions, 4, 1, $"Emoji Spam\n{(Emoji)emoji}", delegate
+                var emojiSpam = new QMToggleButton(functions, 5, 1, $"Emoji Spam\n{(Emoji)emoji}", delegate
                 {
                     RW1vamlTcGFt.emojiSpam = true;
                     MelonCoroutines.Start(RW1vamlTcGFt.SpamEmojis());
@@ -75,7 +93,7 @@ namespace MoonriseV2Mod.BaseFunctions
                 }, $"Spams {(Emoji)emoji} emoji every {spamInterval} seconds");
                 VXNoaW9SdWJ5TW9kaWZpZXJz.MoveHalf(emojiSpam, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom);
 
-                var timeSpanToggle = new QMToggleButton(functions, 4, 0, $"10 Seconds", delegate
+                var timeSpanToggle = new QMToggleButton(functions, 5, 0, $"10 Seconds", delegate
                 {
                     RW1vamlTcGFt.maxTime = true;
                     emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {RW1vamlTcGFt.spamInterval} seconds");
@@ -85,7 +103,7 @@ namespace MoonriseV2Mod.BaseFunctions
                     emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {RW1vamlTcGFt.spamInterval} seconds");
                 }, "Emoji spam interval", null, null, false, RW1vamlTcGFt.maxTime);
 
-                var cycleEmojisUp = new QMSingleButton(functions, 4, 1, "", delegate
+                var cycleEmojisUp = new QMSingleButton(functions, 5, 1, "", delegate
                 {
                     if (RW1vamlTcGFt.emoji >= 57)
                     {
@@ -103,7 +121,7 @@ namespace MoonriseV2Mod.BaseFunctions
                 VXNoaW9SdWJ5TW9kaWZpZXJz.MakeArrowButton(cycleEmojisUp, VXNoaW9SdWJ5TW9kaWZpZXJz.ArrowDirection.Up);
                 VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(cycleEmojisUp, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Top, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Verticle);
 
-                var cycleEmojisDown = new QMSingleButton(functions, 4, 2, "", delegate
+                var cycleEmojisDown = new QMSingleButton(functions, 5, 2, "", delegate
                 {
                     if (RW1vamlTcGFt.emoji <= 0)
                     {
@@ -119,15 +137,7 @@ namespace MoonriseV2Mod.BaseFunctions
                     emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every 5 seconds");
                 }, "Cycles through emojis");
                 VXNoaW9SdWJ5TW9kaWZpZXJz.MakeArrowButton(cycleEmojisDown, VXNoaW9SdWJ5TW9kaWZpZXJz.ArrowDirection.Down);
-                VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(cycleEmojisDown, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Verticle);
-                
-                var debugToggle = new QMToggleButton(functions, 5, -1, "Debug\nMode", delegate
-                {
-                    VFc5dmJuSnBjMlU9.debug = true;
-                }, "Disabled", delegate
-                {
-                    VFc5dmJuSnBjMlU9.debug = false;
-                }, "Enables debug features.", null, null, false, VFc5dmJuSnBjMlU9.debug);
+                VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(cycleEmojisDown, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Verticle);            
             }
         }
     }

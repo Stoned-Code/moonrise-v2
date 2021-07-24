@@ -13,28 +13,28 @@ namespace MoonriseV2Mod.Settings
         private static void Toggle(GameObject obj)
         {
             if (obj == null) return;
-            obj.GetComponentInChildren<Image>().enabled = !Q29uZmln.config.addBlocker;
-            obj.GetComponentInChildren<Button>().enabled = !Q29uZmln.config.addBlocker;
+            obj.GetComponentInChildren<Image>().enabled = !MRConfiguration.config.addBlocker;
+            obj.GetComponentInChildren<Button>().enabled = !MRConfiguration.config.addBlocker;
         }
         public static void ToggleVRCPlusPromotions()
         {
-            if (vrcpBanner != null && vrcpBanner.GetComponentInChildren<Image>().enabled == Q29uZmln.config.addBlocker)
+            if (vrcpBanner != null && vrcpBanner.GetComponentInChildren<Image>().enabled == MRConfiguration.config.addBlocker)
             {
                 Toggle(vrcpBanner);
             }
-            if (vrcpMiniBanner != null && vrcpMiniBanner.GetComponentInChildren<Image>().enabled == Q29uZmln.config.addBlocker)
+            if (vrcpMiniBanner != null && vrcpMiniBanner.GetComponentInChildren<Image>().enabled == MRConfiguration.config.addBlocker)
             {
                 Toggle(vrcpMiniBanner);
             }
-            if (vrcpThankYou != null && vrcpThankYou.GetComponentInChildren<Image>().enabled == Q29uZmln.config.addBlocker)
+            if (vrcpThankYou != null && vrcpThankYou.GetComponentInChildren<Image>().enabled == MRConfiguration.config.addBlocker)
             {
                 Toggle(vrcpThankYou);
             }
-            if (vrcpSocialSupporter != null && vrcpSocialSupporter.GetComponentInChildren<Image>().enabled == Q29uZmln.config.addBlocker)
+            if (vrcpSocialSupporter != null && vrcpSocialSupporter.GetComponentInChildren<Image>().enabled == MRConfiguration.config.addBlocker)
             {
                 Toggle(vrcpSocialSupporter);
             }
-            if (vrcpAvatarPromotion != null && vrcpAvatarPromotion.GetComponentInChildren<Image>().enabled == Q29uZmln.config.addBlocker)
+            if (vrcpAvatarPromotion != null && vrcpAvatarPromotion.GetComponentInChildren<Image>().enabled == MRConfiguration.config.addBlocker)
             {
                 Toggle(vrcpAvatarPromotion);
             }

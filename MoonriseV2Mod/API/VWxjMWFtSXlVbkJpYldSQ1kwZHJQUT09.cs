@@ -24,7 +24,7 @@ namespace MoonriseV2Mod.API
 
             catch (Exception ex)
             {
-                TW9vbnJpc2VDb25zb2xl.ErrorLog($"Error Decoding \"{msg}\"\n{ex}");
+                MoonriseConsole.ErrorLog($"Error Decoding \"{msg}\"\n{ex}");
                 return "Error...";
             }
         }

@@ -43,10 +43,10 @@ namespace MoonriseV2Mod.MonoBehaviourScripts
                     return;
                 }
 
-                if (Q29uZmln.config.avatarHiderState == 0) return;
+                if (MRConfiguration.config.avatarHiderState == 0) return;
                 if (VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsMe(transform.GetParent().GetComponent<Player>().field_Private_APIUser_0.id)) return;
 
-                bool isIgnored = Q29uZmln.config.ignoreList.TryGetValue(apiUser.id, out string displayName);
+                bool isIgnored = MRConfiguration.config.ignoreList.TryGetValue(apiUser.id, out string displayName);
                 GameObject avtrObject = GetAvatarObject(player);
                 DynamicBoneController dynamicBoneController = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.GetDynamicBoneController(player);
 
@@ -64,10 +64,10 @@ namespace MoonriseV2Mod.MonoBehaviourScripts
 
                 float dist = Vector3.Distance(VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position, GetAvatarObject(player).transform.position);
 
-                if (dist > Q29uZmln.config.avatarHiderDistance && VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.m_HideAvatars)
+                if (dist > MRConfiguration.config.avatarHiderDistance && VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.m_HideAvatars)
                     HideDistantAvatar(avtrObject, dynamicBoneController);
 
-                else if (dist <= Q29uZmln.config.avatarHiderDistance && VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.m_HideAvatars)
+                else if (dist <= MRConfiguration.config.avatarHiderDistance && VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.m_HideAvatars)
                     ShowNearbyAvatar(avtrObject, dynamicBoneController);
 
                 else if (!VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.m_HideAvatars)

@@ -9,8 +9,10 @@
 using MelonLoader;
 using MoonriseV2Mod;
 using RubyButtonAPI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 using static MoonriseTabApi.MenuTab;
@@ -124,10 +126,13 @@ namespace MoonriseTabApi
             mainButton.getGameObject().GetComponent<RectTransform>().anchoredPosition += position;
 
             mainButton.getGameObject().GetComponent<Button>().colors = DisabledColorBlock;
-            var menuTab = new MenuTab(nestedButton, icon, badge, badgeText);
-
-            AddNestedAction(nestedButton, delegate
+            var menuTab = MenuTab.CreateTab(nestedButton, icon, badge, badgeText);
+            
+            AddNestedAction(nestedButton.getMainButton().getGameObject().GetComponent<Button>(), delegate
             {
+                menuTab.Tab.colors = TabApi.EnabledColorBlock;
+                menuTab.TabIcon.color = TabApi.EnabledIconColor;
+
                 if (menuTab.BadgeEnabled)
                     MelonCoroutines.Start(menuTab.BadgeCountDown(5f));
             });
@@ -140,21 +145,22 @@ namespace MoonriseTabApi
         /// </summary>
         /// <param name="nestedButton">The nested button you want to recieve the action</param>
         /// <param name="addedAction">The extra action you want the button to perform</param>
-        public static void AddNestedAction(QMNestedButton nestedButton, System.Action addedAction)
+        public static void AddNestedAction(Button nestedButton, System.Action addedAction)
         {
-            var mainButton = nestedButton.getMainButton();
-
-            mainButton.getGameObject().GetComponent<Button>().onClick.AddListener(addedAction);
+            nestedButton.onClick.AddListener(addedAction);
         }
     }
 
-    public class MenuTab
+    [RegisterTypeInIl2Cpp]
+    public class MenuTab : MonoBehaviour
     {
-        public static List<MenuTab> MenuTabs { get; set; }
+        public MenuTab(IntPtr ptr) : base(ptr) { }
+        public static List<MenuTab> MenuTabs;
 
         // A list of tabs in the tabs hierarchy
         public static Button[] VRCTabs
         {
+            [HideFromIl2Cpp]
             get
             {
                 return GameObject.Find("UserInterface/QuickMenu/QuickModeTabs").GetComponentsInChildren<Button>();
@@ -169,30 +175,43 @@ namespace MoonriseTabApi
         /// <param name="badge">The tab's badge</param>
         /// <param name="badgeText">The text written on the badge</param>
         /// <param name="nestedButton">The nested button of the tab</param>
-        public MenuTab(QMNestedButton nestedButton, Image tabIcon, RawImage badge, string badgeText)
+        [HideFromIl2Cpp]
+        public static MenuTab CreateTab(QMNestedButton nestedButton, Image tabIcon, RawImage badge, string badgeText)
         {
-            // Change the event to you're own update event
-            VFc5dmJuSnBjMlU9.modUpdate += MenuTabsUpdate;
+            MenuTab tab = nestedButton.getMainButton().getGameObject().AddComponent<MenuTab>();
+            tab.MenuSingleButton = nestedButton.getMainButton();
+            tab.MenuBackSingleButton = nestedButton.getBackButton();
+            tab.TabIcon = tabIcon;
+            tab.Badge = badge;
+            tab.BadgeText.text = badgeText;
+            tab.NestedButton = nestedButton;
+            tab.MenuBackButton.GetComponentInChildren<Button>().enabled = false;
+            tab.MenuBackButton.GetComponentInChildren<Image>().enabled = false;
+            tab.MenuBackButton.GetComponentInChildren<Text>().enabled = false;
+            tab.SetBadgeActive(false, "Update!", Color.blue);
 
-            this.MenuSingleButton = nestedButton.getMainButton();
-            this.MenuBackSingleButton = nestedButton.getBackButton();
-            this.TabIcon = tabIcon;
-            this.Badge = badge;
-            this.BadgeText.text = badgeText;
-            this.NestedButton = nestedButton;
-
-            this.SetBadgeActive(false, "Update!", Color.blue);
 
             if (MenuTabs == null) MenuTabs = new List<MenuTab>();
-            MenuTabs.Add(this);
-        }
+            MenuTabs.Add(tab);
 
-        QMSingleButton MenuSingleButton { get; set; }
-        QMSingleButton MenuBackSingleButton { get; set; }
+            return tab;
+        }
+        QMSingleButton MenuSingleButton;
+        QMSingleButton MenuBackSingleButton;
+
+        // Returns the original nested button
+        public QMNestedButton NestedButton;
+
+        // The tab's icon
+        public Image TabIcon;
+
+        // The tab's badge
+        public RawImage Badge;
 
         // Returns the tab's button component
         public Button Tab
         {
+            [HideFromIl2Cpp]
             get
             {
                 return MenuSingleButton.getGameObject().GetComponent<Button>();
@@ -202,6 +221,7 @@ namespace MoonriseTabApi
         // Returns the tab's back button component
         public GameObject MenuBackButton
         {
+            [HideFromIl2Cpp]
             get
             {
                 return MenuBackSingleButton.getGameObject();
@@ -211,21 +231,19 @@ namespace MoonriseTabApi
         // Checks if the tab's menu is open
         public bool TabOpen
         {
+            [HideFromIl2Cpp]
             get
             {
                 return MenuBackButton.activeInHierarchy;
             }
         }
 
-        // The tab's icon
-        public Image TabIcon { get; set; }
 
-        // The tab's badge
-        public RawImage Badge { get; set; }
 
         // The badge's text component
         public Text BadgeText
         {
+            [HideFromIl2Cpp]
             get
             {
                 return this.Badge.GetComponentInChildren<Text>();
@@ -235,19 +253,18 @@ namespace MoonriseTabApi
         // Checks if the badge is enabled
         public bool BadgeEnabled
         {
+            [HideFromIl2Cpp]
             get
             {
                 return Badge.enabled == true && BadgeText.enabled == true;
             }
         }
 
-        // Returns the original nested button
-        public QMNestedButton NestedButton { get; set; }
-
         /// <summary>
         /// Changes the badges active state
         /// </summary>
         /// <param name="badgeActive">If you want the badge to be active or not</param>
+        [HideFromIl2Cpp]
         public void SetBadgeActive(bool badgeActive, string text, Color backgroundColor)
         {
             BadgeText.text = text;
@@ -257,6 +274,7 @@ namespace MoonriseTabApi
         }
 
         bool countingDown = false;
+        [HideFromIl2Cpp]
         public IEnumerator BadgeCountDown(float seconds)
         {
             if (countingDown) yield break;
@@ -265,14 +283,14 @@ namespace MoonriseTabApi
             SetBadgeActive(false, "", Color.blue);
             countingDown = false;
         }
-
-        public void MenuTabsUpdate()
+        
+        void Update()
         {
-            if (!TabApi.TabsOpen) return;
+            // if (!TabApi.TabsOpen) return;
 
             try
             {
-                if (!this.TabOpen)
+                if (!TabOpen)
                 {
                     this.Tab.colors = TabApi.DisabledColorBlock;
                     this.TabIcon.color = TabApi.DisabledIconColor;
@@ -280,9 +298,6 @@ namespace MoonriseTabApi
 
                 else
                 {
-                    this.Tab.colors = TabApi.EnabledColorBlock;
-                    this.TabIcon.color = TabApi.EnabledIconColor;
-
                     for (int otherTabIndex = 0; otherTabIndex < VRCTabs.Length; otherTabIndex++)
                     {
                         var otherTab = VRCTabs[otherTabIndex];
@@ -294,10 +309,12 @@ namespace MoonriseTabApi
                             otherTab.transform.FindChild("Icon").GetComponent<Image>().color = TabApi.DisabledIconColor;
                     }
                 }
-
             }
 
-            catch { }
+            catch (Exception ex)
+            {
+                MoonriseConsole.Log("Something Fucked up...\n" + ex.Message);
+            }
         }
 
         public enum MenuSide
