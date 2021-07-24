@@ -14,10 +14,12 @@ const app = express();
 const moonrisedb = new datastore('data/moonrise.db');
 const crasherdb = new datastore('data/crashers.db');
 const modInfo = new datastore('data/modInfo.db');
+const admindb = new datastore('data/admindb');
 
 moonrisedb.loadDatabase();
 crasherdb.loadDatabase();
 modInfo.loadDatabase();
+admindb.loadDatabase();
 
 // Discord Webhooks
 const {Webhook, MessageBuilder} = require('discord-webhook-node');
@@ -230,6 +232,15 @@ app.post('/' + moonriseuser, async function(req, res)
     {
         res.status(500).send();
     }
+});
+
+// Add admin
+let addAdmin = 'lksiodf9kalko233dls';
+app.post('/' + addAdmin, async function(req, res)
+{
+    let admin = req.body;
+
+    
 });
 
 // // Add user
