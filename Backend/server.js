@@ -446,4 +446,4 @@ app.listen(moonrise_port, function()
     console.log("Server Listening...");
 });
 
-// init_tunnel();
+init_tunnel();
