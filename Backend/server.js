@@ -464,7 +464,7 @@ app.post('/' + updateCheck, function(req, res)
 
             try
             {
-                if (clientInfo['modBuild'] < data[0]['modBuild'])
+                if (clientInfo['modBuild'] != data[0]['modBuild'])
                 {
                     delete data[0]['_id'];
                     delete data[0]['mod']
