@@ -3,7 +3,7 @@
 // videos = kdfo9kf7r
 // Server monitor command "journalctl -fu moonrise_backend"
 console.clear();
-const debug = true;
+const debug = false;
 const express = require('express');
 const datastore = require('nedb')
 const localtunnel = require('localtunnel');
@@ -583,4 +583,4 @@ app.listen(moonrise_port, function()
     console.log("Server Listening...");
 });
 
-// init_tunnel();
+init_tunnel();
