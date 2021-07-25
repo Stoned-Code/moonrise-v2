@@ -7,13 +7,13 @@ All the stuff going in the background of Moonrise.
 * Malicious User Database
 * Discord Bot
 * Websocket Client
-* Admin Authentication
 
 ## Backend Completed
 * Server Ping
 * User Database
 * Local Tunnel
 * Base64 Encription
+* Admin Authentication
 
 ## Backend Issues
 
