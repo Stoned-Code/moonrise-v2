@@ -42,26 +42,23 @@ privateWebhook.setAvatar("https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/Mi
 let tunnelUrl = "";
 moonrise_port = 8080;
 
-let mainDomain = "moonrise-sc";
-let testDomain = "moonrise-sct";
-
-let officialDomain = "moonrise-sc";
+let domain = "moonrise-sc";
 
 
 // Local Tunnel Stuff
 async function init_tunnel() 
 {
-    let tunnel = await localtunnel({ port: moonrise_port, subdomain: officialDomain});
+    let tunnel = await localtunnel({ port: moonrise_port, subdomain: domain});
     let number = 1;
 
     while (true && number < 10)
     {
-        if (tunnel.url.split('.')[0].split('/')[2].startsWith(officialDomain)) break;
+        if (tunnel.url.split('.')[0].split('/')[2].startsWith(domain)) break;
 
         console.log(tunnel.url.split('.')[0].split('/')[2]);
         tunnel.close();
 
-        tunnel = await localtunnel({port:moonrise_port, subdomain: officialDomain + "-" + number.toString()});
+        tunnel = await localtunnel({port:moonrise_port, subdomain: domain + "-" + number.toString()});
 
         console.log(number);
         number++;
@@ -538,6 +535,9 @@ app.post('/' + pushUpdate, function(req, res)
                 console.log(changes);
                 try
                 {
+                    delete modinf['AuthKey'];
+                    delete modinf['AdminUserId'];
+
                     modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinf['modBuild']}}, multi=true);
                     modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinf['downloadLink']}}, multi=true);
                     modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinf['modChanges']}}, multi=true);
@@ -562,7 +562,10 @@ app.post('/' + pushUpdate, function(req, res)
             
                 catch
                 {
+                    delete modinf['AuthKey'];
+                    delete modinf['AdminUserId'];
                     modinf['mod'] = "MoonriseV2";
+
                     modInfo.insert(modinf);
                     console.log("Error updating mod info...");
                 }
