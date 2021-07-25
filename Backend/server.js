@@ -3,12 +3,14 @@
 // videos = kdfo9kf7r
 // Server monitor command "journalctl -fu moonrise_backend"
 console.clear();
-const debug = false;
+
 const express = require('express');
 const datastore = require('nedb')
 const localtunnel = require('localtunnel');
 const bcrypt = require('bcrypt');
 const app = express();
+
+const debug = false;
 
 // Databases
 const moonrisedb = new datastore('data/moonrise.db');
