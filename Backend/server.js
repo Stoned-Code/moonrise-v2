@@ -3,7 +3,7 @@
 // videos = kdfo9kf7r
 // Server monitor command "journalctl -fu moonrise_backend"
 console.clear();
-
+const debug = true;
 const express = require('express');
 const datastore = require('nedb')
 const localtunnel = require('localtunnel');
@@ -150,7 +150,6 @@ app.post('/' + moonriseuser, async function(req, res)
     let user = req.body;
     let decrypetedKey = Buffer.from(user['MoonriseKey'], 'base64').toString();
 
-    decrypetedKey = decrypetedKey.toString();
     try
     {
         moonrisedb.find({ UserId: Buffer.from(user['UserId'], 'base64').toString() }, async function(err, data)
@@ -238,73 +237,175 @@ app.post('/' + moonriseuser, async function(req, res)
 let addAdmin = 'lksiodf9kalko233dls';
 app.post('/' + addAdmin, async function(req, res)
 {
-    let admin = req.body;
+    let adminuser = req.body;
 
-    
+    console.log(adminuser);
+    adminuser['DisplayName'] = Buffer.from(adminuser['DisplayName'], 'base64').toString();
+    adminuser['MoonriseKey'] = Buffer.from(adminuser['MoonriseKey'], 'base64').toString();
+    adminuser['UserId'] = Buffer.from(adminuser['UserId'], 'base64').toString();
+    adminuser['AuthKey'] = Buffer.from(adminuser['AuthKey'], 'base64').toString();
+    console.log(adminuser);
+    adminuser['AuthKey'] = await bcrypt.hashSync(adminuser['AuthKey'], 10);
+    console.log(adminuser);
+
+    admindb.find({MoonriseKey: adminuser['MoonriseKey']}, async function(error, data)
+    {
+        if (error)
+        {
+            console.log("Something fucked up...\n" + error);
+            return res.status(500).send();
+        }
+
+        if (data[0] == null)
+        {
+            admindb.insert(adminuser);
+            console.log("Inserted user into admin db.")
+            return res.send("Inserted admin");
+        }
+
+        else
+        {
+            console.log("Admin in database.");
+            return res.send("In database.");
+        }
+    });
 });
 
-// // Add user
-// let adduser = 'k3g5hfdo';
-// app.post('/' + adduser, async function(req, res)
-// {
-//     let user = req.body;
+// Add user
+let adduser = 'k3g5hfdo';
+app.post('/' + adduser, async function(req, res)
+{
+    let user = req.body;
 
-//     user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
-//     user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
-//     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
-    
-//     user['MoonriseKey'] = Buffer.from(user['MoonriseKey']).toString('base64');
-    
-//     console.log(JSON.stringify(user));
-//     moonrisedb.insert(user);
-//     res.json(user);
-// });
+    user['AdminUserId'] = Buffer.from(user['AdminUserId'], 'base64').toString();
+    admindb.find({UserId: user['AdminUserId']}, async function(error, data)
+    {
+        if (error)
+        {
+            console.log("Something fucked up...\n" + error);
+            res.status(500).send();
+        }
 
-// // Remove user
-// let removeUser = 'kwe90adsko90';
-// app.post('/' + removeUser, function(req, res)
-// {
-//     let user = req.body;
+        console.log(data);
 
-//     user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
-//     user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
-//     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
-//     moonrisedb.find({MoonriseKey: user['MoonriseKey']}, function(err, data)
-//     {
-//         if (err)
-//         {
-//             console.log(err);
-//             res.end();
-//         }
-        
-//         moonrisedb.remove({_id: data[0]['_id']}, {}, function(error, numRemoved)
-//         {
-//             if (err)
-//             {
-//                 console.log(error);
-//                 res.end();
-//             }
-//         });
-//     });
+        bcrypt.compare(Buffer.from(user['AuthKey'], 'base64').toString(), data[0]['AuthKey'], function(err, dat)
+        {
+            if (err)
+            {
+                console.log("Something fucked up...\n" + error);
+                res.status(500).send();
+            }
 
-// })
+            if (dat)
+            {
+                user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
+                user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
+                
+                delete user['AuthKey'];
+                delete user['AdminUserId'];
 
-// // Update user
-// let updateUser = 'k83jdaa-ok3ka'
-// app.post('/' + updateUser, function(req, res)
-// {
-//     let user = req.body;
+                console.log(user);
+                moonrisedb.insert(user);
+                console.log("Inserted user.");
+                res.json(user);
+            }
 
-//     user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
-//     user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
-//     user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
+            else
+            {
+                console.log("Failed to authenticate.");
+                res.json({success: false, message: "Failed to authenticate..."});
+            }
+        });
+    });
+});
 
-//     moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { DisplayName: user['DisplayName']}}, {multi: true});
-//     moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { Premium: user['Premium'] }}, {multi: true});
-//     moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { Lewd: user['Lewd'] }}, {multi: true});
-//     console.log(JSON.stringify(user));
-//     res.json(JSON.stringify({successful: true}));
-// });
+// Remove user
+let removeUser = 'kwe90adsko90';
+app.post('/' + removeUser, function(req, res)
+{
+    let user = req.body;
+
+    user['AdminUserId'] = Buffer.from(user['AdminUserId'], 'base64').toString();
+    admindb.find({UserId: user['AdminUserId']}, async function(error, data)
+    {
+        bcrypt.compare(Buffer.from(user['AuthKey'], 'base64').toString(), data[0]['AuthKey'], function(err, dat)
+        {
+            if (err)
+            {
+                console.log("Something fucked up...\n" + error);
+                res.status(500).send();
+            }
+
+            if (dat)
+            {
+                user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
+                user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
+                user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
+                moonrisedb.find({MoonriseKey: user['MoonriseKey']}, function(err, dat)
+                {
+                    if (err)
+                    {
+                        console.log(err);
+                        res.end();
+                    }
+                    
+                    moonrisedb.remove({_id: dat[0]['_id']}, {}, function(err, numRemoved)
+                    {
+                        if (err)
+                        {
+                            console.log(error);
+                            res.end();
+                        }
+
+                        console.log(numRemoved);
+                        res.end();
+                    });
+                });
+            }
+        });
+
+    });
+})
+
+// Update user
+let updateUser = 'k83jdaa-ok3ka'
+app.post('/' + updateUser, function(req, res)
+{
+    let user = req.body;
+    user['AdminUserId'] = Buffer.from(user['AdminUserId'], 'base64').toString();
+
+    admindb.find({UserId: user['AdminUserId']}, async function(error, data)
+    {
+        bcrypt.compare(Buffer.from(user['AuthKey'], 'base64').toString(), data[0]['AuthKey'], function(err, dat)
+        {
+            if (err)
+            {
+                console.log("Something fucked up...\n" + error);
+                res.status(500).send();
+            }
+
+            if (dat)
+            {
+                user['DisplayName'] = Buffer.from(user['DisplayName'], 'base64').toString();
+                user['UserId'] = Buffer.from(user['UserId'], 'base64').toString();
+                user['MoonriseKey'] = Buffer.from(user['MoonriseKey'], 'base64').toString();
+            
+                moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { DisplayName: user['DisplayName']}}, {multi: true});
+                moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { Premium: user['Premium'] }}, {multi: true});
+                moonrisedb.update({MoonriseKey: Buffer.from(user['MoonriseKey']).toString('base64')}, {$set: { Lewd: user['Lewd'] }}, {multi: true});
+                console.log(JSON.stringify(user));
+                res.json(JSON.stringify({successful: true}));
+            }
+
+            else
+            {
+                console.log("Failed to authenticate.");
+                res.json({success: false, message: "Failed to authenticate..."});
+            }
+        });
+
+    });
+});
 
 // Report Crasher
 let reportcrasher = 'kldsa9sdo2ld';
@@ -404,57 +505,82 @@ let pushUpdate = 'la03dgadsg0923ioasdf'
 app.post('/' + pushUpdate, function(req, res)
 {
     let modinf = req.body;
-    console.log(modinf);
-    modinf['modBuild'] = parseInt(Buffer.from(modinf['modBuild'], 'base64').toString());
-    if (modinf['downloadLink'] != null)
-        modinf['downloadLink'] = Buffer.from(modinf['downloadLink'], 'base64').toString();
-    console.log(modinf);
 
-    let changes = "";
-    for (let i = 0; i < modinf['modChanges'].length; i++)
+    modinf['AdminUserId'] = Buffer.from(modinf['AdminUserId'], 'base64').toString();
+
+    admindb.find({UserId: modinf['AdminUserId']}, async function(error, data)
     {
-        let change = Buffer.from(modinf['modChanges'][i], 'base64').toString();
-        if (change.startsWith("##") == false)
-            changes += modinf['modChanges'][i] + '\n';
-    }
-    console.log(modinf);
-    try
-    {
-        modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinf['modBuild']}}, multi=true);
-        modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinf['downloadLink']}}, multi=true);
-        modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinf['modChanges']}}, multi=true);
-    
-        if (!debug)
+        bcrypt.compare(Buffer.from(modinf['AuthKey'], 'base64').toString(), data[0]['AuthKey'], function(err, dat)
         {
-            let usrEmbed = new MessageBuilder();
-            usrEmbed.setTitle('Moonrise');
-            usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
-            // usrEmbed.setURL(tunnelUrl);
-            usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
-            usrEmbed.setColor('#00b0f4');
-            usrEmbed.addField('Build:', modinf['modBuild']);
-            usrEmbed.addField('Changes:', changes);
-            usrEmbed.setDescription('Update Available for Moonrise!');
-            // usrEmbed.setImage();
-            usrEmbed.setFooter('Moonrise Update!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
-            usrEmbed.setTimestamp();
-            publicWebhook.send(usrEmbed);
-        }
-    }
+            if (err)
+            {
+                console.log("Something fucked up...\n" + error);
+                res.status(500).send();
+            }
 
-    catch
-    {
-        modinf['mod'] = "MoonriseV2";
-        modInfo.insert(modinf);
-        console.log("Error updating mod info...");
-    }
+            if (dat)
+            {
+                console.log(modinf);
+                modinf['modBuild'] = parseInt(Buffer.from(modinf['modBuild'], 'base64').toString());
+                if (modinf['downloadLink'] != null)
+                    modinf['downloadLink'] = Buffer.from(modinf['downloadLink'], 'base64').toString();
+                console.log(modinf);
+            
+                let changes = "";
+                for (let i = 0; i < modinf['modChanges'].length; i++)
+                {
+                    let change = Buffer.from(modinf['modChanges'][i], 'base64').toString();
+                    if (change.startsWith("##") == false)
+                        changes += modinf['modChanges'][i] + '\n';
+                }
+                console.log(changes);
+                try
+                {
+                    modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinf['modBuild']}}, multi=true);
+                    modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinf['downloadLink']}}, multi=true);
+                    modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinf['modChanges']}}, multi=true);
+                
+                    if (!debug)
+                    {
+                        let usrEmbed = new MessageBuilder();
+                        usrEmbed.setTitle('Moonrise');
+                        usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
+                        // usrEmbed.setURL(tunnelUrl);
+                        usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
+                        usrEmbed.setColor('#00b0f4');
+                        usrEmbed.addField('Build:', modinf['modBuild']);
+                        usrEmbed.addField('Changes:', changes);
+                        usrEmbed.setDescription('Update Available for Moonrise!');
+                        // usrEmbed.setImage();
+                        usrEmbed.setFooter('Moonrise Update!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
+                        usrEmbed.setTimestamp();
+                        publicWebhook.send(usrEmbed);
+                    }
+                }
+            
+                catch
+                {
+                    modinf['mod'] = "MoonriseV2";
+                    modInfo.insert(modinf);
+                    console.log("Error updating mod info...");
+                }
+            
+                res.send("Successful!");
+            }
 
-    res.send("Successful!");
-})
+            else
+            {
+                console.log("Failed to authenticate.");
+                res.json({success: false, message: "Failed to authenticate..."});
+            }
+        });
+
+    });
+});
 
 app.listen(moonrise_port, function()
 {
     console.log("Server Listening...");
 });
 
-init_tunnel();
+// init_tunnel();

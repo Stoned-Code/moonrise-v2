@@ -1,9 +1,0 @@
-GET http://localhost:8080/kas903khjasd0
-
-POST http://localhost:8080/ykmhuuvlby
-Content-Type: application/json
-{
-    "MoonriseKey": "JDJiJDEwJFE2emxnaTdHM0MvcFlGZ0E1Z0NranVzazRXWWFyN3Axd0Z1SU5YVmFrczZzN3dtajRkT3Jx",
-    "UserId": "dXNyXzU3MDI2MTcyLTNiODgtNDI5OS1hYWE0LWY4YzRlZTc2MTJjOQ==",
-    "AvatarUrl": "https://dl.dropboxusercontent.com/s/ywydbk5lrslk6mg/Jiggle.gif"
-}
