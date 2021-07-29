@@ -14,7 +14,7 @@ All the stuff going in the background of Moonrise.
 * Local Tunnel
 * Base64 Encription
 * Admin Authentication
-* * NHentai Integration
+* NHentai Integration
 
 ## Backend Issues
 
