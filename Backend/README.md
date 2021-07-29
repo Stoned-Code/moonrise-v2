@@ -7,7 +7,7 @@ All the stuff going in the background of Moonrise.
 * Malicious User Database
 * Discord Bot
 * Websocket Client
-* NHentai Integration, IDK
+* Auto-Update Database Display Names
 
 ## Backend Completed
 * Server Ping
@@ -15,6 +15,7 @@ All the stuff going in the background of Moonrise.
 * Local Tunnel
 * Base64 Encription
 * Admin Authentication
+* NHentai Integration
 
 ## Backend Issues
 

@@ -21,7 +21,6 @@ namespace MoonriseApi
         static UshioMultiPageNested addonPage;
         static List<AddonMod> addOnMods;
         static QMNestedButton otherMods;
-        static Sprite addonIcon;
 
         static bool firstButtonAdded = true;
         static int highestPageNumber = 1;

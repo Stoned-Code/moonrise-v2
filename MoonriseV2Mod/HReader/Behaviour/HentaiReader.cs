@@ -97,7 +97,6 @@ namespace MoonriseV2Mod.HReader.Behaviour
         private Transform loadingElement;
         private int pageNumbers;
         private int currentPage = 0;
-        private bool screenLarge = false;
         private bool forceLarge = false;
 
         private BoxCollider readerCollider;
@@ -112,24 +111,35 @@ namespace MoonriseV2Mod.HReader.Behaviour
                 forceLarge = !forceLarge;
 
             if (animator == null) return;
+
+            if (MRConfiguration.config.EnlargeEbookOnGrab)
+            {
+                if (animator.GetBool("screenLarge") != GetComponent<VRC_Pickup>().IsHeld)
+                    animator.SetBool("screenLarge", GetComponent<VRC_Pickup>().IsHeld);
+            }
+
             if (forceLarge)
             {
                 if (animator.GetBool("screenLarge") != true)
                     animator.SetBool("screenLarge", true);
             }
-            if (animator.GetBool("screenLarge") != GetComponent<VRC_Pickup>().IsHeld && !forceLarge && MRConfiguration.config.EnlargeEbookOnGrab)
-                animator.SetBool("screenLarge", GetComponent<VRC_Pickup>().IsHeld);
+
+            else
+            {
+                if (animator.GetBool("screenLarge") != false && !GetComponent<VRC_Pickup>().IsHeld)
+                    animator.SetBool("screenLarge", false);
+            }
+
         }
         string coverUrl;
         [HideFromIl2Cpp]
         IEnumerator SetCover()
         {
-            MoonriseConsole.Log($"Cover Url: {coverUrl}");
             UnityWebRequest request = UnityWebRequestTexture.GetTexture(coverUrl);
             request.SendWebRequest();
             while (!request.isDone) yield return null;
             // yield return request.SendWebRequest();
-            MoonriseConsole.Log("Request made!");
+
             if (request.isNetworkError || request.isHttpError)
                 MoonriseConsole.Log(request.error);
             else
@@ -138,10 +148,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
                 cover = downloadHandler.texture;
             }
 
-
             request.Dispose();
-
-            MoonriseConsole.Log("Setting Cover");
 
             SetDisplayTexture(cover);
         }
@@ -153,20 +160,18 @@ namespace MoonriseV2Mod.HReader.Behaviour
             loading = true;
             loadingProgress.maxValue = imageUrls.Length;
             loadingProgress.value = 0;
-            MoonriseConsole.Log("Getting Images...");
+
             pages = new Texture2D[imageUrls.Length];
 
             loadingElement.gameObject.SetActive(true);
 
             for (int i = 0; i < imageUrls.Length; i++)
             {
-
-                //MoonriseConsole.Log($"Page {i + 1} Url: {imageUrls[i]}");
                 UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrls[i]);
                 request.SendWebRequest();
                 while (!request.isDone) yield return null;
                 // yield return request.SendWebRequest();
-                MoonriseConsole.Log("Request made!");
+
                 if (request.isNetworkError || request.isHttpError)
                     MoonriseConsole.ErrorLog(request.error);
                 else
@@ -191,10 +196,14 @@ namespace MoonriseV2Mod.HReader.Behaviour
 
             var reader = Instantiate(tempObj);
             reader.GetComponent<HentaiReader>().InitializeReader(hentaiId);
-
-            var pos = PlayerCheck.LocalVRCPlayer.transform.position + PlayerCheck.LocalVRCPlayer.transform.forward + Vector3.up;
-            var rot = Quaternion.Euler(PlayerCheck.LocalVRCPlayer.transform.rotation.eulerAngles - new Vector3(0f, 180f, 0f));
-            reader.transform.SetPositionAndRotation(pos, rot);
+            var ypos = PlayerCheck.LocalVRCPlayer.field_Private_VRCAvatarManager_0.field_Private_VRC_AvatarDescriptor_0.ViewPosition.y * 0.8f;
+            var forPos = new Vector3(PlayerCheck.LocalVRCPlayer.transform.forward.x, PlayerCheck.LocalVRCPlayer.transform.forward.y, PlayerCheck.LocalVRCPlayer.transform.forward.z * 0.69f);
+            
+            var pos = PlayerCheck.LocalVRCPlayer.transform.position +  forPos + new Vector3(0f, ypos, 0f);
+            var rot = Quaternion.Euler(PlayerCheck.LocalVRCPlayer.transform.rotation.eulerAngles - new Vector3(30f, 180f, 0f));
+            
+            reader.transform.position = pos;
+            reader.transform.rotation = rot;
         }
 
         [HideFromIl2Cpp]
@@ -236,7 +245,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
             GetComponent<VRC_Pickup>().AutoHold = VRC_Pickup.AutoHoldMode.Yes;
 
             string fulUrl = WorkingUrl + "/keig84ionjk4390f/" + hentaiId;
-            MoonriseConsole.Log("Retrieved Url.");
+
             WebRequest wr = WebRequest.Create(fulUrl);
             wr.Timeout = 1500;
             wr.Method = "GET";
