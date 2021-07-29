@@ -10,7 +10,7 @@ const localtunnel = require('localtunnel');
 const bcrypt = require('bcrypt');
 const app = express();
 
-const debug = true;
+const debug = false;
 
 // Databases
 const moonrisedb = new datastore('data/moonrise.db');
@@ -584,7 +584,7 @@ app.post('/' + pushUpdate, function(req, res)
                 for (let i = 0; i < modinf['modChanges'].length; i++)
                 {
                     let change = Buffer.from(modinf['modChanges'][i], 'base64').toString();
-                    changes += modinf['modChanges'][i] + '\n';
+                    changes += change + '\n';
                 }
                 console.log(changes);
                 try
