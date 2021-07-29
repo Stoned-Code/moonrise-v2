@@ -526,12 +526,6 @@ app.post('/' + updateCheck, function(req, res)
                     }
                     catch {}
                     
-                    if (data[0]['modChanges'].length > 0)
-                        for (i=0; i < data[0]['modChanges'].length; i++)
-                        {
-                            data[0]['modChanges'][i] = Buffer.from(data[0]['modChanges'][i]).toString('base64');
-                        }
-        
                     res.json(data[0]);
                 }
         

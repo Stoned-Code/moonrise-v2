@@ -20,7 +20,7 @@ namespace MoonriseV2Mod.Settings
         public const string modAuthor = "Stoned Code";
         public const string modDownload = "N/A";
         [JsonProperty] public string downloadLink { get; set; }
-        [JsonProperty] public int modBuild = 7;
+        [JsonProperty] public int modBuild = 6;
         [JsonProperty] public string[] modChanges = new string[0];
         [JsonIgnore] public static bool isUpdated
         {
@@ -63,7 +63,8 @@ namespace MoonriseV2Mod.Settings
         {
             get
             {
-                return modInfo.modChanges.Length > 1;
+                MoonriseConsole.Log("Checking availability.");
+                return modInfo.modChanges.Length > 0;
             }
         }
         public string ChangesToString()
