@@ -1,0 +1,301 @@
+﻿using MelonLoader;
+using MoonriseV2Mod.API;
+using MoonriseV2Mod.Settings;
+using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using UnhollowerBaseLib.Attributes;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UI;
+using VRC.SDKBase;
+
+namespace MoonriseV2Mod.HReader.Behaviour
+{
+    [RegisterTypeInIl2Cpp]
+    public class HentaiReader : MonoBehaviour
+    {
+        public HentaiReader(IntPtr ptr) : base(ptr) { }
+        internal static string WorkingUrl
+        {
+            [HideFromIl2Cpp]
+            get
+            {
+                string tempUrl = $"https://nhentai-sc.loca.lt";
+                WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
+                wr.Timeout = 1500;
+                wr.Method = "GET";
+
+                string json = "";
+                // MoonriseConsole.Log($"Checking {tempUrl}");
+                try
+                {
+                    WebResponse res = wr.GetResponse();
+                    // MoonriseConsole.Log($"Received response...");
+                    using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
+                    {
+                        json = sr.ReadToEnd();
+                        // MoonriseConsole.Log(json);
+                    }
+                }
+
+                catch
+                {
+
+                }
+
+                PingResponse pRes = JsonConvert.DeserializeObject<PingResponse>(json);
+
+                if (pRes != null && pRes.foundBackend)
+                    return tempUrl;
+
+                for (int i = 1; i < 10; i++)
+                {
+                    try
+                    {
+                        tempUrl = $"https://nhentai-sc-{i}.loca.lt";
+
+                        wr.Abort();
+                        wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
+                        wr.Timeout = 1500;
+                        MoonriseConsole.Log($"Checking {tempUrl}");
+                        WebResponse res = wr.GetResponse();
+
+                        using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
+                        {
+                            json = sr.ReadToEnd();
+                            // MoonriseConsole.Log(json);
+                        }
+
+                        pRes = JsonConvert.DeserializeObject<PingResponse>(json);
+
+                        if (pRes.foundBackend)
+                            return tempUrl;
+                    }
+
+                    catch { }
+                }
+
+                return "N/A";
+            }
+        }
+
+        private Animator animator;
+        private Texture2D cover;
+        private Texture2D[] pages;
+        private MeshRenderer pageView;
+        private Text tagText;
+        private Text pageStatus;
+        private Text titleText;
+        private Button lastButton;
+        private Button nextButton;
+        private Button deleteButton;
+        private Transform loadingElement;
+        private int pageNumbers;
+        private int currentPage = 0;
+        private bool screenLarge = false;
+        private bool forceLarge = false;
+
+        private BoxCollider readerCollider;
+        private BoxCollider canvasCollider;
+
+        private Slider loadingProgress;
+        private Toggle forceLargeToggle;
+
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L))
+                forceLarge = !forceLarge;
+
+            if (animator == null) return;
+            if (forceLarge)
+            {
+                if (animator.GetBool("screenLarge") != true)
+                    animator.SetBool("screenLarge", true);
+            }
+            if (animator.GetBool("screenLarge") != GetComponent<VRC_Pickup>().IsHeld && !forceLarge && MRConfiguration.config.EnlargeEbookOnGrab)
+                animator.SetBool("screenLarge", GetComponent<VRC_Pickup>().IsHeld);
+        }
+        string coverUrl;
+        [HideFromIl2Cpp]
+        IEnumerator SetCover()
+        {
+            MoonriseConsole.Log($"Cover Url: {coverUrl}");
+            UnityWebRequest request = UnityWebRequestTexture.GetTexture(coverUrl);
+            request.SendWebRequest();
+            while (!request.isDone) yield return null;
+            // yield return request.SendWebRequest();
+            MoonriseConsole.Log("Request made!");
+            if (request.isNetworkError || request.isHttpError)
+                MoonriseConsole.Log(request.error);
+            else
+            {
+                var downloadHandler = request.downloadHandler.Cast<DownloadHandlerTexture>();
+                cover = downloadHandler.texture;
+            }
+
+
+            request.Dispose();
+
+            MoonriseConsole.Log("Setting Cover");
+
+            SetDisplayTexture(cover);
+        }
+        bool loading = false;
+        string[] imageUrls;
+        [HideFromIl2Cpp]
+        IEnumerator GetAllImages()
+        {
+            loading = true;
+            loadingProgress.maxValue = imageUrls.Length;
+            loadingProgress.value = 0;
+            MoonriseConsole.Log("Getting Images...");
+            pages = new Texture2D[imageUrls.Length];
+
+            loadingElement.gameObject.SetActive(true);
+
+            for (int i = 0; i < imageUrls.Length; i++)
+            {
+
+                //MoonriseConsole.Log($"Page {i + 1} Url: {imageUrls[i]}");
+                UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrls[i]);
+                request.SendWebRequest();
+                while (!request.isDone) yield return null;
+                // yield return request.SendWebRequest();
+                MoonriseConsole.Log("Request made!");
+                if (request.isNetworkError || request.isHttpError)
+                    MoonriseConsole.ErrorLog(request.error);
+                else
+                {
+                    var downloadHandler = request.downloadHandler.Cast<DownloadHandlerTexture>();
+                    pages[i] = downloadHandler.texture;
+                }
+
+                loadingProgress.value = i + 1;
+                request.Dispose();
+            }
+
+            loadingElement.gameObject.SetActive(false);
+            loading = false;
+        }
+
+        [HideFromIl2Cpp]
+        public static void SpawnReader(string hentaiId)
+        {
+            var tempObj = QXNzZXRCdW5kbGVz.EbookBundle.LoadAsset("EBook.prefab").Cast<GameObject>();
+            tempObj.AddComponent<HentaiReader>();
+
+            var reader = Instantiate(tempObj);
+            reader.GetComponent<HentaiReader>().InitializeReader(hentaiId);
+
+            var pos = PlayerCheck.LocalVRCPlayer.transform.position + PlayerCheck.LocalVRCPlayer.transform.forward + Vector3.up;
+            var rot = Quaternion.Euler(PlayerCheck.LocalVRCPlayer.transform.rotation.eulerAngles - new Vector3(0f, 180f, 0f));
+            reader.transform.SetPositionAndRotation(pos, rot);
+        }
+
+        [HideFromIl2Cpp]
+        private void SetDisplayTexture(Texture2D tex)
+        {
+            pageView.material.mainTexture = tex;
+        }
+
+        [HideFromIl2Cpp]
+        public void InitializeReader(string hentaiId)
+        {
+            readerCollider = GetComponent<BoxCollider>();
+            canvasCollider = transform.Find("Screen/Canvas").GetComponent<BoxCollider>();
+
+            loadingProgress = transform.Find("Screen/Canvas/LoadingImage/Slider").GetComponent<Slider>();
+            forceLargeToggle = transform.Find("Screen/Canvas/Buttons/Toggle").GetComponent<Toggle>();
+
+            animator = GetComponent<Animator>();
+            pageView = transform.Find("Screen/Canvas/PageDisplay").GetComponent<MeshRenderer>();
+            tagText = transform.Find("Screen/Canvas/TagsBackground/Tags").GetComponent<Text>();
+            pageStatus = transform.Find("Screen/Canvas/TagsBackground/PageStatus").GetComponent<Text>();
+            titleText = transform.Find("Screen/Canvas/BookTitle").GetComponent<Text>();
+            lastButton = transform.Find("Screen/Canvas/Buttons/PreviousPage").GetComponent<Button>();
+            nextButton = transform.Find("Screen/Canvas/Buttons/NextPage").GetComponent<Button>();
+            deleteButton = transform.Find("Screen/Canvas/Buttons/Delete").GetComponent<Button>();
+            loadingElement = transform.Find("Screen/Canvas/LoadingImage");
+
+            loadingElement.gameObject.SetActive(false);
+            forceLargeToggle.isOn = forceLarge;
+
+            Physics.IgnoreCollision(readerCollider, PlayerCheck.LocalVRCPlayer.GetComponentInChildren<CharacterController>());
+            Physics.IgnoreCollision(canvasCollider, PlayerCheck.LocalVRCPlayer.GetComponentInChildren<CharacterController>());
+
+            lastButton.onClick.AddListener(new Action(delegate { LastPage(); }));
+            nextButton.onClick.AddListener(new Action(delegate { NextPage(); }));
+            deleteButton.onClick.AddListener(new Action(delegate { DeleteEbook(this.gameObject); }));
+            forceLargeToggle.onValueChanged.AddListener(new Action<bool>(delegate { ToggleForceLarge(); }));
+
+            GetComponent<VRC_Pickup>().AutoHold = VRC_Pickup.AutoHoldMode.Yes;
+
+            string fulUrl = WorkingUrl + "/keig84ionjk4390f/" + hentaiId;
+            MoonriseConsole.Log("Retrieved Url.");
+            WebRequest wr = WebRequest.Create(fulUrl);
+            wr.Timeout = 1500;
+            wr.Method = "GET";
+
+            string json = "";
+
+            WebResponse res = wr.GetResponse();
+
+            using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
+                json = sr.ReadToEnd();
+            
+
+
+            BookInfo info = JsonConvert.DeserializeObject<BookInfo>(json);
+            coverUrl = info.coverUrl;
+            imageUrls = info.pageUrls;
+            titleText.text = info.hentaiTitle;
+
+            tagText.text = "<color=cyan>Tags:</color>\n";
+            pageNumbers = info.pageCount;
+            pageStatus.text = $"Page\n1/{pageNumbers}";
+
+            for (int i = 0; i < info.tags.Length; i++)
+            {
+                string tag = info.tags[i];
+                if (info.tags.Length != i + 1)
+                    tagText.text += tag + ", ";
+                else
+                    tagText.text += tag;
+            }
+            
+            MelonCoroutines.Start(SetCover());
+            MelonCoroutines.Start(GetAllImages());
+        }
+
+        [HideFromIl2Cpp]
+        public void LastPage()
+        {
+            if (loading) return;
+            if (currentPage > 0)
+                currentPage--;
+            SetDisplayTexture(pages[currentPage]);
+            pageStatus.text = $"Page\n{currentPage + 1}/{pageNumbers}";
+        }
+
+        [HideFromIl2Cpp]
+        public void NextPage()
+        {
+            if (loading) return;
+            if (currentPage < pageNumbers - 1)
+                currentPage++;
+            SetDisplayTexture(pages[currentPage]);
+            pageStatus.text = $"Page\n{currentPage + 1}/{pageNumbers}";
+        }
+
+        [HideFromIl2Cpp]
+        public static void DeleteEbook(GameObject obj) => Destroy(obj);
+
+        [HideFromIl2Cpp]
+        public bool ToggleForceLarge() => forceLarge = !forceLarge;
+    }
+}

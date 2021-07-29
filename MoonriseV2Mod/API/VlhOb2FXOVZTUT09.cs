@@ -1297,8 +1297,8 @@ namespace UshioUI
             {
                 var player = playerList[i];
                 var apiUser = player.prop_APIUser_0;
-                bool isFriend = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsFriendsWith(apiUser.id);
-                bool isMaster = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.MasterCheck(apiUser.id);
+                bool isFriend = PlayerCheck.IsFriendsWith(apiUser.id);
+                bool isMaster = PlayerCheck.MasterCheck(apiUser.id);
 
                 if (MRConfiguration.config.ignoreList.TryGetValue(apiUser.id, out string displayName))
                 {
@@ -1348,7 +1348,7 @@ namespace UshioUI
                 {
                     var player = playerManager[i];
                     var apiUser = player.prop_APIUser_0;
-                    bool isMaster = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.MasterCheck(apiUser.id);
+                    bool isMaster = PlayerCheck.MasterCheck(apiUser.id);
 
                     if (!isMaster) continue;
 

@@ -48,7 +48,7 @@ namespace MoonriseV2Mod.SocialInterractions
 
             var removeFromIgnoreListButton = new QMSingleButton(socialInterractions, 0, 1, "Remove From\nIgnore List", delegate
             {
-                var selectedUser = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.GetSelectedPlayer(QuickMenu.prop_QuickMenu_0.field_Private_APIUser_0.id);
+                var selectedUser = PlayerCheck.GetSelectedPlayer(QuickMenu.prop_QuickMenu_0.field_Private_APIUser_0.id);
                 var selectedId = selectedUser.prop_APIUser_0.id;
 
                 string displayName;
@@ -77,7 +77,7 @@ namespace MoonriseV2Mod.SocialInterractions
                 var reportCrasher = new QMSingleButton(socialInterractions, 5, 0, "Report as\nCrasher", delegate
                 {
                     var foundPlayer = QuickMenu.prop_QuickMenu_0.field_Private_APIUser_0;
-                    var foundVrcPlayer = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.GetSelectedPlayer(foundPlayer.id);
+                    var foundVrcPlayer = PlayerCheck.GetSelectedPlayer(foundPlayer.id);
                     VVROS2FHTXlhR3hqYkVwc1kwRTlQUT09.ReportCrasher(foundPlayer.displayName, foundPlayer.id, foundVrcPlayer.prop_ApiAvatar_0);
                 }, "Sends a report to the Moonrise database of the selected player as a potential crasher");
             }

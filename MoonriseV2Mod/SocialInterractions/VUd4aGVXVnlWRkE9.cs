@@ -14,8 +14,8 @@ namespace MoonriseV2Mod.SocialInterractions
         {
             try
             {
-                VRCPlayer player = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer;
-                Player foundPlayer = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.GetSelectedPlayer(SelectedUserID);
+                VRCPlayer player = PlayerCheck.LocalVRCPlayer;
+                Player foundPlayer = PlayerCheck.GetSelectedPlayer(SelectedUserID);
 
                 if (APIUser.CurrentUser.id != foundPlayer.prop_APIUser_0.id)
                 {

@@ -22,23 +22,20 @@ namespace MoonriseV2Mod.API
         {
             get
             {
-                //string extra = debug ? "t" : "";
                 string tempUrl = $"https://moonrise-sc.{baseUrl}";
                 WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                 wr.Timeout = 1500;
                 wr.Method = "GET";
 
                 string json = "";
-                // MoonriseConsole.Log($"Checking {tempUrl}");
+                
                 try
                 {
                     WebResponse res = wr.GetResponse();
-                    // MoonriseConsole.Log($"Received response...");
+
                     using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
-                    {
                         json = sr.ReadToEnd();
-                        // MoonriseConsole.Log(json);
-                    }
+                    
                 }
 
                 catch
@@ -138,7 +135,6 @@ namespace MoonriseV2Mod.API
 
             catch
             {
-                // MoonriseConsole.ErrorLog($"Error Getting MRUser...\n{ex}");
                 return null;
             }
         }

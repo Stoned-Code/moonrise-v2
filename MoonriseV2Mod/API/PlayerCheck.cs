@@ -6,7 +6,7 @@ using VRC.UI;
 
 namespace MoonriseV2Mod.API
 {
-    internal static class VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09
+    internal static class PlayerCheck
     {
         public static DynamicBoneController GetDynamicBoneController(Player player) => player.GetComponentInChildren<DynamicBoneController>();
         public static APIUser user => Object.FindObjectOfType<PageUserInfo>()?.field_Public_APIUser_0;

@@ -80,7 +80,7 @@ namespace MoonriseV2Mod
         {
             if (mirror != null) return;
             var obj = QXNzZXRCdW5kbGVz.MoonriseAssetBundle.LoadAsset("PortableMirror").Cast<GameObject>();
-            mirror = GameObject.Instantiate(obj, VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.GetParent(), worldPositionStays: true);
+            mirror = GameObject.Instantiate(obj, PlayerCheck.LocalVRCPlayer.transform.GetParent(), worldPositionStays: true);
             mirror.transform.localScale = new Vector3(MRConfiguration.config.portableMirrorWidth, MRConfiguration.config.portableMirrorHeight, 0f);
             pickup.pickupable = isPickupable;
 
@@ -112,15 +112,15 @@ namespace MoonriseV2Mod
         public static void ResetMirrorPosition()
         {
             if (portableMirror == null) return;
-            Vector3 pos = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position - mirror.transform.position;
+            Vector3 pos = PlayerCheck.LocalVRCPlayer.transform.position - mirror.transform.position;
             Quaternion rotation = Quaternion.LookRotation(pos);
             Quaternion trueRotation = Quaternion.Euler(0f, rotation.eulerAngles.y + 180f, 0f);
-            mirror.transform.SetPositionAndRotation(VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position + VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.forward + new Vector3(0f, MRConfiguration.config.portableMirrorHeight * 0.5f, 0f), trueRotation);
+            mirror.transform.SetPositionAndRotation(PlayerCheck.LocalVRCPlayer.transform.position + PlayerCheck.LocalVRCPlayer.transform.forward + new Vector3(0f, MRConfiguration.config.portableMirrorHeight * 0.5f, 0f), trueRotation);
 
-            Vector3 pos2 = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position - mirror.transform.position;
+            Vector3 pos2 = PlayerCheck.LocalVRCPlayer.transform.position - mirror.transform.position;
             Quaternion rotation2 = Quaternion.LookRotation(pos2);
             Quaternion trueRotation2 = Quaternion.Euler(0f, rotation2.eulerAngles.y + 180f, 0f);
-            mirror.transform.SetPositionAndRotation(VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.position + VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.LocalVRCPlayer.transform.forward + new Vector3(0f, MRConfiguration.config.portableMirrorHeight * 0.5f, 0f), trueRotation2);
+            mirror.transform.SetPositionAndRotation(PlayerCheck.LocalVRCPlayer.transform.position + PlayerCheck.LocalVRCPlayer.transform.forward + new Vector3(0f, MRConfiguration.config.portableMirrorHeight * 0.5f, 0f), trueRotation2);
         }
 
         public static void ToggleMirrorPickup(bool active)

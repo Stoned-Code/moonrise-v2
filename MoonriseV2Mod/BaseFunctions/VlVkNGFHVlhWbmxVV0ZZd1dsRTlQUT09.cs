@@ -35,7 +35,7 @@ namespace MoonriseV2Mod.BaseFunctions
                         var speaker = player.prop_USpeaker_0;
                         string displayName;
 
-                        bool isFriend = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsFriendsWith(apiUser.id);
+                        bool isFriend = PlayerCheck.IsFriendsWith(apiUser.id);
                         bool isIgnored = MRConfiguration.config.ignoreList.TryGetValue(apiUser.id, out displayName);
 
                         if (isFriend && !muteFriends)
@@ -77,7 +77,7 @@ namespace MoonriseV2Mod.BaseFunctions
                     var apiUser = player.prop_APIUser_0;
                     var speaker = player.prop_USpeaker_0;
 
-                    bool isFriend = VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.IsFriendsWith(apiUser.id);
+                    bool isFriend = PlayerCheck.IsFriendsWith(apiUser.id);
 
                     if (isFriend && muteFriends) continue;
                     if (muteAll) continue;

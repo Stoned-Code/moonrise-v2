@@ -1,7 +1,9 @@
 ﻿using MelonLoader;
+using MoonriseApi;
 using MoonriseV2Mod.API;
 using MoonriseV2Mod.AvatarFunctions;
 using MoonriseV2Mod.BaseFunctions;
+using MoonriseV2Mod.HReader;
 using MoonriseV2Mod.MonoBehaviourScripts;
 using MoonriseV2Mod.Settings;
 using MoonriseV2Mod.SocialInterractions;
@@ -59,6 +61,7 @@ namespace MoonriseV2Mod
             VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9.Initialize();
             QXZhdGFyRnVuY3Rpb25z.Initialize();
             VTJWMGRHbHVaM05HZFc1amRHbHZibk09.Initialize();
+            NHentaiReader.Initialize();
             AddonMods.Initialize();
 
             while (APIUser.CurrentUser == null) yield return null;
@@ -71,6 +74,10 @@ namespace MoonriseV2Mod
                 QMNestedButton functions = new QMNestedButton("ShortcutMenu", 0, -2, "", "");
                 QMNestedButton socialInterractions = new QMNestedButton("UserInteractMenu", 4, -2, "<color=cyan>MMM</color>\nPlayer\nFunctions", "MMM options for selected player");
                 UshioMenuApi.SetMenu();
+                QXNzZXRCdW5kbGVz.InitializeSpecial(user);
+
+                while (!QXNzZXRCdW5kbGVz.specialInitialized) yield return null;
+
                 loadMenu?.Invoke(functions, socialInterractions, user);
                 isInitialized = true;
             }

@@ -9,8 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using MoonriseV2Mod.BaseFunctions;
+using UnhollowerRuntimeLib;
+using MoonriseV2Mod.API;
 
-namespace MoonriseV2Mod.API
+namespace MoonriseApi
 {
     public static class AddonMods
     {
@@ -19,6 +21,7 @@ namespace MoonriseV2Mod.API
         static UshioMultiPageNested addonPage;
         static List<AddonMod> addOnMods;
         static QMNestedButton otherMods;
+        static Sprite addonIcon;
 
         static bool firstButtonAdded = true;
         static int highestPageNumber = 1;
@@ -54,9 +57,11 @@ namespace MoonriseV2Mod.API
         {
             while (MenuTab.MenuTabs == null) yield return null;
 
-            otherMods = new QMNestedButton(TW9vbnJpc2VCYXNlRnVuY3Rpb25z.baseFunctions.menuTab.NestedButton, 5, -2, "Add-ons", "Various other mods");
+            otherMods = new QMNestedButton(TW9vbnJpc2VCYXNlRnVuY3Rpb25z.baseFunctions.menuTab.NestedButton, 4, 2, "Add-ons", "Various other mods.");
             addonPage = new UshioMultiPageNested(otherMods, highestPageNumber);
             addOnMods = new List<AddonMod>();
+
+            //TabApi.MakeTabButton(otherMods, addonIcon, MenuTab.MenuSide.Bottom, 2, "", Color.blue);
 
             otherMods.getMainButton().setActive(false);
 

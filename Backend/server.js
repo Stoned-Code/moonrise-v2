@@ -10,7 +10,7 @@ const localtunnel = require('localtunnel');
 const bcrypt = require('bcrypt');
 const app = express();
 
-const debug = false;
+const debug = true;
 
 // Databases
 const moonrisedb = new datastore('data/moonrise.db');
@@ -87,8 +87,8 @@ async function init_tunnel()
     });
 }
 
-app.use(express.static('public'));
-app.use(express.static('files'));
+// app.use(express.static('public'));
+// app.use(express.static('files'));
 app.use(express.json({limit: '10mb'}));
 
 ///////////////////
@@ -137,6 +137,32 @@ app.get('/' + ping, function(req, res)
     console.log('Server pinged...');
     res.send(JSON.stringify({foundBackend:true}));
 });
+
+let checkCrasher = 'mx9i3tjsda03e';
+app.get('/' + checkCrasher + '/:avatarAuthorId', function(req, res)
+{
+    authorId = Buffer.from(req.params.avatarAuthorId, 'base64').toString();
+
+    crasherdb.find({AuthorId: authorId}, function(error, data)
+    {
+        if (error)
+        {
+            res.status(500).json({success: false, message: "Something fucked up..."});
+        }
+
+        if (data[0] != null)
+        {
+            res.json({isCrasher: true});
+        }
+
+        else
+        {
+            res.json({isCrasher: false});
+        }
+    });
+});
+
+
 
 ////////////////////
 // Post Requests  //
@@ -234,7 +260,7 @@ app.post('/' + moonriseuser, async function(req, res)
 
 // Add admin
 let addAdmin = 'lksiodf9kalko233dls';
-app.post('/' + addAdmin, async function(req, res)
+app.post('/' + addAdmin + '/:authKey', async function(req, res)
 {
     let adminuser = req.body;
 
@@ -247,26 +273,55 @@ app.post('/' + addAdmin, async function(req, res)
     adminuser['AuthKey'] = await bcrypt.hashSync(adminuser['AuthKey'], 10);
     console.log(adminuser);
 
-    admindb.find({MoonriseKey: adminuser['MoonriseKey']}, async function(error, data)
+    admindb.find({UserId: req.params.authKey}, async function(error, data)
     {
         if (error)
         {
             console.log("Something fucked up...\n" + error);
-            return res.status(500).send();
+            res.status(500).send();
         }
 
-        if (data[0] == null)
-        {
-            admindb.insert(adminuser);
-            console.log("Inserted user into admin db.")
-            return res.send("Inserted admin");
-        }
+        console.log(data);
 
-        else
+        bcrypt.compare(Buffer.from(user['AuthKey'], 'base64').toString(), data[0]['AuthKey'], function(err, dat)
         {
-            console.log("Admin in database.");
-            return res.send("In database.");
-        }
+            if (err)
+            {
+                console.log("Something fucked up...\n" + error);
+                res.status(500).send();
+            }
+
+            if (dat)
+            {
+                admindb.find({MoonriseKey: adminuser['MoonriseKey']}, async function(error, data)
+                {
+                    if (error)
+                    {
+                        console.log("Something fucked up...\n" + error);
+                        return res.status(500).send();
+                    }
+            
+                    if (data[0] == null)
+                    {
+                        admindb.insert(adminuser);
+                        console.log("Inserted user into admin db.")
+                        return res.send("Inserted admin");
+                    }
+            
+                    else
+                    {
+                        console.log("Admin in database.");
+                        return res.send("In database.");
+                    }
+                });
+            }
+
+            else
+            {
+                console.log("Failed to authenticate.");
+                res.json({success: false, message: "Failed to authenticate..."});
+            }
+        });
     });
 });
 
@@ -529,8 +584,7 @@ app.post('/' + pushUpdate, function(req, res)
                 for (let i = 0; i < modinf['modChanges'].length; i++)
                 {
                     let change = Buffer.from(modinf['modChanges'][i], 'base64').toString();
-                    if (change.startsWith("##") == false)
-                        changes += modinf['modChanges'][i] + '\n';
+                    changes += modinf['modChanges'][i] + '\n';
                 }
                 console.log(changes);
                 try
@@ -588,4 +642,5 @@ app.listen(moonrise_port, function()
     console.log("Server Listening...");
 });
 
-init_tunnel();
+if (!debug)
+    init_tunnel();

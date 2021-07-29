@@ -10,6 +10,7 @@ namespace MoonriseV2Mod.API
         //public static AssetBundle assetBundle { get; set; }
         public static AssetBundle UshioUiAssetBundle { get; private set; }
         public static AssetBundle MoonriseAssetBundle { get; private set; }
+        public static AssetBundle EbookBundle { get; private set; }
         public static bool isInitialized = false;
 
         public static void InitializeAssetBundle()
@@ -31,8 +32,26 @@ namespace MoonriseV2Mod.API
                 MoonriseAssetBundle = AssetBundle.LoadFromMemory_Internal(tempStream.ToArray(), 0);
                 MoonriseAssetBundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
             }
-
             isInitialized = true;
+        }
+
+        public static bool specialInitialized = false;
+        public static void InitializeSpecial(TVJVc2Vy user)
+        {
+            if (!user.Lewd)
+            {
+                specialInitialized = true;
+                return;
+            }
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MoonriseV2Mod.ebook.mra"))
+            using (var tempStream = new MemoryStream((int)stream.Length))
+            {
+                stream.CopyTo(tempStream);
+
+                EbookBundle = AssetBundle.LoadFromMemory_Internal(tempStream.ToArray(), 0);
+                EbookBundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+            }
+            specialInitialized = true;
         }
 
         public static Texture2D TextureFromSprite(Sprite sprite)

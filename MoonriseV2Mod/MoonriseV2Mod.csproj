@@ -88,6 +88,18 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
     <Reference Include="VRCCore-Standalone">
       <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRCCore-Standalone.dll</HintPath>
     </Reference>
@@ -99,7 +111,7 @@
     <Compile Include="API\QXNzZXRCdW5kbGVz.cs" />
     <Compile Include="API\MoonriseTabApi.cs" />
     <Compile Include="API\TVJVc2Vy.cs" />
-    <Compile Include="API\VlVkNGFHVlhWbmxSTW1oc1dUSnpQUT09.cs" />
+    <Compile Include="API\PlayerCheck.cs" />
     <Compile Include="API\RubyButtonApi.cs" />
     <Compile Include="API\VXNoaW9SdWJ5TW9kaWZpZXJz.cs" />
     <Compile Include="API\VlhOb2FXOVZTUT09.cs" />
@@ -108,6 +120,9 @@
     <Compile Include="AvatarFunctions\VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.cs" />
     <Compile Include="BaseFunctions\RW1vamlTcGFt.cs" />
     <Compile Include="BaseFunctions\VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.cs" />
+    <Compile Include="HReader\Behaviour\HentaiReader.cs" />
+    <Compile Include="HReader\BookInfo.cs" />
+    <Compile Include="HReader\NHentaiReader.cs" />
     <Compile Include="Moonrise.cs" />
     <Compile Include="MoonriseConsole.cs" />
     <Compile Include="BaseFunctions\TW9vbnJpc2VCYXNlRnVuY3Rpb25z.cs" />
@@ -126,6 +141,14 @@
     <EmbeddedResource Include="moonrise.assetbundle" />
     <EmbeddedResource Include="ushioui.assetbundle" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Patches\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ebook.mra" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
