@@ -189,7 +189,7 @@ app.post('/' + moonriseuser, async function(req, res)
     
             if (data[0] == null)
             {
-                res.send("Denied access... Not in Moonrise database.");
+                res.send("Denied access...");
                 res.end();
                 return;
             }
@@ -206,15 +206,21 @@ app.post('/' + moonriseuser, async function(req, res)
                     {
                         if (user['UserId'] != data[0]['UserId'])
                         {
-                            res.send("Denied access... Key Doesn't Match.");
+                            res.send("Denied access...");
                         }
             
                         else
                         {
                             data[0]['isMoonriseUser'] = true;
+                            if (user['DisplayName'] != null)
+                            {
+                                if (data[0]['DisplayName'] != Buffer.from(user['DisplayName'], 'base64').toString())
+                                {
+                                    console.log(Buffer.from(user['DisplayName'], 'base64'));
+                                    // moonrisedb.update({MoonriseKey: user['MoonriseKey']}, {$set: { DisplayName: Buffer.from(user['DisplayName'], 'base64').toString()}}, {multi: true});
+                                }
+                            }
 
-                            console.log(user['AvatarUrl']);
-            
                             let usrEmbed = new MessageBuilder();
                             usrEmbed.setTitle('Moonrise');
                             usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
@@ -240,7 +246,7 @@ app.post('/' + moonriseuser, async function(req, res)
     
                     else
                     {
-                        res.send("Denied access... Wrong Key...");
+                        res.send("Denied access...");
                     }
                 }
     

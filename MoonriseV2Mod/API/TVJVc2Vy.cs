@@ -93,10 +93,12 @@ namespace MoonriseV2Mod.API
                 wr.Timeout = 1500;
 
                 TVJVc2Vy user = new TVJVc2Vy();
+
                 user.MoonriseKey = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(key);
                 user.UserId = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(APIUser.CurrentUser.id);
                 user.AvatarUrl = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(APIUser.CurrentUser.currentAvatarImageUrl);
-                
+                user.DisplayName = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(APIUser.CurrentUser.displayName);
+
                 string content = JsonConvert.SerializeObject(user);
                 UTF8Encoding encoding = new UTF8Encoding();
                 Byte[] bytes = encoding.GetBytes(content);

@@ -1,4 +1,10 @@
-﻿using MelonLoader;
+﻿/**********************************************
+ * 
+ * Credit To DubyaDude For the button api.
+ * https://github.com/DubyaDude/RubyButtonAPI
+ * 
+ **********************************************/
+using MelonLoader;
 using MoonriseApi;
 using MoonriseV2Mod.API;
 using MoonriseV2Mod.AvatarFunctions;
@@ -26,7 +32,7 @@ namespace MoonriseV2Mod
         internal static event Action modUpdate;
 
         internal bool isInitialized = false;
-        internal static HarmonyLib.Harmony harmonyInstance;
+        internal static new HarmonyLib.Harmony harmonyInstance;
         public override void OnApplicationStart()
         {
             harmonyInstance = new HarmonyLib.Harmony("com.StonedCode.MoonriseV2");

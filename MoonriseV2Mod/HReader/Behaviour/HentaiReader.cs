@@ -87,14 +87,15 @@ namespace MoonriseV2Mod.HReader.Behaviour
         private Animator animator;
         private Texture2D cover;
         private Texture2D[] pages;
-        private MeshRenderer pageView;
+        private RawImage pageView;
         private Text tagText;
         private Text pageStatus;
         private Text titleText;
+        private Toggle forceLargeToggle;
         private Button lastButton;
         private Button nextButton;
         private Button deleteButton;
-        private Transform loadingElement;
+
         private int pageNumbers;
         private int currentPage = 0;
         private bool forceLarge = false;
@@ -103,13 +104,15 @@ namespace MoonriseV2Mod.HReader.Behaviour
         private BoxCollider canvasCollider;
 
         private Slider loadingProgress;
-        private Toggle forceLargeToggle;
+        private Transform loadingElement;
+
+
+        string coverUrl;
+        bool loading = false;
+        string[] imageUrls;
 
         private void Update()
         {
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L))
-                forceLarge = !forceLarge;
-
             if (animator == null) return;
 
             if (MRConfiguration.config.EnlargeEbookOnGrab)
@@ -131,7 +134,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
             }
 
         }
-        string coverUrl;
+
         [HideFromIl2Cpp]
         IEnumerator SetCover()
         {
@@ -145,6 +148,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
             else
             {
                 var downloadHandler = request.downloadHandler.Cast<DownloadHandlerTexture>();
+
                 cover = downloadHandler.texture;
             }
 
@@ -152,8 +156,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
 
             SetDisplayTexture(cover);
         }
-        bool loading = false;
-        string[] imageUrls;
+
         [HideFromIl2Cpp]
         IEnumerator GetAllImages()
         {
@@ -167,22 +170,26 @@ namespace MoonriseV2Mod.HReader.Behaviour
 
             for (int i = 0; i < imageUrls.Length; i++)
             {
+                if (imageUrls[i] == null) continue; 
                 UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrls[i]);
+
                 request.SendWebRequest();
                 while (!request.isDone) yield return null;
-                // yield return request.SendWebRequest();
 
                 if (request.isNetworkError || request.isHttpError)
                     MoonriseConsole.ErrorLog(request.error);
                 else
                 {
                     var downloadHandler = request.downloadHandler.Cast<DownloadHandlerTexture>();
+
                     pages[i] = downloadHandler.texture;
                 }
 
                 loadingProgress.value = i + 1;
                 request.Dispose();
             }
+            loadingProgress.value = imageUrls.Length;
+            yield return new WaitForSeconds(2f);
 
             loadingElement.gameObject.SetActive(false);
             loading = false;
@@ -191,6 +198,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
         [HideFromIl2Cpp]
         public static void SpawnReader(string hentaiId)
         {
+            if (hentaiId == "0") return;
             var tempObj = QXNzZXRCdW5kbGVz.EbookBundle.LoadAsset("EBook.prefab").Cast<GameObject>();
             tempObj.AddComponent<HentaiReader>();
 
@@ -209,7 +217,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
         [HideFromIl2Cpp]
         private void SetDisplayTexture(Texture2D tex)
         {
-            pageView.material.mainTexture = tex;
+            pageView.texture = tex;
         }
 
         [HideFromIl2Cpp]
@@ -222,7 +230,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
             forceLargeToggle = transform.Find("Screen/Canvas/Buttons/Toggle").GetComponent<Toggle>();
 
             animator = GetComponent<Animator>();
-            pageView = transform.Find("Screen/Canvas/PageDisplay").GetComponent<MeshRenderer>();
+            pageView = transform.Find("Screen/Canvas/PageDisplay").GetComponent<RawImage>();
             tagText = transform.Find("Screen/Canvas/TagsBackground/Tags").GetComponent<Text>();
             pageStatus = transform.Find("Screen/Canvas/TagsBackground/PageStatus").GetComponent<Text>();
             titleText = transform.Find("Screen/Canvas/BookTitle").GetComponent<Text>();
