@@ -17,7 +17,6 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public bool isMoonriseUser { get; set; }
         [JsonProperty] public string AvatarUrl { get; set; }
         [JsonIgnore] internal static string baseUrl = "loca.lt";
-        [JsonIgnore] internal static bool debug = false;
         internal static string WorkingUrl
         {
             get

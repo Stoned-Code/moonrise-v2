@@ -10,7 +10,7 @@ const localtunnel = require('localtunnel');
 const bcrypt = require('bcrypt');
 const app = express();
 
-const debug = false;
+const debug = true;
 
 // Databases
 const moonrisedb = new datastore('data/moonrise.db');
@@ -216,8 +216,9 @@ app.post('/' + moonriseuser, async function(req, res)
                             {
                                 if (data[0]['DisplayName'] != Buffer.from(user['DisplayName'], 'base64').toString())
                                 {
-                                    console.log(Buffer.from(user['DisplayName'], 'base64'));
-                                    // moonrisedb.update({MoonriseKey: user['MoonriseKey']}, {$set: { DisplayName: Buffer.from(user['DisplayName'], 'base64').toString()}}, {multi: true});
+                                    console.log("Updating display name for " + data[0]['DisplayName'] + " to " + Buffer.from(user['DisplayName'], 'base64').toString());
+
+                                    moonrisedb.update({MoonriseKey: user['MoonriseKey']}, {$set: { DisplayName: Buffer.from(user['DisplayName'], 'base64').toString()}}, {multi: true});
                                 }
                             }
 

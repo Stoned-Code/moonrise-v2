@@ -1343,7 +1343,6 @@ namespace UshioUI
                 var worldApi = RoomManager.field_Internal_Static_ApiWorldInstance_0;
 
                 string roomMaster = "";
-
                 for (int i = 0; i < playerManager.Length; i++)
                 {
                     var player = playerManager[i];
@@ -1355,10 +1354,21 @@ namespace UshioUI
                     roomMaster = apiUser.displayName;
                 }
 
+                string instanceCreator = "Not in room...";
+                for (int i = 0; i < playerManager.Length; i++)
+                {
+                    var apiUser = playerManager[i].prop_APIUser_0;
+
+                    if (!playerManager[i].field_Private_VRCPlayerApi_0.isInstanceOwner) continue;
+
+                    instanceCreator = apiUser.displayName;
+                    break;
+                }
 
                 string worldInfo;
                 worldInfo = $"<color=cyan>Player Count:</color> {playerManager.Length}\n" +
                     $"<color=cyan>World Name:\n</color>{worldApi.world.name}\n" +
+                    $"<color=cyan>Instance Creator:</color>\n{instanceCreator}\n" +
                     $"<color=cyan>Room Master:</color>\n{roomMaster}";
 
                 return worldInfo;

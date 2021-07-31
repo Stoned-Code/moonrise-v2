@@ -248,7 +248,11 @@ namespace MoonriseV2Mod.HReader.Behaviour
             lastButton.onClick.AddListener(new Action(delegate { LastPage(); }));
             nextButton.onClick.AddListener(new Action(delegate { NextPage(); }));
             deleteButton.onClick.AddListener(new Action(delegate { DeleteEbook(this.gameObject); }));
-            forceLargeToggle.onValueChanged.AddListener(new Action<bool>(delegate { ToggleForceLarge(); }));
+            forceLargeToggle.onValueChanged.AddListener(new Action<bool>(delegate (bool value) 
+            {
+                MoonriseConsole.Log("Toggle State: " + value.ToString());
+                ToggleForceLarge(); 
+            }));
 
             GetComponent<VRC_Pickup>().AutoHold = VRC_Pickup.AutoHoldMode.Yes;
 

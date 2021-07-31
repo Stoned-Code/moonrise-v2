@@ -26,6 +26,7 @@ namespace MoonriseV2Mod
     {
 
         internal TVJVc2Vy user;
+        internal static Moonrise moonrise;
         // internal static bool debug = false;
 
         public static event Action<QMNestedButton, QMNestedButton, TVJVc2Vy> loadMenu;
@@ -35,6 +36,7 @@ namespace MoonriseV2Mod
         internal static new HarmonyLib.Harmony harmonyInstance;
         public override void OnApplicationStart()
         {
+            moonrise = this;
             harmonyInstance = new HarmonyLib.Harmony("com.StonedCode.MoonriseV2");
             harmonyInstance.PatchAll();
             MelonCoroutines.Start(ModStart());
@@ -75,17 +77,36 @@ namespace MoonriseV2Mod
             if (MRConfiguration.config.moonriseKey != "FreeUser")
                 user = TVJVc2Vy.UjJWMFZYTmxjZz09(MRConfiguration.config.moonriseKey);
 
-            if (!isInitialized)
+            //if (!isInitialized)
+            //{
+            //    QMNestedButton functions = new QMNestedButton("ShortcutMenu", 0, -2, "", "");
+            //    QMNestedButton socialInterractions = new QMNestedButton("UserInteractMenu", 4, -2, "<color=cyan>MMM</color>\nPlayer\nFunctions", "MMM options for selected player");
+            //    UshioMenuApi.SetMenu();
+            //    QXNzZXRCdW5kbGVz.InitializeSpecial(user);
+
+            //    while (!QXNzZXRCdW5kbGVz.specialInitialized) yield return null;
+
+            //    loadMenu?.Invoke(functions, socialInterractions, user);
+            //    isInitialized = true;
+            //}
+        }
+
+        internal static IEnumerator LoadMenu()
+        {
+            while (moonrise == null) yield return null;
+            while (APIUser.CurrentUser == null) yield return null;
+
+            if (!moonrise.isInitialized)
             {
                 QMNestedButton functions = new QMNestedButton("ShortcutMenu", 0, -2, "", "");
                 QMNestedButton socialInterractions = new QMNestedButton("UserInteractMenu", 4, -2, "<color=cyan>MMM</color>\nPlayer\nFunctions", "MMM options for selected player");
                 UshioMenuApi.SetMenu();
-                QXNzZXRCdW5kbGVz.InitializeSpecial(user);
+                QXNzZXRCdW5kbGVz.InitializeSpecial(moonrise.user);
 
                 while (!QXNzZXRCdW5kbGVz.specialInitialized) yield return null;
 
-                loadMenu?.Invoke(functions, socialInterractions, user);
-                isInitialized = true;
+                loadMenu?.Invoke(functions, socialInterractions, moonrise.user);
+                moonrise.isInitialized = true;
             }
         }
     }
