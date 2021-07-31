@@ -10,7 +10,7 @@ const localtunnel = require('localtunnel');
 const bcrypt = require('bcrypt');
 const app = express();
 
-const debug = true;
+const debug = false;
 
 // Databases
 const moonrisedb = new datastore('data/moonrise.db');
