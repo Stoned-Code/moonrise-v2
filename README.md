@@ -3,12 +3,10 @@ A quality of life mod.
 
 ## Client Side To-Do
 * Flight
-* No Clip (Premium)
-* Avatar Ripper (Maybe)
+* No Clip (Premium?)
 * Crasher Hider
 * Post Processing Toggle
 * Realtime Light Toggle
-* Force Clone (Premium)
 * Player Teleport Points
 
 ## Client Side Completed
