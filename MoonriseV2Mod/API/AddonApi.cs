@@ -48,7 +48,6 @@ namespace MoonriseApi
             }
         }
 
-        [InitMethod]
         internal static void Initialize()
         {
             MelonCoroutines.Start(InitializeAddons());

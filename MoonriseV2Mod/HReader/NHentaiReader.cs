@@ -29,7 +29,6 @@ namespace MoonriseV2Mod.HReader
             MelonCoroutines.Start(LoadMenu(functions, socialInterractions));
         }
 
-        [InitMethod]
         public static void Initialize()
         {
             nhentaiReader = new NHentaiReader();

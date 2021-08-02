@@ -130,7 +130,6 @@
     <Compile Include="Moonrise.cs" />
     <Compile Include="MoonriseConsole.cs" />
     <Compile Include="BaseFunctions\TW9vbnJpc2VCYXNlRnVuY3Rpb25z.cs" />
-    <Compile Include="MoonriseAttributes.cs" />
     <Compile Include="MoonriseObject.cs" />
     <Compile Include="Patches\QuickMenuPatches.cs" />
     <Compile Include="Patches\VideoPlayerPatches.cs" />
