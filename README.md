@@ -8,6 +8,7 @@ A quality of life mod.
 * Post Processing Toggle
 * Realtime Light Toggle
 * Player Teleport Points
+* Player Teleport List
 
 ## Client Side Completed
 * Player Mute
@@ -15,7 +16,8 @@ A quality of life mod.
 * Ad Blocker
 * Ignore List
 * Base64 Encription
-* Player Teleport* Auto Update Notification
+* Player Teleport
+* Auto Update Notification
 * Report Crasher (Premium)
 * Portable Mirror
 * Custom MonoBehavior for Tab

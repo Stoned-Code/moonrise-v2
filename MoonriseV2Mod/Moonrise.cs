@@ -19,6 +19,8 @@ using System.Collections;
 using UnhollowerRuntimeLib;
 using UshioUI;
 using VRC.Core;
+using System.Reflection;
+using System.Linq;
 
 namespace MoonriseV2Mod
 {

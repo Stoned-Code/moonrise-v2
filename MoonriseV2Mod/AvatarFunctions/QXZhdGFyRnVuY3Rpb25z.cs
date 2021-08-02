@@ -13,7 +13,7 @@ namespace MoonriseV2Mod.AvatarFunctions
 
         public QXZhdGFyRnVuY3Rpb25z()
         {
-            Moonrise.loadMenu += VEc5aFpFMWxiblU9;
+            Moonrise.loadMenu += LoadMenu;
             Moonrise.modUpdate += OnUpdate;
         }
 
@@ -26,7 +26,7 @@ namespace MoonriseV2Mod.AvatarFunctions
             avatarFunctionsBase.isInitialized = true;
         }
 
-        public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
+        public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             avatarFunctions = new QMNestedButton(functions, 3, 0, "Avatar\nFunctions", "Functions for avatars.");
 

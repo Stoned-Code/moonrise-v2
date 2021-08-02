@@ -100,6 +100,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.VideoModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\UnityEngine.VideoModule.dll</HintPath>
+    </Reference>
     <Reference Include="VRCCore-Standalone">
       <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRCCore-Standalone.dll</HintPath>
     </Reference>
@@ -126,8 +130,10 @@
     <Compile Include="Moonrise.cs" />
     <Compile Include="MoonriseConsole.cs" />
     <Compile Include="BaseFunctions\TW9vbnJpc2VCYXNlRnVuY3Rpb25z.cs" />
+    <Compile Include="MoonriseAttributes.cs" />
     <Compile Include="MoonriseObject.cs" />
     <Compile Include="Patches\QuickMenuPatches.cs" />
+    <Compile Include="Patches\VideoPlayerPatches.cs" />
     <Compile Include="PortableMirror.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\VVZkU2ExRnRlSFpaTW5Sc1kyYzlQUT09.cs" />

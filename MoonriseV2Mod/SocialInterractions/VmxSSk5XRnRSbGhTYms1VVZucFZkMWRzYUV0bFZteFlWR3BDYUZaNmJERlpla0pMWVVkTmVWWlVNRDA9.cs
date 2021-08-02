@@ -11,7 +11,7 @@ namespace MoonriseV2Mod.SocialInterractions
         public static VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9 siBase;
         public VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9()
         {
-            Moonrise.loadMenu += VEc5aFpFMWxiblU9;
+            Moonrise.loadMenu += LoadMenu;
         }
 
         public static void Initialize()
@@ -20,7 +20,7 @@ namespace MoonriseV2Mod.SocialInterractions
             siBase.isInitialized = true;
         }
 
-        public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
+        public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             var clearIgnoreListButton = new QMSingleButton(socialInterractions, 0, 0, "Clear\nIgnore\nList", delegate
             {

@@ -11,6 +11,7 @@ using UnityEngine;
 using MoonriseV2Mod.BaseFunctions;
 using UnhollowerRuntimeLib;
 using MoonriseV2Mod.API;
+using MoonriseV2Mod;
 
 namespace MoonriseApi
 {
@@ -47,6 +48,7 @@ namespace MoonriseApi
             }
         }
 
+        [InitMethod]
         internal static void Initialize()
         {
             MelonCoroutines.Start(InitializeAddons());

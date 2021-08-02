@@ -17,7 +17,7 @@ namespace MoonriseV2Mod
         public static PortableMirror portableMirror;
         public PortableMirror()
         {
-            Moonrise.loadMenu += VEc5aFpFMWxiblU9;
+            Moonrise.loadMenu += LoadMenu;
         }
         public QMNestedButton portableMirrorNested;
         public static GameObject mirror;
@@ -25,7 +25,7 @@ namespace MoonriseV2Mod
         public static VRC_MirrorReflection mirrorReflection => mirror.GetComponent<VRC_MirrorReflection>();
         public static bool isPickupable = true;
 
-        public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
+        public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             portableMirrorNested = new QMNestedButton(functions, 4, 0, "Portable\nMirror", "Functions for a portable mirror");
 

@@ -62,7 +62,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
                         wr.Abort();
                         wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                         wr.Timeout = 1500;
-                        MoonriseConsole.Log($"Checking {tempUrl}");
+                        // MoonriseConsole.Log($"Checking {tempUrl}");
                         WebResponse res = wr.GetResponse();
 
                         using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
@@ -261,15 +261,23 @@ namespace MoonriseV2Mod.HReader.Behaviour
             WebRequest wr = WebRequest.Create(fulUrl);
             wr.Timeout = 1500;
             wr.Method = "GET";
+            wr.Proxy = null;
 
             string json = "";
 
             WebResponse res = wr.GetResponse();
 
             using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
+            {
                 json = sr.ReadToEnd();
-            
+            }
 
+            
+            if (json == "No Book Found...")
+            {
+                DeleteEbook(this.gameObject);
+                return;
+            }
 
             BookInfo info = JsonConvert.DeserializeObject<BookInfo>(json);
             coverUrl = info.coverUrl;

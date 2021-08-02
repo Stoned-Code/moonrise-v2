@@ -11,7 +11,7 @@ namespace MoonriseV2Mod.Settings
 
         public VTJWMGRHbHVaM05HZFc1amRHbHZibk09()
         {
-            Moonrise.loadMenu += VEc5aFpFMWxiblU9;
+            Moonrise.loadMenu += LoadMenu;
             Moonrise.modUpdate += OnSettingsUpdate;
         }
 
@@ -30,7 +30,7 @@ namespace MoonriseV2Mod.Settings
         }
 
         public QMNestedButton settingsMenu;
-        public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
+        public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             settingsMenu = new QMNestedButton(functions, 5, -1, "Settings", "Settings for moonrise.");
 

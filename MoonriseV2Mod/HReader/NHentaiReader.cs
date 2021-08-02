@@ -20,15 +20,16 @@ namespace MoonriseV2Mod.HReader
 
         public NHentaiReader()
         {
-            Moonrise.loadMenu += VEc5aFpFMWxiblU9;
+            Moonrise.loadMenu += LoadMenu;
         }
 
-        public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
+        public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             if (!user.Lewd) return;
             MelonCoroutines.Start(LoadMenu(functions, socialInterractions));
         }
 
+        [InitMethod]
         public static void Initialize()
         {
             nhentaiReader = new NHentaiReader();

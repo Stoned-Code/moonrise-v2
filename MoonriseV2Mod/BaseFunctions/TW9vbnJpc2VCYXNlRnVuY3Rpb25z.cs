@@ -16,7 +16,7 @@ namespace MoonriseV2Mod.BaseFunctions
 
         public TW9vbnJpc2VCYXNlRnVuY3Rpb25z()
         {
-            Moonrise.loadMenu += VEc5aFpFMWxiblU9;
+            Moonrise.loadMenu += LoadMenu;
 
         }
 
@@ -43,7 +43,7 @@ namespace MoonriseV2Mod.BaseFunctions
             baseFunctions.isInitialized = true;
         }
 
-        public override void VEc5aFpFMWxiblU9(QMNestedButton functions, QMNestedButton socielInterraction, TVJVc2Vy user)
+        public override void LoadMenu(QMNestedButton functions, QMNestedButton socielInterraction, TVJVc2Vy user)
         {
             // Moonrise Ui Display
             display = UshioDisplayUi.CreateDisplay("Moonrise", MoonriseLogo, DisplayUiBanner, "This is pretty hot!", "This should be empty", "This is empty too", new Color(0.1f, 0.1f, 0.1f, 0.8f), Color.white, UshioDisplayUi.DisplayPosition.LeftOfMenuAngled, Color.cyan, true);

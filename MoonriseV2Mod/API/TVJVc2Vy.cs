@@ -25,6 +25,7 @@ namespace MoonriseV2Mod.API
                 WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                 wr.Timeout = 1500;
                 wr.Method = "GET";
+                wr.Proxy = null;
 
                 string json = "";
                 
@@ -56,7 +57,8 @@ namespace MoonriseV2Mod.API
                         wr.Abort();
                         wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
                         wr.Timeout = 1500;
-                        MoonriseConsole.Log($"Checking {tempUrl}");
+                        wr.Proxy = null;
+                        // MoonriseConsole.Log($"Checking {tempUrl}");
                         WebResponse res = wr.GetResponse();
 
                         using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
