@@ -21,6 +21,7 @@ A quality of life mod.
 * Report Crasher (Premium)
 * Portable Mirror
 * Custom MonoBehavior for Tab
+* Hentai From Launch Codes
 
 ## Client Issues
 * Backend Post Timeouts
