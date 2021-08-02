@@ -26,7 +26,9 @@ namespace MoonriseV2Mod.Settings
         {
             get
             {
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(TVJVc2Vy.WorkingUrl + "/slkefgdga9e3d");
+                string url = TVJVc2Vy.WorkingUrl;
+                if (url == "N/A") return true;
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url + "/slkefgdga9e3d");
                 wr.ContentType = "application/json";
                 wr.Timeout = 1500;
                 wr.Method = "POST";

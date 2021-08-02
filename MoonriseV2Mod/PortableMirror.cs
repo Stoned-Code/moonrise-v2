@@ -1,4 +1,5 @@
 ﻿using MoonriseV2Mod.API;
+using MoonriseV2Mod.Patches;
 using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
 using System;
@@ -17,7 +18,7 @@ namespace MoonriseV2Mod
         public static PortableMirror portableMirror;
         public PortableMirror()
         {
-            Moonrise.loadMenu += LoadMenu;
+            QuickMenuPatches.loadMenu += LoadMenu;
         }
         public QMNestedButton portableMirrorNested;
         public static GameObject mirror;

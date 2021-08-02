@@ -1,5 +1,6 @@
 ﻿using MoonriseV2Mod.API;
 using MoonriseV2Mod.BaseFunctions;
+using MoonriseV2Mod.Patches;
 using RubyButtonAPI;
 using System;
 
@@ -11,7 +12,7 @@ namespace MoonriseV2Mod.Settings
 
         public VTJWMGRHbHVaM05HZFc1amRHbHZibk09()
         {
-            Moonrise.loadMenu += LoadMenu;
+            QuickMenuPatches.loadMenu += LoadMenu;
             Moonrise.modUpdate += OnSettingsUpdate;
         }
 

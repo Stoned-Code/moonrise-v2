@@ -31,7 +31,6 @@ namespace MoonriseV2Mod
         internal static Moonrise moonrise;
         // internal static bool debug = false;
 
-        public static event Action<QMNestedButton, QMNestedButton, TVJVc2Vy> loadMenu;
         internal static event Action modUpdate;
 
         internal bool isInitialized = false;
@@ -91,25 +90,6 @@ namespace MoonriseV2Mod
             //    loadMenu?.Invoke(functions, socialInterractions, user);
             //    isInitialized = true;
             //}
-        }
-
-        internal static IEnumerator LoadMenu()
-        {
-            while (moonrise == null) yield return null;
-            while (APIUser.CurrentUser == null) yield return null;
-
-            if (!moonrise.isInitialized)
-            {
-                QMNestedButton functions = new QMNestedButton("ShortcutMenu", 0, -2, "", "");
-                QMNestedButton socialInterractions = new QMNestedButton("UserInteractMenu", 4, -2, "<color=cyan>MMM</color>\nPlayer\nFunctions", "MMM options for selected player");
-                UshioMenuApi.SetMenu();
-                QXNzZXRCdW5kbGVz.InitializeSpecial(moonrise.user);
-
-                while (!QXNzZXRCdW5kbGVz.specialInitialized) yield return null;
-
-                loadMenu?.Invoke(functions, socialInterractions, moonrise.user);
-                moonrise.isInitialized = true;
-            }
         }
     }
 }

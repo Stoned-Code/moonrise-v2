@@ -1,5 +1,6 @@
 ﻿using MoonriseV2Mod.API;
 using MoonriseV2Mod.MonoBehaviourScripts;
+using MoonriseV2Mod.Patches;
 using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
 using System;
@@ -13,7 +14,7 @@ namespace MoonriseV2Mod.AvatarFunctions
 
         public QXZhdGFyRnVuY3Rpb25z()
         {
-            Moonrise.loadMenu += LoadMenu;
+            QuickMenuPatches.loadMenu += LoadMenu;
             Moonrise.modUpdate += OnUpdate;
         }
 

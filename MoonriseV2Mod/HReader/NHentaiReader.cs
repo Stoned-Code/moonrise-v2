@@ -11,6 +11,7 @@ using MelonLoader;
 using MoonriseV2Mod.HReader.Behaviour;
 using MoonriseApi;
 using MoonriseV2Mod.Settings;
+using MoonriseV2Mod.Patches;
 
 namespace MoonriseV2Mod.HReader
 {
@@ -20,7 +21,7 @@ namespace MoonriseV2Mod.HReader
 
         public NHentaiReader()
         {
-            Moonrise.loadMenu += LoadMenu;
+            QuickMenuPatches.loadMenu += LoadMenu;
         }
 
         public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)

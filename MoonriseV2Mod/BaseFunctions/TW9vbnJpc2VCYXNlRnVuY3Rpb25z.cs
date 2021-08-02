@@ -1,6 +1,7 @@
 ﻿using MelonLoader;
 using MoonriseTabApi;
 using MoonriseV2Mod.API;
+using MoonriseV2Mod.Patches;
 using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
 using UnhollowerRuntimeLib;
@@ -16,8 +17,7 @@ namespace MoonriseV2Mod.BaseFunctions
 
         public TW9vbnJpc2VCYXNlRnVuY3Rpb25z()
         {
-            Moonrise.loadMenu += LoadMenu;
-
+            QuickMenuPatches.loadMenu += LoadMenu;
         }
 
         private Sprite MoonriseIcon;

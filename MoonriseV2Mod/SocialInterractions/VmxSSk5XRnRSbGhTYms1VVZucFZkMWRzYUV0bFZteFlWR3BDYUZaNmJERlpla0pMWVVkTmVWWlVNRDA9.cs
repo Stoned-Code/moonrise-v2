@@ -1,6 +1,7 @@
 ﻿using MelonLoader;
 using MoonriseV2Mod.API;
 using MoonriseV2Mod.AvatarFunctions;
+using MoonriseV2Mod.Patches;
 using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
 
@@ -11,7 +12,7 @@ namespace MoonriseV2Mod.SocialInterractions
         public static VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9 siBase;
         public VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9()
         {
-            Moonrise.loadMenu += LoadMenu;
+            QuickMenuPatches.loadMenu += LoadMenu;
         }
 
         public static void Initialize()

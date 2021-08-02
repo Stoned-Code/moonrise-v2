@@ -38,6 +38,12 @@ namespace MoonriseV2Mod.API
         public static bool specialInitialized = false;
         public static void InitializeSpecial(TVJVc2Vy user)
         {
+            if (user == null)
+            {
+                specialInitialized = true;
+                return;
+            }
+
             if (!user.Lewd)
             {
                 specialInitialized = true;
