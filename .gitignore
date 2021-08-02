@@ -510,11 +510,11 @@ dist
 Backend/node_modules/
 Backend/index/
 Backend/videos/
-Backend/data/moonrise.db
-Backend/data/crashers.db
-Backend/data/modInfo.db
-Backend/data/admindb.db
-Backend/data/
+#Backend/data/moonrise.db
+#Backend/data/crashers.db
+#Backend/data/modInfo.db
+#Backend/data/admindb.db
+#Backend/data/
 Backend/request.rest
 ssh
 ssh.pub
