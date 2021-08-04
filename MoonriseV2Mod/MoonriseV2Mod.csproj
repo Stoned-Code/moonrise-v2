@@ -43,6 +43,10 @@
     <Reference Include="Il2CppSystem">
       <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\Il2CppSystem.dll</HintPath>
     </Reference>
+    <Reference Include="Il2CppSystem.Core, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\Il2CppSystem.Core.dll</HintPath>
+    </Reference>
     <Reference Include="MelonLoader">
       <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\MelonLoader.dll</HintPath>
     </Reference>
@@ -111,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\AddonApi.cs" />
+    <Compile Include="API\NetworkManagerHooks.cs" />
     <Compile Include="API\VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.cs" />
     <Compile Include="API\QXNzZXRCdW5kbGVz.cs" />
     <Compile Include="API\MoonriseTabApi.cs" />
@@ -119,11 +124,11 @@
     <Compile Include="API\RubyButtonApi.cs" />
     <Compile Include="API\VXNoaW9SdWJ5TW9kaWZpZXJz.cs" />
     <Compile Include="API\VlhOb2FXOVZTUT09.cs" />
+    <Compile Include="BaseFunctions\JoinNotifierFunction.cs" />
     <Compile Include="CustomBehavior\MRAvatarHider.cs" />
     <Compile Include="AvatarFunctions\QXZhdGFyRnVuY3Rpb25z.cs" />
-    <Compile Include="AvatarFunctions\VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.cs" />
+    <Compile Include="Patches\VRCAvatarManagerPatches.cs" />
     <Compile Include="BaseFunctions\RW1vamlTcGFt.cs" />
-    <Compile Include="BaseFunctions\VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.cs" />
     <Compile Include="HReader\Behaviour\HentaiReader.cs" />
     <Compile Include="HReader\BookInfo.cs" />
     <Compile Include="HReader\NHentaiReader.cs" />
@@ -131,6 +136,9 @@
     <Compile Include="MoonriseConsole.cs" />
     <Compile Include="BaseFunctions\TW9vbnJpc2VCYXNlRnVuY3Rpb25z.cs" />
     <Compile Include="MoonriseObject.cs" />
+    <Compile Include="Patches\ModerationPatches.cs" />
+    <Compile Include="Patches\USpeakerPatches.cs" />
+    <Compile Include="Patches\PortalPatches.cs" />
     <Compile Include="Patches\QuickMenuPatches.cs" />
     <Compile Include="Patches\VideoPlayerPatches.cs" />
     <Compile Include="PortableMirror.cs" />

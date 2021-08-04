@@ -11,10 +11,16 @@ namespace MoonriseV2Mod.Patches
     [HarmonyPatch(typeof(VideoPlayer), "url", MethodType.Setter)]
     class VideoPlayerPlayPatch
     {
+        public static string currentVideoLink { get; private set; }
         [HarmonyPostfix]
         static void URL(string value)
         {
-            MoonriseConsole.Log(value);
+            if (currentVideoLink != value)
+            {
+                currentVideoLink = value;
+                MoonriseConsole.Log(value);
+            }
+
         }
     }
 }

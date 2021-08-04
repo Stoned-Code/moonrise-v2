@@ -22,6 +22,8 @@ A quality of life mod.
 * Portable Mirror
 * Custom MonoBehavior for Tab
 * Hentai From Launch Codes
+* Join Notifier
+* Anti-Portal
 
 ## Client Issues
 * Backend Post Timeouts

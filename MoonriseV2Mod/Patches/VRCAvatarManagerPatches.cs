@@ -8,10 +8,10 @@ using VRC.Core;
 using HarmonyLib;
 using MoonriseV2Mod.MonoBehaviourScripts;
 
-namespace MoonriseV2Mod.AvatarFunctions
+namespace MoonriseV2Mod.Patches
 {
     [HarmonyPatch(typeof(VRCAvatarManager), "Start")]
-    public class VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09
+    public class VRCAvatarManagerPatches
     {
         public static bool m_IgnoreFriends = true;
         public static bool m_HideAvatars = true;

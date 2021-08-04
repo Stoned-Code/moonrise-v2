@@ -8,6 +8,7 @@ using UnhollowerRuntimeLib;
 using UnityEngine;
 using UshioUI;
 using static MoonriseV2Mod.BaseFunctions.RW1vamlTcGFt;
+using JoinNotifier;
 
 namespace MoonriseV2Mod.BaseFunctions
 {
@@ -28,7 +29,9 @@ namespace MoonriseV2Mod.BaseFunctions
 
         public static void Initialize()
         {
-            VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.Initialize();
+            NetworkManagerHooks.Initialize();
+            JoinNotifierFunction.Initialize();
+
             baseFunctions = new TW9vbnJpc2VCYXNlRnVuY3Rpb25z();
 
             baseFunctions.MoonriseIcon = QXNzZXRCdW5kbGVz.MoonriseAssetBundle.LoadAsset_Internal("Assets/Moonrise/Sprites/MoonriseIcon.png", Il2CppType.Of<Sprite>()).Cast<Sprite>();
@@ -59,22 +62,44 @@ namespace MoonriseV2Mod.BaseFunctions
             //Mute All
             var muteAllButton = new QMToggleButton(functions, 1, 0, "Mute All", delegate
             {
-                VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.muteAll = true;
+                PlayerMutePatch.muteAll = true;
             }, "Disabled", delegate
             {
-                VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.muteAll = false;
-                VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.UnmutePlayers();
+                PlayerMutePatch.muteAll = false;
+                //VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.UnmutePlayers();
             }, "Mutes all players in the world except friends", null, null, false, false);
 
             //Mute Friends
             var muteFriendsTransform = new QMToggleButton(functions, 2, 0, "Mute Friends", delegate
             {
-                VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.muteFriends = true;
+                PlayerMutePatch.muteFriends = true;
             }, "Disabled", delegate
             {
-                VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.muteFriends = false;
-                VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.UnmutePlayers();
+                PlayerMutePatch.muteFriends = false;
+                //VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.UnmutePlayers();
             }, "Mutes all friends in the world", null, null, false, false);
+
+            // Anti-Portal
+            var antiPortal = new QMToggleButton(functions, 1, 1, "Anti-Portal", delegate
+            {
+                MRConfiguration.config.antiPortal = true;
+                MRConfiguration.config.WriteConfig();
+            }, "Disabled", delegate
+            {
+                MRConfiguration.config.antiPortal = false;
+                MRConfiguration.config.WriteConfig();
+            }, "Toggles whether you go through a portal.", null, null, false, MRConfiguration.config.antiPortal);
+
+            // Join Notifier
+            var joinNotifier = new QMToggleButton(functions, 2, 1, "Join Notifier", delegate
+            {
+                MRConfiguration.config.joinNotifier = true;
+                MRConfiguration.config.WriteConfig();
+            }, "Disabled", delegate
+            {
+                MRConfiguration.config.joinNotifier = false;
+                MRConfiguration.config.WriteConfig();
+            }, "Notifies you when friends join the world.", null, null, false, MRConfiguration.config.joinNotifier);
 
             if (user == null) return;
 

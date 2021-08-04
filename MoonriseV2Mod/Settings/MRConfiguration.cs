@@ -17,7 +17,9 @@ namespace MoonriseV2Mod.Settings
         [JsonProperty] public float portableMirrorWidth { get; internal set; } = 1;
         [JsonProperty] public float portableMirrorHeight { get; internal set; } = 2;
         [JsonProperty] public bool UiDisplayEnabled { get; internal set; } = true;
-        [JsonProperty] public bool EnlargeEbookOnGrab { get; internal set; } = true;
+        [JsonProperty] public bool enlargeEbookOnGrab { get; internal set; } = true;
+        [JsonProperty] public bool antiPortal { get; internal set; } = false;
+        [JsonProperty] public bool joinNotifier { get; internal set; } = false;
 
 
         [JsonIgnore] public static string rootDirectory = Environment.CurrentDirectory;

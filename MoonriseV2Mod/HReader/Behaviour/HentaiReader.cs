@@ -115,7 +115,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
         {
             if (animator == null) return;
 
-            if (MRConfiguration.config.EnlargeEbookOnGrab)
+            if (MRConfiguration.config.enlargeEbookOnGrab)
             {
                 if (animator.GetBool("screenLarge") != GetComponent<VRC_Pickup>().IsHeld)
                     animator.SetBool("screenLarge", GetComponent<VRC_Pickup>().IsHeld);

@@ -120,13 +120,13 @@ namespace MoonriseV2Mod.HReader
 
             var enlargeOnGrabToggle = new QMToggleButton(nhentai, 5, -1, "Enlarge On\nGrab", delegate
             {
-                MRConfiguration.config.EnlargeEbookOnGrab = true;
+                MRConfiguration.config.enlargeEbookOnGrab = true;
                 MRConfiguration.config.WriteConfig();
             }, "Disabled", delegate
             {
-                MRConfiguration.config.EnlargeEbookOnGrab = false;
+                MRConfiguration.config.enlargeEbookOnGrab = false;
                 MRConfiguration.config.WriteConfig();
-            }, "Toggles if the e-books UI will enlarge when grabbed", null, null, false, MRConfiguration.config.EnlargeEbookOnGrab);
+            }, "Toggles if the e-books UI will enlarge when grabbed", null, null, false, MRConfiguration.config.enlargeEbookOnGrab);
         }
     }
 }
