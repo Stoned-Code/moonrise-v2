@@ -57,7 +57,7 @@ namespace MoonriseV2Mod.MonoBehaviourScripts
                     return;
                 }
 
-                if (PlayerCheck.IsFriendsWith(apiUser.id) && VRCAvatarManagerPatches.m_IgnoreFriends)
+                if (PlayerCheck.IsFriendsWith(apiUser.id) && VRCAvatarManagerStartPatch.m_IgnoreFriends)
                 {
                     UnhideFriends(avtrObject, dynamicBoneController);
                     return;
@@ -65,13 +65,13 @@ namespace MoonriseV2Mod.MonoBehaviourScripts
 
                 float dist = Vector3.Distance(PlayerCheck.LocalVRCPlayer.transform.position, GetAvatarObject(player).transform.position);
 
-                if (dist > MRConfiguration.config.avatarHiderDistance && VRCAvatarManagerPatches.m_HideAvatars)
+                if (dist > MRConfiguration.config.avatarHiderDistance && VRCAvatarManagerStartPatch.m_HideAvatars)
                     HideDistantAvatar(avtrObject, dynamicBoneController);
 
-                else if (dist <= MRConfiguration.config.avatarHiderDistance && VRCAvatarManagerPatches.m_HideAvatars)
+                else if (dist <= MRConfiguration.config.avatarHiderDistance && VRCAvatarManagerStartPatch.m_HideAvatars)
                     ShowNearbyAvatar(avtrObject, dynamicBoneController);
 
-                else if (!VRCAvatarManagerPatches.m_HideAvatars)
+                else if (!VRCAvatarManagerStartPatch.m_HideAvatars)
                     ShowAvatar(avtrObject, dynamicBoneController);
             }
 

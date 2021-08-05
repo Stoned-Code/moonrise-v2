@@ -127,6 +127,7 @@
     <Compile Include="BaseFunctions\JoinNotifierFunction.cs" />
     <Compile Include="CustomBehavior\MRAvatarHider.cs" />
     <Compile Include="AvatarFunctions\QXZhdGFyRnVuY3Rpb25z.cs" />
+    <Compile Include="Patches\DebugPatches.cs" />
     <Compile Include="Patches\VRCAvatarManagerPatches.cs" />
     <Compile Include="BaseFunctions\RW1vamlTcGFt.cs" />
     <Compile Include="HReader\Behaviour\HentaiReader.cs" />

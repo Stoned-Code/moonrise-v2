@@ -34,21 +34,21 @@ namespace MoonriseV2Mod.AvatarFunctions
             //Avatar Distance Switch
             if (MRConfiguration.config.avatarHiderState == 0)
             {
-                VRCAvatarManagerPatches.m_HideAvatars = false;
-                VRCAvatarManagerPatches.m_IgnoreFriends = false;
+                VRCAvatarManagerStartPatch.m_HideAvatars = false;
+                VRCAvatarManagerStartPatch.m_IgnoreFriends = false;
             }
 
             else if (MRConfiguration.config.avatarHiderState == 1)
             {
-                VRCAvatarManagerPatches.m_HideAvatars = true;
-                VRCAvatarManagerPatches.m_IgnoreFriends = true;
+                VRCAvatarManagerStartPatch.m_HideAvatars = true;
+                VRCAvatarManagerStartPatch.m_IgnoreFriends = true;
                 MRConfiguration.config.avatarsShowing = false;
             }
 
             else if (MRConfiguration.config.avatarHiderState == 2)
             {
-                VRCAvatarManagerPatches.m_HideAvatars = true;
-                VRCAvatarManagerPatches.m_IgnoreFriends = false;
+                VRCAvatarManagerStartPatch.m_HideAvatars = true;
+                VRCAvatarManagerStartPatch.m_IgnoreFriends = false;
                 MRConfiguration.config.avatarsShowing = false;
             }
 
@@ -56,8 +56,8 @@ namespace MoonriseV2Mod.AvatarFunctions
             {
                 if (MRConfiguration.config.avatarHiderState == 2)
                 {
-                    VRCAvatarManagerPatches.m_HideAvatars = false;
-                    VRCAvatarManagerPatches.m_IgnoreFriends = false;
+                    VRCAvatarManagerStartPatch.m_HideAvatars = false;
+                    VRCAvatarManagerStartPatch.m_IgnoreFriends = false;
                     MRConfiguration.config.avatarHiderState = 0;
 
                     MRConfiguration.config.avatarHiderState = MRConfiguration.config.avatarHiderState;
@@ -73,8 +73,8 @@ namespace MoonriseV2Mod.AvatarFunctions
 
                     if (MRConfiguration.config.avatarHiderState == 1)
                     {
-                        VRCAvatarManagerPatches.m_HideAvatars = true;
-                        VRCAvatarManagerPatches.m_IgnoreFriends = true;
+                        VRCAvatarManagerStartPatch.m_HideAvatars = true;
+                        VRCAvatarManagerStartPatch.m_IgnoreFriends = true;
 
                         avatarHiderSwitch.setButtonText("Avatar Hider:\nIgnore\nFriends");
                         MRConfiguration.config.avatarsShowing = false;
@@ -82,8 +82,8 @@ namespace MoonriseV2Mod.AvatarFunctions
 
                     else if (MRConfiguration.config.avatarHiderState == 2)
                     {
-                        VRCAvatarManagerPatches.m_HideAvatars = true;
-                        VRCAvatarManagerPatches.m_IgnoreFriends = false;
+                        VRCAvatarManagerStartPatch.m_HideAvatars = true;
+                        VRCAvatarManagerStartPatch.m_IgnoreFriends = false;
                         avatarHiderSwitch.setButtonText("Avatar Hider:\nHide\nEveryone");
                         MRConfiguration.config.avatarsShowing = false;
                     }

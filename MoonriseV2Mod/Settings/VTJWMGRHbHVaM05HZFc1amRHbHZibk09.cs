@@ -35,7 +35,7 @@ namespace MoonriseV2Mod.Settings
         {
             settingsMenu = new QMNestedButton(functions, 5, -1, "Settings", "Settings for moonrise.");
 
-            var addBlocker = new QMToggleButton(settingsMenu, 1, 0, "Add\nBlocker", delegate
+            var addBlocker = new QMToggleButton(settingsMenu, 1, 0, "Ad\nBlocker", delegate
             {
                 MRConfiguration.config.addBlocker = true;
                 MRConfiguration.config.WriteConfig();

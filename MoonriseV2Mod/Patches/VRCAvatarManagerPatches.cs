@@ -11,7 +11,7 @@ using MoonriseV2Mod.MonoBehaviourScripts;
 namespace MoonriseV2Mod.Patches
 {
     [HarmonyPatch(typeof(VRCAvatarManager), "Start")]
-    public class VRCAvatarManagerPatches
+    public class VRCAvatarManagerStartPatch
     {
         public static bool m_IgnoreFriends = true;
         public static bool m_HideAvatars = true;
