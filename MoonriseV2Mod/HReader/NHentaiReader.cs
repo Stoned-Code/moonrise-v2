@@ -1,44 +1,18 @@
-﻿using MoonriseV2Mod.API;
-using RubyButtonAPI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using MelonLoader;
+﻿using MoonriseApi;
+using MoonriseV2Mod.API;
 using MoonriseV2Mod.HReader.Behaviour;
-using MoonriseApi;
 using MoonriseV2Mod.Settings;
-using MoonriseV2Mod.Patches;
+using RubyButtonAPI;
 
 namespace MoonriseV2Mod.HReader
 {
-    internal class NHentaiReader : MoonriseObject
+    internal class NHentaiReader : MoonriseMenu
     {
         public static NHentaiReader nhentaiReader;
 
-        public NHentaiReader()
-        {
-            QuickMenuPatches.loadMenu += LoadMenu;
-        }
-
-        public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
+        public override void LoadAddonMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             if (!user.Lewd) return;
-            MelonCoroutines.Start(LoadMenu(functions, socialInterractions));
-        }
-
-        public static void Initialize()
-        {
-            nhentaiReader = new NHentaiReader();
-            nhentaiReader.isInitialized = true;
-        }
-
-        public IEnumerator LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions)
-        {
-            while (!AddonMods.isInitialized) yield return null;
 
             QMNestedButton nhentai = AddonMods.MakeAddonNestedButton("N-Hentai\nReader", "Spawn an ebook with a selected hentai from those damn numbers.");
             string hentaiId = "";
@@ -121,12 +95,18 @@ namespace MoonriseV2Mod.HReader
             var enlargeOnGrabToggle = new QMToggleButton(nhentai, 5, -1, "Enlarge On\nGrab", delegate
             {
                 MRConfiguration.config.enlargeEbookOnGrab = true;
-                MRConfiguration.config.WriteConfig();
+                //MRConfiguration.config.WriteConfig();
             }, "Disabled", delegate
             {
                 MRConfiguration.config.enlargeEbookOnGrab = false;
-                MRConfiguration.config.WriteConfig();
+                //MRConfiguration.config.WriteConfig();
             }, "Toggles if the e-books UI will enlarge when grabbed", null, null, false, MRConfiguration.config.enlargeEbookOnGrab);
+        }
+
+        public static void Initialize()
+        {
+            nhentaiReader = new NHentaiReader();
+            nhentaiReader.isInitialized = true;
         }
     }
 }

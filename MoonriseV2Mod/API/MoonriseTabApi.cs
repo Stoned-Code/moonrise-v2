@@ -313,7 +313,7 @@ namespace MoonriseTabApi
 
             catch (Exception ex)
             {
-                MoonriseConsole.Log("Something Fucked up...\n" + ex.Message);
+                MoonriseConsole.ErrorLog("Something Fucked up...\n" + ex.Message);
             }
         }
 

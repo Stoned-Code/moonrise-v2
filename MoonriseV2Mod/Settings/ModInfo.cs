@@ -12,9 +12,9 @@ using UnityEngine;
 
 namespace MoonriseV2Mod.Settings
 {
-    internal class VFc5a1NXNW1idz09
+    internal class ModInfo
     {
-        public static VFc5a1NXNW1idz09 modInfo;
+        public static ModInfo modInfo;
         public const string modName = "Moonrise";
         public const string modVersion = "2.0.0";
         public const string modAuthor = "Stoned Code";
@@ -56,7 +56,7 @@ namespace MoonriseV2Mod.Settings
                     }
                 }
 
-                modInfo = JsonConvert.DeserializeObject<VFc5a1NXNW1idz09>(json);
+                modInfo = JsonConvert.DeserializeObject<ModInfo>(json);
 
                 return false;
             }
@@ -85,7 +85,7 @@ namespace MoonriseV2Mod.Settings
         }
         public static void Initialize()
         {
-            VFc5a1NXNW1idz09.modInfo = new VFc5a1NXNW1idz09();
+            ModInfo.modInfo = new ModInfo();
         }
 
         static bool isUpdating = false;
@@ -108,7 +108,7 @@ namespace MoonriseV2Mod.Settings
             }
 
             isUpdating = false;
-            TW9vbnJpc2VCYXNlRnVuY3Rpb25z.baseFunctions.menuTab.SetBadgeActive(true, "Update!", Color.blue);
+            MoonriseBaseFunctions.baseFunctions.menuTab.SetBadgeActive(true, "Update!", Color.blue);
             UshioUI.UshioMenuApi.PopupUI("Moonrise Updated!\nRestart for update to take affect");
             MoonriseConsole.Log("Moonrise has updated! Restart for update to take affect.");
         }

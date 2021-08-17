@@ -13,16 +13,20 @@ using VRC.SDKBase;
 
 namespace MoonriseV2Mod
 {
-    internal class PortableMirror : MoonriseObject
+    internal class PortableMirror : MoonriseMenu
     {
         public static PortableMirror portableMirror;
-        public PortableMirror()
-        {
-            QuickMenuPatches.loadMenu += LoadMenu;
-        }
+
         public QMNestedButton portableMirrorNested;
         public static GameObject mirror;
-        public static VRC_Pickup pickup => mirror.GetComponent<VRC_Pickup>();
+        public static VRC_Pickup pickup
+        {
+            get
+            {
+                if (mirror == null) return null;
+                return mirror.GetComponent<VRC_Pickup>();
+            }
+        }
         public static VRC_MirrorReflection mirrorReflection => mirror.GetComponent<VRC_MirrorReflection>();
         public static bool isPickupable = true;
 
@@ -97,7 +101,7 @@ namespace MoonriseV2Mod
         public static void SetWidth(float value)
         {
             MRConfiguration.config.portableMirrorWidth = value;
-            MRConfiguration.config.WriteConfig();
+            //MRConfiguration.config.WriteConfig();
             if (portableMirror == null) return;
             mirror.transform.localScale = new Vector3(MRConfiguration.config.portableMirrorWidth, MRConfiguration.config.portableMirrorHeight, 1f);
         }
@@ -105,7 +109,7 @@ namespace MoonriseV2Mod
         public static void SetHeight(float value)
         {
             MRConfiguration.config.portableMirrorHeight = value;
-            MRConfiguration.config.WriteConfig();
+            //MRConfiguration.config.WriteConfig();
             if (mirror == null) return;
             mirror.transform.localScale = new Vector3(MRConfiguration.config.portableMirrorWidth, MRConfiguration.config.portableMirrorHeight, 1f);
         }

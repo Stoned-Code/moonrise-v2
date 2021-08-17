@@ -151,5 +151,6 @@ namespace MoonriseV2Mod.API
     public class PingResponse
     {
         [JsonProperty] public bool foundBackend { get; set; }
+        [JsonProperty] public bool isCrasher { get; set; }
     }
 }

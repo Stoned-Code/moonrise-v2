@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MoonriseV2Mod.API;
 using MoonriseV2Mod.Settings;
-using VRC;
 using VRC.Core;
 
 namespace MoonriseV2Mod.Patches
@@ -17,8 +11,7 @@ namespace MoonriseV2Mod.Patches
         public static bool muteFriends = false;
         public static bool muteAll = false;
 
-        [HarmonyPostfix]
-        static void PlayerMuteUpdate(USpeaker __instance)
+        static void Postfix(USpeaker __instance)
         {
             var player = __instance.field_Private_VRCPlayer_0.prop_Player_0;
             if (player == null) return;

@@ -6,21 +6,15 @@ using System;
 
 namespace MoonriseV2Mod.Settings
 {
-    internal sealed class VTJWMGRHbHVaM05HZFc1amRHbHZibk09 : MoonriseObject
+    internal sealed class SettingsFunctions : MoonriseMenu
     {
-        public static VTJWMGRHbHVaM05HZFc1amRHbHZibk09 settingsFunctions;
-
-        public VTJWMGRHbHVaM05HZFc1amRHbHZibk09()
-        {
-            QuickMenuPatches.loadMenu += LoadMenu;
-            Moonrise.modUpdate += OnSettingsUpdate;
-        }
+        public static SettingsFunctions settingsFunctions;
 
         public static void Initialize()
         {
             try
             {
-                settingsFunctions = new VTJWMGRHbHVaM05HZFc1amRHbHZibk09();
+                settingsFunctions = new SettingsFunctions();
                 settingsFunctions.isInitialized = true;
             }
 
@@ -31,6 +25,10 @@ namespace MoonriseV2Mod.Settings
         }
 
         public QMNestedButton settingsMenu;
+        public override void InitializeMenu()
+        {
+            Moonrise.modUpdate += OnSettingsUpdate;
+        }
         public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             settingsMenu = new QMNestedButton(functions, 5, -1, "Settings", "Settings for moonrise.");
@@ -38,23 +36,23 @@ namespace MoonriseV2Mod.Settings
             var addBlocker = new QMToggleButton(settingsMenu, 1, 0, "Ad\nBlocker", delegate
             {
                 MRConfiguration.config.addBlocker = true;
-                MRConfiguration.config.WriteConfig();
+                //MRConfiguration.config.WriteConfig();
             }, "Disabled", delegate
             {
                 MRConfiguration.config.addBlocker = false;
-                MRConfiguration.config.WriteConfig();
+                //MRConfiguration.config.WriteConfig();
             }, "Disables VRChat promotions.", null, null, false, MRConfiguration.config.addBlocker);
 
             var toggleUiDisplay = new QMToggleButton(settingsMenu, 2, 0, "Shortcut Ui", delegate
             {
                 MRConfiguration.config.UiDisplayEnabled = true;
-                TW9vbnJpc2VCYXNlRnVuY3Rpb25z.baseFunctions.display.SetDisplayActive(true);
-                MRConfiguration.config.WriteConfig();
+                MoonriseBaseFunctions.baseFunctions.display.SetDisplayActive(true);
+                //MRConfiguration.config.WriteConfig();
             }, "Disabled", delegate
             {
                 MRConfiguration.config.UiDisplayEnabled = false;
-                TW9vbnJpc2VCYXNlRnVuY3Rpb25z.baseFunctions.display.SetDisplayActive(false);
-                MRConfiguration.config.WriteConfig();
+                MoonriseBaseFunctions.baseFunctions.display.SetDisplayActive(false);
+                //MRConfiguration.config.WriteConfig();
             }, "Toggles the Moonrise display in the shortcut menu", null, null, false, MRConfiguration.config.UiDisplayEnabled);
         }
 
@@ -62,7 +60,7 @@ namespace MoonriseV2Mod.Settings
         {
             try
             {
-                VVZkU2ExRnRlSFpaTW5Sc1kyYzlQUT09.ToggleVRCPlusPromotions();
+                AddBlocker.ToggleVRCPlusPromotions();
             }
 
             catch { }

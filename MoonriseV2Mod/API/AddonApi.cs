@@ -1,17 +1,11 @@
 ﻿using MelonLoader;
 using MoonriseTabApi;
+using MoonriseV2Mod.API;
+using MoonriseV2Mod.BaseFunctions;
 using RubyButtonAPI;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using MoonriseV2Mod.BaseFunctions;
-using UnhollowerRuntimeLib;
-using MoonriseV2Mod.API;
-using MoonriseV2Mod;
 
 namespace MoonriseApi
 {
@@ -37,7 +31,7 @@ namespace MoonriseApi
 
         public static void PushBadge(string text, Color color)
         {
-            TW9vbnJpc2VCYXNlRnVuY3Rpb25z.baseFunctions.menuTab.SetBadgeActive(true, text, color);
+            MoonriseBaseFunctions.baseFunctions.menuTab.SetBadgeActive(true, text, color);
         }
 
         static bool addonButtonActive
@@ -57,7 +51,7 @@ namespace MoonriseApi
         {
             while (MenuTab.MenuTabs == null) yield return null;
 
-            otherMods = new QMNestedButton(TW9vbnJpc2VCYXNlRnVuY3Rpb25z.baseFunctions.menuTab.NestedButton, 4, 2, "Add-ons", "Various other mods.");
+            otherMods = new QMNestedButton(MoonriseBaseFunctions.baseFunctions.menuTab.NestedButton, 4, 2, "Add-ons", "Various other mods.");
             addonPage = new UshioMultiPageNested(otherMods, highestPageNumber);
             addOnMods = new List<AddonMod>();
 

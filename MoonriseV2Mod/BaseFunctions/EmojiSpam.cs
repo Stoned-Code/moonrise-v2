@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace MoonriseV2Mod.BaseFunctions
 {
-    internal static class RW1vamlTcGFt
+    internal static class EmojiSpam
     {
         public static bool maxTime = true;
         public static float spamInterval => maxTime ? 10f : 5f;

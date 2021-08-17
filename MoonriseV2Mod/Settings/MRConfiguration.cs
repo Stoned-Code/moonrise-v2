@@ -19,14 +19,15 @@ namespace MoonriseV2Mod.Settings
         [JsonProperty] public bool UiDisplayEnabled { get; internal set; } = true;
         [JsonProperty] public bool enlargeEbookOnGrab { get; internal set; } = true;
         [JsonProperty] public bool antiPortal { get; internal set; } = false;
+        [JsonProperty] public bool walkThrough { get; internal set; } = true;
         [JsonProperty] public bool joinNotifier { get; internal set; } = false;
+        [JsonProperty] public bool allUsersJn { get; internal set; } = false;
+        [JsonProperty] public bool hideCrashers { get; internal set; } = true;
 
 
         [JsonIgnore] public static string rootDirectory = Environment.CurrentDirectory;
         public static void Initialize()
         {
-
-
             // rootDirectory += @"\..\";
 
             string moonriseDirectory = Path.Combine(rootDirectory, "Moonrise");

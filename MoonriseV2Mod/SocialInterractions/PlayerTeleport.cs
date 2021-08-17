@@ -8,7 +8,7 @@ namespace MoonriseV2Mod.SocialInterractions
     // <summary>
     // Teleport Player to Another Player
     // </summary>
-    internal class VUd4aGVXVnlWRkE9
+    internal class PlayerTeleport
     {
         public static void TeleportTo(string SelectedUserID)
         {
@@ -19,15 +19,17 @@ namespace MoonriseV2Mod.SocialInterractions
 
                 if (APIUser.CurrentUser.id != foundPlayer.prop_APIUser_0.id)
                 {
-                    player.transform.position = foundPlayer.prop_VRCPlayer_0.transform.position - foundPlayer.prop_VRCPlayer_0.transform.forward;
+                    var pos = foundPlayer.prop_VRCPlayer_0.transform.position - foundPlayer.prop_VRCPlayer_0.transform.forward;
+                    player.field_Private_VRCPlayerApi_0.TeleportTo(pos, foundPlayer.prop_VRCPlayer_0.transform.rotation);
+
                     //player.field_Internal_VRCPlayer_0.transform.rotation = foundPlayer.field_Internal_VRCPlayer_0.transform.rotation;
                 }
 
                 else
                 {
-                    UshioMenuApi.CreateSingleButtonPopup("Something's Wrong Here...", "You Can't Teleport To Yourself!", "OK", delegate
+                    UshioMenuApi.CreateSingleButtonPopup("Teleport Error", "You Can't Teleport To Yourself!", "OK", delegate
                     {
-
+                        UshioMenuApi.ClosePopup();
                     });
                 }
             }
@@ -37,7 +39,7 @@ namespace MoonriseV2Mod.SocialInterractions
                 MoonriseConsole.ErrorLog("Player is not in your world!");
                 UshioMenuApi.CreateSingleButtonPopup("Something's Wrong Here...", "You can't teleport to a player that isn't in your world!", "OK", delegate
                 {
-
+                    UshioMenuApi.ClosePopup();
                 });
             }
         }

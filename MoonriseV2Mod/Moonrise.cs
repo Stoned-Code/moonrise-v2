@@ -7,20 +7,17 @@
 using MelonLoader;
 using MoonriseApi;
 using MoonriseV2Mod.API;
-using MoonriseV2Mod.AvatarFunctions;
 using MoonriseV2Mod.BaseFunctions;
 using MoonriseV2Mod.HReader;
-using MoonriseV2Mod.MonoBehaviourScripts;
 using MoonriseV2Mod.Settings;
 using MoonriseV2Mod.SocialInterractions;
-using RubyButtonAPI;
+using MoonriseV2Mod.AvatarFunctions;
 using System;
 using System.Collections;
-using UnhollowerRuntimeLib;
-using UshioUI;
 using VRC.Core;
-using System.Reflection;
-using System.Linq;
+using MoonriseV2Mod.WorldFunctions;
+using MoonriseV2Mod.PlayerFunctions;
+using MoonriseV2Mod.Patches;
 
 namespace MoonriseV2Mod
 {
@@ -31,16 +28,32 @@ namespace MoonriseV2Mod
         internal static Moonrise moonrise;
         // internal static bool debug = false;
 
-        internal static event Action modUpdate;
-
         internal bool isInitialized = false;
         internal static new HarmonyLib.Harmony harmonyInstance;
+        internal static event Action modUpdate;
+
         public override void OnApplicationStart()
         {
             moonrise = this;
             harmonyInstance = new HarmonyLib.Harmony("com.StonedCode.MoonriseV2");
             harmonyInstance.PatchAll();
             MelonCoroutines.Start(ModStart());
+            NetworkManagerJoinRoom.OnJoinedRoom += OnJoinedRoom;
+            NetworkManagerLeftRoom.OnLeftRoom += OnLeftRoom;
+        }
+
+        private void OnJoinedRoom()
+        {
+            VRCUiManager.prop_VRCUiManager_0.field_Private_List_1_String_0.Clear();
+
+            MoonriseConsole.Log("Joined room.");
+        }
+
+        private void OnLeftRoom()
+        {
+            MRConfiguration.config.WriteConfig();
+            VideoPlayerFunctions.SetVideoURL("");
+            MoonriseConsole.Log("Left room.");
         }
 
         [Obsolete]
@@ -48,48 +61,43 @@ namespace MoonriseV2Mod
         {
             if (level == -1)
             {
-                VFc5a1NXNW1idz09.CheckUpdate();
+                ModInfo.CheckUpdate();
             }
         }
 
         public override void OnUpdate()
         {
+            try
+            {
+                modUpdate?.Invoke();
+            }
 
-            modUpdate?.Invoke();
+            catch { }
         }
 
         public IEnumerator ModStart()
         {
+
             MRConfiguration.Initialize();
             QXNzZXRCdW5kbGVz.InitializeAssetBundle();
 
             while (!QXNzZXRCdW5kbGVz.isInitialized) yield return null;
-            VFc5a1NXNW1idz09.Initialize();
+
+            ModInfo.Initialize();
             PortableMirror.Initialize();
-            TW9vbnJpc2VCYXNlRnVuY3Rpb25z.Initialize();
-            VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9.Initialize();
-            QXZhdGFyRnVuY3Rpb25z.Initialize();
-            VTJWMGRHbHVaM05HZFc1amRHbHZibk09.Initialize();
+            MoonriseBaseFunctions.Initialize();
+            SocialInterractionsBase.Initialize();
+            AvatarFunctionsBase.Initialize();
+            SettingsFunctions.Initialize();
             NHentaiReader.Initialize();
+            WorldFunctionsBase.Initialize();
+            PlayerFunctionsBase.Initialize();
             AddonMods.Initialize();
 
             while (APIUser.CurrentUser == null) yield return null;
 
-            if (MRConfiguration.config.moonriseKey != "FreeUser")
+            if (MRConfiguration.config.moonriseKey.ToLower() != "freeuser")
                 user = TVJVc2Vy.UjJWMFZYTmxjZz09(MRConfiguration.config.moonriseKey);
-
-            //if (!isInitialized)
-            //{
-            //    QMNestedButton functions = new QMNestedButton("ShortcutMenu", 0, -2, "", "");
-            //    QMNestedButton socialInterractions = new QMNestedButton("UserInteractMenu", 4, -2, "<color=cyan>MMM</color>\nPlayer\nFunctions", "MMM options for selected player");
-            //    UshioMenuApi.SetMenu();
-            //    QXNzZXRCdW5kbGVz.InitializeSpecial(user);
-
-            //    while (!QXNzZXRCdW5kbGVz.specialInitialized) yield return null;
-
-            //    loadMenu?.Invoke(functions, socialInterractions, user);
-            //    isInitialized = true;
-            //}
         }
     }
 }

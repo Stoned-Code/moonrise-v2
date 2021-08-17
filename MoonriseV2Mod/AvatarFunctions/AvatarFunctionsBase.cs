@@ -1,5 +1,4 @@
 ﻿using MoonriseV2Mod.API;
-using MoonriseV2Mod.MonoBehaviourScripts;
 using MoonriseV2Mod.Patches;
 using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
@@ -8,48 +7,51 @@ using UnityEngine;
 
 namespace MoonriseV2Mod.AvatarFunctions
 {
-    internal sealed class QXZhdGFyRnVuY3Rpb25z : MoonriseObject
+    internal sealed class AvatarFunctionsBase : MoonriseMenu
     {
-        public static QXZhdGFyRnVuY3Rpb25z avatarFunctionsBase;
+        public static AvatarFunctionsBase avatarFunctionsBase;
 
-        public QXZhdGFyRnVuY3Rpb25z()
+        public AvatarFunctionsBase() : base()
         {
-            QuickMenuPatches.loadMenu += LoadMenu;
-            Moonrise.modUpdate += OnUpdate;
+
         }
 
         public QMSingleButton avatarHiderSwitch;
         public QMNestedButton avatarFunctions;
         public static void Initialize()
         {
-            avatarFunctionsBase = new QXZhdGFyRnVuY3Rpb25z();
+            avatarFunctionsBase = new AvatarFunctionsBase();
 
             avatarFunctionsBase.isInitialized = true;
         }
-
+        public override void InitializeMenu()
+        {
+            AvatarLoaderFunctions.Initialize();
+            DynamicBoneFunctions.Initialize();
+        }
         public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
             avatarFunctions = new QMNestedButton(functions, 3, 0, "Avatar\nFunctions", "Functions for avatars.");
 
             //Avatar Distance Switch
-            if (MRConfiguration.config.avatarHiderState == 0)
+            switch  (MRConfiguration.config.avatarHiderState)
             {
-                VRCAvatarManagerStartPatch.m_HideAvatars = false;
-                VRCAvatarManagerStartPatch.m_IgnoreFriends = false;
-            }
+                case 0:
+                    VRCAvatarManagerStartPatch.m_HideAvatars = false;
+                    VRCAvatarManagerStartPatch.m_IgnoreFriends = false;
+                    break;
 
-            else if (MRConfiguration.config.avatarHiderState == 1)
-            {
-                VRCAvatarManagerStartPatch.m_HideAvatars = true;
-                VRCAvatarManagerStartPatch.m_IgnoreFriends = true;
-                MRConfiguration.config.avatarsShowing = false;
-            }
+                case 1:
+                    VRCAvatarManagerStartPatch.m_HideAvatars = true;
+                    VRCAvatarManagerStartPatch.m_IgnoreFriends = true;
+                    MRConfiguration.config.avatarsShowing = false;
+                    break;
 
-            else if (MRConfiguration.config.avatarHiderState == 2)
-            {
-                VRCAvatarManagerStartPatch.m_HideAvatars = true;
-                VRCAvatarManagerStartPatch.m_IgnoreFriends = false;
-                MRConfiguration.config.avatarsShowing = false;
+                case 2:
+                    VRCAvatarManagerStartPatch.m_HideAvatars = true;
+                    VRCAvatarManagerStartPatch.m_IgnoreFriends = false;
+                    MRConfiguration.config.avatarsShowing = false;
+                    break;
             }
 
             avatarHiderSwitch = new QMSingleButton(avatarFunctions, 2, 0, GetAvatarHiderState(), delegate
@@ -89,7 +91,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                     }
                 }
 
-                MRConfiguration.config.WriteConfig();
+                //MRConfiguration.config.WriteConfig();
             }, "Switches the avatar hider settings (If distant avatars are still rendering after loading into a new world, reset the avatar hider)");
 
             var distanceStatus = new QMSingleButton(avatarFunctions, 1, 1, $"Hide\nDistance:\n{MRConfiguration.config.avatarHiderDistance}", delegate { }, "", null, Color.yellow);
@@ -98,7 +100,7 @@ namespace MoonriseV2Mod.AvatarFunctions
             var increaseAvatarHideDistanceButtonOne = new QMSingleButton(avatarFunctions, 1, 0, "+1", delegate
             {
                 MRConfiguration.config.avatarHiderDistance++;
-                MRConfiguration.config.WriteConfig();
+                //MRConfiguration.config.WriteConfig();
                 distanceStatus.setButtonText($"Hide\nDistance:\n{MRConfiguration.config.avatarHiderDistance}");
             }, "Increases avatar hide distance by 1");
             VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(increaseAvatarHideDistanceButtonOne, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Horizontal);
@@ -106,7 +108,7 @@ namespace MoonriseV2Mod.AvatarFunctions
             var increaseAvatarHideDistanceButtonTwo = new QMSingleButton(avatarFunctions, 1, 0, "+2", delegate
             {
                 MRConfiguration.config.avatarHiderDistance += 2; 
-                MRConfiguration.config.WriteConfig();
+                //MRConfiguration.config.WriteConfig();
                 distanceStatus.setButtonText($"Hide\nDistance:\n{MRConfiguration.config.avatarHiderDistance}");
             }, "Increases avatar hide distance by 2");
             VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(increaseAvatarHideDistanceButtonTwo, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Top, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Horizontal);
@@ -121,7 +123,7 @@ namespace MoonriseV2Mod.AvatarFunctions
                 else
                 {
                     MRConfiguration.config.avatarHiderDistance--;
-                    MRConfiguration.config.WriteConfig();
+                    //MRConfiguration.config.WriteConfig();
                 }
 
                 distanceStatus.setButtonText($"Hide\nDistance:\n{MRConfiguration.config.avatarHiderDistance}");
@@ -138,18 +140,13 @@ namespace MoonriseV2Mod.AvatarFunctions
                 else
                 {
                     MRConfiguration.config.avatarHiderDistance -= 2;
-                    MRConfiguration.config.WriteConfig();
+                    //MRConfiguration.config.WriteConfig();
                 }
 
                 distanceStatus.setButtonText($"Hide\nDistance:\n{MRConfiguration.config.avatarHiderDistance}");
             }, "Decreases avatar hide distance by 2");
             VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(decreaseAvatarHideDistanceButtonTwo, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Horizontal);
 
-        }
-
-        public void OnUpdate()
-        {
-            // VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.AvatarHiderUpdate();
         }
 
         public string GetAvatarHiderState()

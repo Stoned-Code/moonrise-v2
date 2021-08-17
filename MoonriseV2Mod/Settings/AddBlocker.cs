@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace MoonriseV2Mod.Settings
 {
-    internal static class VVZkU2ExRnRlSFpaTW5Sc1kyYzlQUT09
+    internal static class AddBlocker
     {
         static GameObject vrcpBanner => GameObject.Find("UserInterface/QuickMenu/ShortcutMenu/HeaderContainer/VRCPlusBanner");
         static GameObject vrcpMiniBanner => GameObject.Find("UserInterface/QuickMenu/ShortcutMenu/VRCPlusMiniBanner");

@@ -7,11 +7,11 @@ using System.Collections;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UshioUI;
 using VRC.SDKBase;
 
 namespace MoonriseV2Mod.HReader.Behaviour
@@ -115,10 +115,14 @@ namespace MoonriseV2Mod.HReader.Behaviour
         {
             if (animator == null) return;
 
-            if (MRConfiguration.config.enlargeEbookOnGrab)
+            if (GetComponent<VRC_Pickup>().IsHeld)
             {
-                if (animator.GetBool("screenLarge") != GetComponent<VRC_Pickup>().IsHeld)
-                    animator.SetBool("screenLarge", GetComponent<VRC_Pickup>().IsHeld);
+                if (MRConfiguration.config.enlargeEbookOnGrab)
+                    animator.SetBool("screenLarge", true);
+                else
+                {
+                    animator.SetBool("screenLarge", false);
+                }
             }
 
             if (forceLarge)
@@ -148,6 +152,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
             else
             {
                 var downloadHandler = request.downloadHandler.Cast<DownloadHandlerTexture>();
+                downloadHandler.texture.wrapMode = TextureWrapMode.Clamp;
 
                 cover = downloadHandler.texture;
             }
@@ -181,7 +186,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
                 else
                 {
                     var downloadHandler = request.downloadHandler.Cast<DownloadHandlerTexture>();
-
+                    downloadHandler.texture.wrapMode = TextureWrapMode.Clamp;
                     pages[i] = downloadHandler.texture;
                 }
 
@@ -245,13 +250,13 @@ namespace MoonriseV2Mod.HReader.Behaviour
             Physics.IgnoreCollision(readerCollider, PlayerCheck.LocalVRCPlayer.GetComponentInChildren<CharacterController>());
             Physics.IgnoreCollision(canvasCollider, PlayerCheck.LocalVRCPlayer.GetComponentInChildren<CharacterController>());
 
-            lastButton.onClick.AddListener(new Action(delegate { LastPage(); }));
-            nextButton.onClick.AddListener(new Action(delegate { NextPage(); }));
+            lastButton.onClick.AddListener(new Action(LastPage));
+            nextButton.onClick.AddListener(new Action(NextPage));
             deleteButton.onClick.AddListener(new Action(delegate { DeleteEbook(this.gameObject); }));
-            forceLargeToggle.onValueChanged.AddListener(new Action<bool>(delegate (bool value) 
+            forceLargeToggle.onValueChanged.AddListener(new Action<bool>((value) =>
             {
                 MoonriseConsole.Log("Toggle State: " + value.ToString());
-                ToggleForceLarge(); 
+                forceLarge = value;
             }));
 
             GetComponent<VRC_Pickup>().AutoHold = VRC_Pickup.AutoHoldMode.Yes;
@@ -284,7 +289,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
             imageUrls = info.pageUrls;
             titleText.text = info.hentaiTitle;
 
-            tagText.text = "<color=cyan>Tags:</color>\n";
+            tagText.text = $"<color=cyan>Tags: {info.tags.Length}</color>\n";
             pageNumbers = info.pageCount;
             pageStatus.text = $"Page\n1/{pageNumbers}";
 
@@ -299,6 +304,8 @@ namespace MoonriseV2Mod.HReader.Behaviour
             
             MelonCoroutines.Start(SetCover());
             MelonCoroutines.Start(GetAllImages());
+
+            UshioMenuApi.PopupUI($"Spawned \"{info.hentaiTitle}\" E-book", "N-Hentai Reader");
         }
 
         [HideFromIl2Cpp]
@@ -323,8 +330,5 @@ namespace MoonriseV2Mod.HReader.Behaviour
 
         [HideFromIl2Cpp]
         public static void DeleteEbook(GameObject obj) => Destroy(obj);
-
-        [HideFromIl2Cpp]
-        public bool ToggleForceLarge() => forceLarge = !forceLarge;
     }
 }

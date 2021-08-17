@@ -4,20 +4,17 @@ using MoonriseV2Mod.AvatarFunctions;
 using MoonriseV2Mod.Patches;
 using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
+using UshioUI;
 
 namespace MoonriseV2Mod.SocialInterractions
 {
-    public class VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9 : MoonriseObject
+    public class SocialInterractionsBase : MoonriseMenu
     {
-        public static VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9 siBase;
-        public VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9()
-        {
-            QuickMenuPatches.loadMenu += LoadMenu;
-        }
+        public static SocialInterractionsBase siBase;
 
         public static void Initialize()
         {
-            siBase = new VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9();
+            siBase = new SocialInterractionsBase();
             siBase.isInitialized = true;
         }
 
@@ -39,7 +36,7 @@ namespace MoonriseV2Mod.SocialInterractions
                 if (!MRConfiguration.config.ignoreList.TryGetValue(apiUser.id, out displayName))
                 {
                     MRConfiguration.config.ignoreList.Add(apiUser.id, apiUser.displayName);
-                    MRConfiguration.config.WriteConfig();
+                    //MRConfiguration.config.WriteConfig();
                 }
 
                 else MoonriseConsole.ErrorLog($"{displayName} is already ignored...");
@@ -57,7 +54,7 @@ namespace MoonriseV2Mod.SocialInterractions
                 if (MRConfiguration.config.ignoreList.TryGetValue(selectedId, out displayName))
                 {
                     MRConfiguration.config.ignoreList.Remove(selectedId);
-                    MRConfiguration.config.WriteConfig();
+                    //MRConfiguration.config.WriteConfig();
                 }
 
                 // MelonCoroutines.Start(VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.ResetHideDistantAvatars());
@@ -68,19 +65,20 @@ namespace MoonriseV2Mod.SocialInterractions
             {
                 var foundPlayer = QuickMenu.prop_QuickMenu_0.field_Private_APIUser_0;
 
-                VUd4aGVXVnlWRkE9.TeleportTo(foundPlayer.id);
+                PlayerTeleport.TeleportTo(foundPlayer.id);
             }, "Teleports you to the selected player.");
 
             if (user == null) return;
 
             if (user.Premium)
             {
-                var reportCrasher = new QMSingleButton(socialInterractions, 5, 0, "Report as\nCrasher", delegate
+                var copyUserId = new QMSingleButton(socialInterractions, 5, 0, "Copy\nUser ID", delegate
                 {
-                    var foundPlayer = QuickMenu.prop_QuickMenu_0.field_Private_APIUser_0;
-                    var foundVrcPlayer = PlayerCheck.GetSelectedPlayer(foundPlayer.id);
-                    VVROS2FHTXlhR3hqYkVwc1kwRTlQUT09.ReportCrasher(foundPlayer.displayName, foundPlayer.id, foundVrcPlayer.prop_ApiAvatar_0);
-                }, "Sends a report to the Moonrise database of the selected player as a potential crasher");
+                    var apiUser = QuickMenu.prop_QuickMenu_0.prop_APIUser_0;
+
+                    System.Windows.Forms.Clipboard.SetText(apiUser.id ?? "Error Copying Link...");
+                    UshioMenuApi.PopupUI("[ Moonrise ]\nCopied User ID to Clipboard");
+                }, "Copies selected user's User ID.");
             }
         }
     }

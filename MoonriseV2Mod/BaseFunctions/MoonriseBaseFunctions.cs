@@ -7,19 +7,13 @@ using RubyButtonAPI;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using UshioUI;
-using static MoonriseV2Mod.BaseFunctions.RW1vamlTcGFt;
-using JoinNotifier;
+using static MoonriseV2Mod.BaseFunctions.EmojiSpam;
 
 namespace MoonriseV2Mod.BaseFunctions
 {
-    internal sealed class TW9vbnJpc2VCYXNlRnVuY3Rpb25z : MoonriseObject
+    internal sealed class MoonriseBaseFunctions : MoonriseMenu
     {
-        public static TW9vbnJpc2VCYXNlRnVuY3Rpb25z baseFunctions;
-
-        public TW9vbnJpc2VCYXNlRnVuY3Rpb25z()
-        {
-            QuickMenuPatches.loadMenu += LoadMenu;
-        }
+        public static MoonriseBaseFunctions baseFunctions;
 
         private Sprite MoonriseIcon;
         public MenuTab menuTab;
@@ -29,10 +23,9 @@ namespace MoonriseV2Mod.BaseFunctions
 
         public static void Initialize()
         {
-            NetworkManagerHooks.Initialize();
-            JoinNotifierFunction.Initialize();
+            baseFunctions = new MoonriseBaseFunctions();
 
-            baseFunctions = new TW9vbnJpc2VCYXNlRnVuY3Rpb25z();
+            //JoinNotifierFunctions.Initialize();
 
             baseFunctions.MoonriseIcon = QXNzZXRCdW5kbGVz.MoonriseAssetBundle.LoadAsset_Internal("Assets/Moonrise/Sprites/MoonriseIcon.png", Il2CppType.Of<Sprite>()).Cast<Sprite>();
             baseFunctions.MoonriseIcon.hideFlags |= HideFlags.DontUnloadUnusedAsset;
@@ -79,85 +72,115 @@ namespace MoonriseV2Mod.BaseFunctions
                 //VlVkNGFHVlhWbmxVV0ZZd1dsRTlQUT09.UnmutePlayers();
             }, "Mutes all friends in the world", null, null, false, false);
 
+            var walkthrough = new QMToggleButton(functions, 2, 2, "Walk Through", delegate
+            {
+                MRConfiguration.config.walkThrough = true;
+                //MRConfiguration.config.WriteConfig();
+            }, "Confirmation", delegate
+            {
+                MRConfiguration.config.walkThrough = false;
+                //MRConfiguration.config.WriteConfig();
+            }, "Toggles whether a confirmation pops up.", null, null, false, MRConfiguration.config.walkThrough);
+            walkthrough.setActive(MRConfiguration.config.antiPortal);
+
             // Anti-Portal
-            var antiPortal = new QMToggleButton(functions, 1, 1, "Anti-Portal", delegate
+            var antiPortal = new QMToggleButton(functions, 1, 2, "Anti-Portal", delegate
             {
                 MRConfiguration.config.antiPortal = true;
-                MRConfiguration.config.WriteConfig();
+                walkthrough.setActive(true);
+                //MRConfiguration.config.WriteConfig();
             }, "Disabled", delegate
             {
                 MRConfiguration.config.antiPortal = false;
-                MRConfiguration.config.WriteConfig();
+                walkthrough.setActive(false);
+                //MRConfiguration.config.WriteConfig();
             }, "Toggles whether you go through a portal.", null, null, false, MRConfiguration.config.antiPortal);
 
+
+            // Friends only toggle for "Join Notifier"
+            var friendsOnlyToggle = new QMToggleButton(functions, 2, 1, "All", delegate
+            {
+                MRConfiguration.config.allUsersJn = true;
+                //MRConfiguration.config.WriteConfig();
+            }, "Friends Only", delegate
+            {
+                MRConfiguration.config.allUsersJn = false;
+                //MRConfiguration.config.WriteConfig();
+            }, "Toggles whether \"Join Notifier\" shows only friends or all users.", null, null, false, MRConfiguration.config.allUsersJn);
+            friendsOnlyToggle.setActive(MRConfiguration.config.joinNotifier);
+
             // Join Notifier
-            var joinNotifier = new QMToggleButton(functions, 2, 1, "Join Notifier", delegate
+            var joinNotifier = new QMToggleButton(functions, 1, 1, "Join Notifier", delegate
             {
                 MRConfiguration.config.joinNotifier = true;
-                MRConfiguration.config.WriteConfig();
+                friendsOnlyToggle.setActive(true);
+                //MRConfiguration.config.WriteConfig();
             }, "Disabled", delegate
             {
                 MRConfiguration.config.joinNotifier = false;
-                MRConfiguration.config.WriteConfig();
+                friendsOnlyToggle.setActive(false);
+                //MRConfiguration.config.WriteConfig();
             }, "Notifies you when friends join the world.", null, null, false, MRConfiguration.config.joinNotifier);
+
+            PlayerTeleportMenu.Initialize(functions);
 
             if (user == null) return;
 
             if (user.Premium)
             {
-                RW1vamlTcGFt.emoji = 17;
-                RW1vamlTcGFt.maxTime = true;
+                EmojiSpam.emoji = 17;
+                EmojiSpam.maxTime = true;
 
                 var emojiSpam = new QMToggleButton(functions, 5, 1, $"Emoji Spam\n{(Emoji)emoji}", delegate
                 {
-                    RW1vamlTcGFt.emojiSpam = true;
-                    MelonCoroutines.Start(RW1vamlTcGFt.SpamEmojis());
+                    EmojiSpam.emojiSpam = true;
+                    MelonCoroutines.Start(EmojiSpam.SpamEmojis());
                 }, "Disabled", delegate
                 {
-                    RW1vamlTcGFt.emojiSpam = false;
+                    EmojiSpam.emojiSpam = false;
                 }, $"Spams {(Emoji)emoji} emoji every {spamInterval} seconds");
                 VXNoaW9SdWJ5TW9kaWZpZXJz.MoveHalf(emojiSpam, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Bottom);
 
                 var timeSpanToggle = new QMToggleButton(functions, 5, 0, $"10 Seconds", delegate
                 {
-                    RW1vamlTcGFt.maxTime = true;
-                    emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {RW1vamlTcGFt.spamInterval} seconds");
+                    EmojiSpam.maxTime = true;
+                    emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {EmojiSpam.spamInterval} seconds");
                 }, "5 Seconds", delegate
                 {
-                    RW1vamlTcGFt.maxTime = false;
-                    emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {RW1vamlTcGFt.spamInterval} seconds");
-                }, "Emoji spam interval", null, null, false, RW1vamlTcGFt.maxTime);
+                    EmojiSpam.maxTime = false;
+                    emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {EmojiSpam.spamInterval} seconds");
+                }, "Emoji spam interval", null, null, false, EmojiSpam.maxTime);
 
                 var cycleEmojisUp = new QMSingleButton(functions, 5, 1, "", delegate
                 {
-                    if (RW1vamlTcGFt.emoji >= 57)
+                    if (EmojiSpam.emoji >= 57)
                     {
-                        RW1vamlTcGFt.emoji = 0;
+                        EmojiSpam.emoji = 0;
                     }
 
                     else
                     {
-                        RW1vamlTcGFt.emoji++;
+                        EmojiSpam.emoji++;
                     }
-                    if (RW1vamlTcGFt.emoji == 39) RW1vamlTcGFt.emoji++;
+                    if (EmojiSpam.emoji == 39) EmojiSpam.emoji++;
                     emojiSpam.setOnText($"Emoji Spam\n{(Emoji)emoji}");
-                    emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {RW1vamlTcGFt.spamInterval} seconds");
+                    emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every {EmojiSpam.spamInterval} seconds");
                 }, "Cycles through emojis");
                 VXNoaW9SdWJ5TW9kaWZpZXJz.MakeArrowButton(cycleEmojisUp, VXNoaW9SdWJ5TW9kaWZpZXJz.ArrowDirection.Up);
                 VXNoaW9SdWJ5TW9kaWZpZXJz.SetHalfButton(cycleEmojisUp, VXNoaW9SdWJ5TW9kaWZpZXJz.HalfPosition.Top, VXNoaW9SdWJ5TW9kaWZpZXJz.Rotation.Verticle);
 
                 var cycleEmojisDown = new QMSingleButton(functions, 5, 2, "", delegate
                 {
-                    if (RW1vamlTcGFt.emoji <= 0)
+                    if (EmojiSpam.emoji <= 0)
                     {
-                        RW1vamlTcGFt.emoji = 57;
+                        EmojiSpam.emoji = 57;
                     }
 
                     else
                     {
-                        RW1vamlTcGFt.emoji--;
+                        EmojiSpam.emoji--;
                     }
-                    if (RW1vamlTcGFt.emoji == 39) RW1vamlTcGFt.emoji--;
+                    if (EmojiSpam.emoji == 39) EmojiSpam.emoji--;
                     emojiSpam.setOnText($"Emoji Spam\n{(Emoji)emoji}");
                     emojiSpam.setToolTip($"Spams {(Emoji)emoji} emoji every 5 seconds");
                 }, "Cycles through emojis");

@@ -7,7 +7,6 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnhollowerBaseLib.Attributes;
-using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC;
@@ -146,6 +145,62 @@ namespace UshioUI
                     return false;
                 try
                 {
+                    if (UnhollowerRuntimeLib.XrefScans.XrefScanner.XrefScan(x).Any(z => z.Type == UnhollowerRuntimeLib.XrefScans.XrefType.Global && z.ReadAsObject() != null && z.ReadAsObject().ToString() == "UserInterface/MenuContent/Popups/StandardPopup"))
+                        return true;
+                }
+                catch { }
+                return false;
+            });
+
+            Il2CppSystem.Action firstAction = FirstButtonListener;
+            Il2CppSystem.Action secondAction = SecondButtonListener;
+            Il2CppSystem.Action<VRCUiPopup> openAction = PopupAction;
+            twoChoicePopup.Invoke(VRCUiPopupManager.prop_VRCUiPopupManager_0, new System.Object[] { Title, Content, FirstButtonText, firstAction, SecondButtonText, secondAction, openAction });
+            var popupObject = GameObject.Find("UserInterface/MenuContent/Popups/StandardPopup");
+            var textComponents = GameObject.FindObjectsOfType<Text>();
+
+            popupObject.transform.Find("ProgressLine").gameObject.SetActive(false);
+            popupObject.transform.Find("LowPercent").gameObject.SetActive(false);
+            popupObject.transform.Find("HighPercent").gameObject.SetActive(false);
+            foreach (Text text in textComponents)
+            {
+                text.supportRichText = true;
+                if (text.text == Title)
+                {
+                    text.color = Color.white;
+                }
+
+                if (text.text == Content)
+                {
+                    text.alignment = ContentAlignment;
+                }
+
+                if (text.text == SecondButtonText)
+                {
+                    text.color = Color.white;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates a simple double button popup UI.
+        /// </summary>
+        /// <param name="Title">The title that shows at the top of the popup. (Supports Richtext)</param>
+        /// <param name="Content">The text content of the popup. (Supports Richtext)</param>
+        /// <param name="FirstButtonText">The text that's read on the first button. (Supports Richtext)</param>
+        /// <param name="FirstButtonListener">Actions taken when the first button is clicked. (Use "delegate")</param>
+        /// <param name="SecondButtonText">The text that's read on the second button. (Supports Richtext)</param>
+        /// <param name="SecondButtonListener">Actions taken when the second button is clicked. (Use "delegate")</param>
+        /// <param name="PopupAction">Actions taken when the popup opens.</param>
+        /// <param name="ContentAlignment">Alignment of the popups text content.</param>
+        public static void CreateDoubleButtonPopupV2(string Title, string Content, string FirstButtonText, Action FirstButtonListener, string SecondButtonText, Action SecondButtonListener, Action<VRCUiPopup> PopupAction = null, TextAnchor ContentAlignment = TextAnchor.MiddleCenter)
+        {
+            var twoChoicePopup = typeof(VRCUiPopupManager).GetMethods().ToList().First(x =>
+            {
+                if (!x.Name.Contains("Method_Public_Void_String_String_String_Action_String_Action_Action_1_VRCUiPopup_"))
+                    return false;
+                try
+                {
                     if (UnhollowerRuntimeLib.XrefScans.XrefScanner.XrefScan(x).Any(z => z.Type == UnhollowerRuntimeLib.XrefScans.XrefType.Global && z.ReadAsObject() != null && z.ReadAsObject().ToString() == "UserInterface/MenuContent/Popups/StandardPopupV2"))
                         return true;
                 }
@@ -153,8 +208,8 @@ namespace UshioUI
                 return false;
             });
 
-            Il2CppSystem.Action firstAction = FirstButtonListener + UshioMenuApi.ClosePopup;
-            Il2CppSystem.Action secondAction = SecondButtonListener + UshioMenuApi.ClosePopup;
+            Il2CppSystem.Action firstAction = FirstButtonListener;
+            Il2CppSystem.Action secondAction = SecondButtonListener;
             Il2CppSystem.Action<VRCUiPopup> openAction = PopupAction;
             twoChoicePopup.Invoke(VRCUiPopupManager.prop_VRCUiPopupManager_0, new System.Object[] { Title, Content, FirstButtonText, firstAction, SecondButtonText, secondAction, openAction });
 
@@ -179,6 +234,7 @@ namespace UshioUI
             }
         }
 
+
         /// <summary>
         /// Creates a simple single button UI.
         /// </summary>
@@ -196,7 +252,56 @@ namespace UshioUI
                     return false;
                 try
                 {
-                    if (UnhollowerRuntimeLib.XrefScans.XrefScanner.XrefScan(x).Any(z => z.Type == UnhollowerRuntimeLib.XrefScans.XrefType.Global && z.ReadAsObject() != null && z.ReadAsObject().ToString() == "UserInterface/MenuContent/Popups/StandardPopupV2"))
+                    if (UnhollowerRuntimeLib.XrefScans.XrefScanner.XrefScan(x).Any(z => z.Type == UnhollowerRuntimeLib.XrefScans.XrefType.Global && z.ReadAsObject() != null && z.ReadAsObject().ToString() == "UserInterface/MenuContent/Popups/StandardPopup"))
+                        return true;
+                }
+                catch { }
+                return false;
+            });
+
+            Il2CppSystem.Action action = ButtonAction + ClosePopup;
+            Il2CppSystem.Action<VRCUiPopup> openAction = PopupAction;
+            singleChoicePopup.Invoke(VRCUiPopupManager.prop_VRCUiPopupManager_0, new object[] { Title, Content, ButtonText, action, openAction });
+
+            var popupObject = GameObject.Find("UserInterface/MenuContent/Popups/StandardPopup");
+            var textComponents = GameObject.FindObjectsOfType<Text>();
+
+            popupObject.transform.Find("ProgressLine").gameObject.SetActive(false);
+            popupObject.transform.Find("LowPercent").gameObject.SetActive(false);
+            popupObject.transform.Find("HighPercent").gameObject.SetActive(false);
+            foreach (Text text in textComponents)
+            {
+                text.supportRichText = true;
+                if (text.text == Title)
+                {
+                    text.color = Color.white;
+                }
+
+                if (text.text == Content)
+                {
+                    text.alignment = ContentAlignment;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates a simple single button UI.
+        /// </summary>
+        /// <param name="Title">The title that shows at the top of the popup. (Supports Richtext)</param>
+        /// <param name="Content">The text content of the popup. (Supports Richtext)</param>
+        /// <param name="ButtonText">The text that's read on the button. (Supports Richtext)</param>
+        /// <param name="ButtonAction">Actions taken when the button is clicked. (Use "delegate")</param>
+        /// <param name="PopupAction">Actions taken when the popup opens.</param>
+        /// <param name="ContentAlignment">Alignment of the popups text content.</param>
+        public static void CreateSingleButtonPopupV2(string Title, string Content, string ButtonText, Action ButtonAction, Action<VRCUiPopup> PopupAction = null, TextAnchor ContentAlignment = TextAnchor.MiddleCenter)
+        {
+            var singleChoicePopup = typeof(VRCUiPopupManager).GetMethods().ToList().First(x =>
+            {
+                if (!x.Name.Contains("Method_Public_Void_String_String_String_Action_Action_1_VRCUiPopup_"))
+                    return false;
+                try
+                {
+                    if (UnhollowerRuntimeLib.XrefScans.XrefScanner.XrefScan(x).Any(z => z.Type == UnhollowerRuntimeLib.XrefScans.XrefType.Global && z.ReadAsObject() != null && z.ReadAsObject().ToString() == "UserInterface/MenuContent/Popups/StandardPopup"))
                         return true;
                 }
                 catch { }
@@ -223,12 +328,15 @@ namespace UshioUI
             }
         }
 
-        public static void ClosePopup()
+
+        public static void ClosePopup2()
         {
             var button = GameObject.Find("ExitButton");
 
-            button.GetComponent<Button>().Press();
+            button.GetComponent<Button>().onClick?.Invoke();
         }
+
+        public static void ClosePopup() => VRCUiManager.prop_VRCUiManager_0.Method_Public_Void_Boolean_Boolean_2(true, false);
 
         public static void PopupUI(string Message, Color color)
         {
@@ -241,6 +349,17 @@ namespace UshioUI
             VRCUiManager.prop_VRCUiManager_0.field_Private_List_1_String_0.Add(Message);
         }
 
+        public static void PopupUI(string Message, string Header, Color color)
+        {
+            if (!VRCUiManager.prop_VRCUiManager_0.field_Public_Text_0.supportRichText)
+            {
+                VRCUiManager.prop_VRCUiManager_0.field_Public_Text_0.supportRichText = true;
+            }
+
+            VRCUiManager.prop_VRCUiManager_0.field_Public_Text_0.color = color;
+            VRCUiManager.prop_VRCUiManager_0.field_Private_List_1_String_0.Add($"[{Header}]\n{Message}");
+        }
+
         public static void PopupUI(string Message)
         {
             if (!VRCUiManager.prop_VRCUiManager_0.field_Public_Text_0.supportRichText)
@@ -251,6 +370,18 @@ namespace UshioUI
             VRCUiManager.prop_VRCUiManager_0.field_Public_Text_0.color = DefaultPopupColor;
             VRCUiManager.prop_VRCUiManager_0.field_Private_List_1_String_0.Add(Message);
         }
+
+        public static void PopupUI(string Message, string Header)
+        {
+            if (!VRCUiManager.prop_VRCUiManager_0.field_Public_Text_0.supportRichText)
+            {
+                VRCUiManager.prop_VRCUiManager_0.field_Public_Text_0.supportRichText = true;
+            }
+
+            VRCUiManager.prop_VRCUiManager_0.field_Public_Text_0.color = DefaultPopupColor;
+            VRCUiManager.prop_VRCUiManager_0.field_Private_List_1_String_0.Add($"[{Header}]\n{Message}");
+        }
+
         public static void SetMenu()
         {
             MelonCoroutines.Start(SetMenuColliders());
@@ -1055,7 +1186,7 @@ namespace UshioUI
         {
             var playersInRoomArray = GetPlayersInRoom();
             SetText(playersInRoomArray[0], UshioDisplayUi.TextType.MainText);
-            SetText((VFc5a1NXNW1idz09.changesAvailable ? VFc5a1NXNW1idz09.modInfo.ChangesToString() : "") + playersInRoomArray[1], UshioDisplayUi.TextType.SecondaryText);
+            SetText((ModInfo.changesAvailable ? ModInfo.modInfo.ChangesToString() : "") + playersInRoomArray[1], UshioDisplayUi.TextType.SecondaryText);
             SetText(GetWorldInfo(), UshioDisplayUi.TextType.MiniText);
             UpdateClocks();
         }
@@ -1295,40 +1426,47 @@ namespace UshioUI
 
             for (int i = 0; i < playerList.Length; i++)
             {
-                var player = playerList[i];
-                var apiUser = player.prop_APIUser_0;
-                bool isFriend = PlayerCheck.IsFriendsWith(apiUser.id);
-                bool isMaster = PlayerCheck.MasterCheck(apiUser.id);
-
-                if (MRConfiguration.config.ignoreList.TryGetValue(apiUser.id, out string displayName))
+                try
                 {
-                    if (displayName != apiUser.displayName)
+                    var player = playerList[i];
+                    var apiUser = player.prop_APIUser_0;
+                    bool isFriend = PlayerCheck.IsFriendsWith(apiUser.id);
+                    bool isMaster = PlayerCheck.MasterCheck(apiUser.id);
+
+                    if (MRConfiguration.config.ignoreList.TryGetValue(apiUser.id, out string displayName))
                     {
-                        displayName = apiUser.displayName;
-                        MRConfiguration.config.WriteConfig();
-                    }
-                    if (firstIgnored)
-                    {
-                        playersInRoom[1] = "<color=cyan>Ignored In Room:</color>";
-                        firstIgnored = false;
+                        if (displayName != apiUser.displayName)
+                        {
+                            displayName = apiUser.displayName;
+                            //MRConfiguration.config.WriteConfig();
+                        }
+                        if (firstIgnored)
+                        {
+                            playersInRoom[1] = "<color=cyan>Ignored In Room:</color>";
+                            firstIgnored = false;
+                        }
+
+                        playersInRoom[1] += $"\n{displayName}";
+                        if (isMaster) playersInRoom[1] += "[<color=red>RM</color>]";
                     }
 
-                    playersInRoom[1] += $"\n{displayName}";
-                    if (isMaster) playersInRoom[1] += "[<color=red>RM</color>]";
+                    if (isFriend)
+                    {
+                        if (firstFriend)
+                        {
+                            playersInRoom[0] = "<color=cyan>Friends In Room:</color>";
+                            firstFriend = false;
+                        }
+
+                        playersInRoom[0] += $"\n{apiUser.displayName}";
+                        if (isMaster) friendsInRoom += " [<color=red>RM</color>]";
+                    }
                 }
 
-                if (isFriend)
+                catch (Exception ex)
                 {
-                    if (firstFriend)
-                    {
-                        playersInRoom[0] = "<color=cyan>Friends In Room:</color>";
-                        firstFriend = false;
-                    }
-
-                    playersInRoom[0] += $"\n{apiUser.displayName}";
-                    if (isMaster) friendsInRoom += " [<color=red>RM</color>]";
+                    MoonriseConsole.Log("Something fucked up in the display...\n" + ex.Message);
                 }
-
             }
 
             return playersInRoom;

@@ -55,6 +55,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +67,10 @@
     </Reference>
     <Reference Include="UnhollowerRuntimeLib">
       <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\UnhollowerRuntimeLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\UnityEngine.dll</HintPath>
@@ -115,7 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\AddonApi.cs" />
-    <Compile Include="API\NetworkManagerHooks.cs" />
+    <Compile Include="API\MoonriseMultiCast.cs" />
     <Compile Include="API\VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.cs" />
     <Compile Include="API\QXNzZXRCdW5kbGVz.cs" />
     <Compile Include="API\MoonriseTabApi.cs" />
@@ -124,33 +129,44 @@
     <Compile Include="API\RubyButtonApi.cs" />
     <Compile Include="API\VXNoaW9SdWJ5TW9kaWZpZXJz.cs" />
     <Compile Include="API\VlhOb2FXOVZTUT09.cs" />
-    <Compile Include="BaseFunctions\JoinNotifierFunction.cs" />
-    <Compile Include="CustomBehavior\MRAvatarHider.cs" />
-    <Compile Include="AvatarFunctions\QXZhdGFyRnVuY3Rpb25z.cs" />
-    <Compile Include="Patches\DebugPatches.cs" />
+    <Compile Include="AvatarFunctions\AvatarLoaderFunctions.cs" />
+    <Compile Include="AvatarFunctions\DynamicBoneFunctions.cs" />
+    <Compile Include="BaseFunctions\JoinNotifierFunctions.cs" />
+    <Compile Include="BaseFunctions\PlayerTeleportMenu.cs" />
+    <Compile Include="CustomBehavior\MRAvatarController.cs" />
+    <Compile Include="AvatarFunctions\AvatarFunctionsBase.cs" />
+    <Compile Include="CustomBehavior\MRDynamicBoneController.cs" />
+    <Compile Include="MoonriseMod.cs" />
+    <Compile Include="Patches\ModerationPatches.cs" />
+    <Compile Include="Patches\NetworkManagerPatches.cs" />
+    <Compile Include="Patches\PickupPatches.cs" />
     <Compile Include="Patches\VRCAvatarManagerPatches.cs" />
-    <Compile Include="BaseFunctions\RW1vamlTcGFt.cs" />
+    <Compile Include="BaseFunctions\EmojiSpam.cs" />
     <Compile Include="HReader\Behaviour\HentaiReader.cs" />
     <Compile Include="HReader\BookInfo.cs" />
     <Compile Include="HReader\NHentaiReader.cs" />
     <Compile Include="Moonrise.cs" />
     <Compile Include="MoonriseConsole.cs" />
-    <Compile Include="BaseFunctions\TW9vbnJpc2VCYXNlRnVuY3Rpb25z.cs" />
-    <Compile Include="MoonriseObject.cs" />
-    <Compile Include="Patches\ModerationPatches.cs" />
+    <Compile Include="BaseFunctions\MoonriseBaseFunctions.cs" />
+    <Compile Include="MoonriseMenu.cs" />
     <Compile Include="Patches\USpeakerPatches.cs" />
     <Compile Include="Patches\PortalPatches.cs" />
     <Compile Include="Patches\QuickMenuPatches.cs" />
     <Compile Include="Patches\VideoPlayerPatches.cs" />
+    <Compile Include="Patches\VRCPlayerPatches.cs" />
+    <Compile Include="PlayerFunctions\PlayerFunctionsBase.cs" />
+    <Compile Include="PlayerFunctions\PlayerPhysics.cs" />
     <Compile Include="PortableMirror.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\VVZkU2ExRnRlSFpaTW5Sc1kyYzlQUT09.cs" />
+    <Compile Include="Settings\AddBlocker.cs" />
     <Compile Include="Settings\MRConfiguration.cs" />
-    <Compile Include="Settings\VFc5a1NXNW1idz09.cs" />
-    <Compile Include="Settings\VTJWMGRHbHVaM05HZFc1amRHbHZibk09.cs" />
-    <Compile Include="SocialInterractions\VVROS2FHTXlhR3hqYkVwc1kwRTlQUT09.cs" />
-    <Compile Include="SocialInterractions\VUd4aGVXVnlWRkE9.cs" />
-    <Compile Include="SocialInterractions\VmxSSk5XRnRSbGhTYms1VVZucFZkMWRzYUV0bFZteFlWR3BDYUZaNmJERlpla0pMWVVkTmVWWlVNRDA9.cs" />
+    <Compile Include="Settings\ModInfo.cs" />
+    <Compile Include="Settings\SettingsFunctions.cs" />
+    <Compile Include="SocialInterractions\PlayerTeleport.cs" />
+    <Compile Include="SocialInterractions\SocialInterractionsBase.cs" />
+    <Compile Include="WorldFunctions\PickupFunctions.cs" />
+    <Compile Include="WorldFunctions\VideoPlayerFunctions.cs" />
+    <Compile Include="WorldFunctions\WorldFunctionsBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="moonrise.assetbundle" />

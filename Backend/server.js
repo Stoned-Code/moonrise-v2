@@ -9,8 +9,8 @@ const datastore = require('nedb')
 const localtunnel = require('localtunnel');
 const bcrypt = require('bcrypt');
 const app = express();
-
-const debug = false;
+const getRequests = riquire('requests/mrget');
+const debug = true;
 
 // Databases
 const moonrisedb = new datastore('data/moonrise.db');
@@ -94,6 +94,8 @@ app.use(express.json({limit: '10mb'}));
 ///////////////////
 // Get Requests  //
 ///////////////////
+
+app.get('/test', getRequests.PingServer())
 
 let moonriseapi = 'kaik23kdsal'; // Gets all users in database.
 app.get('/' + moonriseapi, function(req, res)
@@ -429,7 +431,7 @@ app.post('/' + removeUser, function(req, res)
 })
 
 // Update user
-let updateUser = 'k83jdaa-ok3ka'
+let updateUser = 'k83jdaa-ok3ka';
 app.post('/' + updateUser, function(req, res)
 {
     let user = req.body;
@@ -504,7 +506,7 @@ app.post('/' + reportcrasher, function(req, res)
 });
 
 // Check mod version
-let updateCheck = 'slkefgdga9e3d'
+let updateCheck = 'slkefgdga9e3d';
 app.post('/' + updateCheck, function(req, res)
 {
     console.log("Checking udpate...");
@@ -556,7 +558,7 @@ app.post('/' + updateCheck, function(req, res)
 });
 
 // Push update
-let pushUpdate = 'la03dgadsg0923ioasdf'
+let pushUpdate = 'la03dgadsg0923ioasdf';
 app.post('/' + pushUpdate, function(req, res)
 {
     let modinf = req.body;
@@ -637,6 +639,9 @@ app.post('/' + pushUpdate, function(req, res)
 
     });
 });
+
+// Add crasher
+let addCrasher = 'aq2309aldakdfj309ad';
 
 app.listen(moonrise_port, function()
 {

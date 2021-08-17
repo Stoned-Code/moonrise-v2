@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HarmonyLib;
+﻿using HarmonyLib;
+using MoonriseV2Mod.WorldFunctions;
 using UnityEngine.Video;
 
 namespace MoonriseV2Mod.Patches
 {
     [HarmonyPatch(typeof(VideoPlayer), "url", MethodType.Setter)]
-    class VideoPlayerPlayPatch
+    class VideoPlayerUrlPatch
     {
-        public static string currentVideoLink { get; private set; }
-        [HarmonyPostfix]
-        static void URL(string value)
+        static bool Prefix(string value)
         {
-            if (currentVideoLink != value)
+            if (VideoPlayerFunctions.currentVideoUrl != value)
             {
-                currentVideoLink = value;
-                MoonriseConsole.Log(value);
+                if (value != "" )
+                    VideoPlayerFunctions.SetVideoURL(value);
+                //MoonriseConsole.Log(value);
             }
 
+            return true;
         }
     }
 }

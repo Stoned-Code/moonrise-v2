@@ -1,0 +1,4 @@
+function PingServer(req, res)
+{
+    
+}
