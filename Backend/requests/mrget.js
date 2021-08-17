@@ -1,4 +1,0 @@
-function PingServer(req, res)
-{
-    
-}

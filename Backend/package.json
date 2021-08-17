@@ -13,11 +13,12 @@
     "bcrypt": "^5.0.1",
     "discord-webhook-node": "^1.1.8",
     "express": "^4.17.1",
+    "http": "0.0.1-security",
     "localtunnel": "^2.0.1",
     "mysql": "^2.18.1",
     "nedb": "^1.8.0",
     "nhentai-api": "^3.0.2",
     "nodemon": "^2.0.12",
-    "ws": "^7.5.3"
+    "ws": "^8.1.0"
   }
 }

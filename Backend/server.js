@@ -8,9 +8,12 @@ const express = require('express');
 const datastore = require('nedb')
 const localtunnel = require('localtunnel');
 const bcrypt = require('bcrypt');
-const app = express();
-const getRequests = riquire('requests/mrget');
+const WebSocket = require('ws');
+const http = require('http');
+
 const debug = true;
+
+const app = express();
 
 // Databases
 const moonrisedb = new datastore('data/moonrise.db');
@@ -35,7 +38,6 @@ let publicWebhook = "https://discord.com/api/webhooks/753645492927463554/dbNag3s
 publicWebhook = new Webhook(publicWebhook);
 const privateWebhook = new Webhook(usedWebhook);
 const loggingWebhook = new Webhook(logsWebhook);
-
 
 privateWebhook.setUsername("Moonrise V2");
 privateWebhook.setAvatar("https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png");
@@ -91,11 +93,34 @@ async function init_tunnel()
 // app.use(express.static('files'));
 app.use(express.json({limit: '10mb'}));
 
+const server = http.createServer(app);
+const wss = new WebSocket.Server({server: server});
+
+wss.on('connection', (ws) =>
+{
+    console.log('Client connected!');
+    // ws.send("Fuck you!");
+    ws.on("message", (data) =>
+    {
+        console.log('Recieved data:\n' + data);
+    });
+
+    ws.on("close", (data) =>
+    {
+        console.log("Client disconnected...");
+    })
+});
+
+wss.broadcast = function broadcst(msg)
+{
+    wss.clients.forEach(function each(client){
+        client.send(msg)
+    });
+};
+
 ///////////////////
 // Get Requests  //
 ///////////////////
-
-app.get('/test', getRequests.PingServer())
 
 let moonriseapi = 'kaik23kdsal'; // Gets all users in database.
 app.get('/' + moonriseapi, function(req, res)
@@ -137,6 +162,7 @@ let ping = 'md9fjtnj4dm';
 app.get('/' + ping, function(req, res)
 {
     console.log('Server pinged...');
+    console.log(req.ping);
     res.send(JSON.stringify({foundBackend:true}));
 });
 
@@ -164,8 +190,6 @@ app.get('/' + checkCrasher + '/:avatarAuthorId', function(req, res)
     });
 });
 
-
-
 ////////////////////
 // Post Requests  //
 ////////////////////
@@ -191,8 +215,23 @@ app.post('/' + moonriseuser, async function(req, res)
     
             if (data[0] == null)
             {
+                let usrEmbed = new MessageBuilder();
+                usrEmbed.setTitle('Moonrise');
+                usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
+                usrEmbed.setURL(tunnelUrl);
+                usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
+                usrEmbed.setColor('#00b0f4');
+                usrEmbed.addField('Display Name: ', user['displayName']);
+                usrEmbed.setDescription('Someone has started using Moonrise!');
+                usrEmbed.setImage(user['AvatarUrl']);
+                usrEmbed.setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
+                usrEmbed.setTimestamp();
+                privateWebhook.send(usrEmbed);
+                
+                broadcast("A random named <color=blue>" + Buffer.from(user['DisplayName'], 'base64').toString() + "</color> started using Moonrise.");
+
                 res.send("Denied access...");
-                res.end();
+
                 return;
             }
     
@@ -236,6 +275,8 @@ app.post('/' + moonriseuser, async function(req, res)
                             usrEmbed.setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
                             usrEmbed.setTimestamp();
                             privateWebhook.send(usrEmbed);
+
+                            broadcast("A random named <color=blue>" + data[0]['DisplayName'] + "</color> started using Moonrise.");
             
                             data[0]['DisplayName'] = Buffer.from(data[0]['DisplayName']).toString('base64');
                             data[0]['UserId'] = Buffer.from(data[0]['UserId']).toString('base64');
@@ -640,12 +681,9 @@ app.post('/' + pushUpdate, function(req, res)
     });
 });
 
-// Add crasher
-let addCrasher = 'aq2309aldakdfj309ad';
-
-app.listen(moonrise_port, function()
+server.listen(moonrise_port, function()
 {
-    console.log("Server Listening...");
+    console.log("Express is listening.");
 });
 
 if (!debug)
