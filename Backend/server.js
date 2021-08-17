@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const WebSocket = require('ws');
 const http = require('http');
 
-const debug = true;
+const debug = false;
 
 const app = express();
 
