@@ -34,7 +34,7 @@ const mainWebhook = "https://discord.com/api/webhooks/801629909495054346/vACrY70
 const logsWebhook = "https://discord.com/api/webhooks/747734429597827123/e5PU_9Oo-QIJLChZHZW59RSfFEIvqzJ_NXzxUrcHLdSJiGW5JfWC8xiG925j0xrcUiRS";
 let usedWebhook = mainWebhook;
 
-let publicWebhook = "https://discord.com/api/webhooks/753645492927463554/dbNag3stRbODU4ISoRCKBTfS-r_gkcKINJJEk3kcSeOJW1KTPrPl17bEMCPb-2oLaez3";
+let publicWebhook = "https://discord.com/api/webhooks/877401688808513567/j0lfBjSaPqoXy78w5oUkCO0PRCUaKcXXDB24DXaSSc5IvIXwGktBjCVJQcPvGrNS7J2f";
 publicWebhook = new Webhook(publicWebhook);
 const privateWebhook = new Webhook(usedWebhook);
 const loggingWebhook = new Webhook(logsWebhook);
