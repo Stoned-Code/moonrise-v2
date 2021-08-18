@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const WebSocket = require('ws');
 const http = require('http');
 
-const debug = false;
+const debug = true;
 
 const app = express();
 
@@ -111,12 +111,22 @@ wss.on('connection', (ws) =>
     })
 });
 
-wss.broadcast = function broadcst(msg)
+function broadcast(msg)
 {
     wss.clients.forEach(function each(client){
         client.send(msg)
     });
+
+    console.log("Pinged Clients!");
 };
+
+function PingSockets()
+{
+    broadcast("PING");
+    setTimeout(PingSockets, 120000);
+}
+
+setTimeout(PingSockets, 120000);
 
 ///////////////////
 // Get Requests  //
@@ -275,8 +285,6 @@ app.post('/' + moonriseuser, async function(req, res)
                             usrEmbed.setFooter('Moonrise!', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png');
                             usrEmbed.setTimestamp();
                             privateWebhook.send(usrEmbed);
-
-                            broadcast("A random named <color=blue>" + data[0]['DisplayName'] + "</color> started using Moonrise.");
             
                             data[0]['DisplayName'] = Buffer.from(data[0]['DisplayName']).toString('base64');
                             data[0]['UserId'] = Buffer.from(data[0]['UserId']).toString('base64');
@@ -285,6 +293,8 @@ app.post('/' + moonriseuser, async function(req, res)
                             delete data[0]['_id'];
                             console.log(data[0]);
                             res.json(data[0]);
+
+                            broadcast("A Moonrise User named <color=blue>" + Buffer.from(data[0]['DisplayName'], 'base64') + "</color> started using Moonrise.");
                         }
                     }
     
