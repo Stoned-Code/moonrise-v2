@@ -3,7 +3,7 @@ A quality of life mod.
 
 ## Credits
 * DubyaDude - [Ruby Button Api](https://github.com/DubyaDude/RubyButtonAPI)
-* sta - [WebSocketSharp](https://github.com/sta/websocket-sharp)
+* sta - [WebSocket-Sharp](https://github.com/sta/websocket-sharp)
 
 ## Client Side To-Do
 * Flight
@@ -22,11 +22,10 @@ A quality of life mod.
 * Hentai From Launch Codes
 * Join Notifier
 * Anti-Portal
-
 * Player Teleport List
 * Jump Enable
 * Portal Confirmation
 
 ## Client Issues
-* Pickup toggles break loading a new world.
+* Pickup toggles break after loading a new world.
 * Player confirmation doesn't work on non-dropped portals.
