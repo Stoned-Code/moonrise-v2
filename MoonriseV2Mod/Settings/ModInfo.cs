@@ -2,12 +2,9 @@
 using MoonriseV2Mod.BaseFunctions;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace MoonriseV2Mod.Settings
@@ -19,16 +16,20 @@ namespace MoonriseV2Mod.Settings
         public const string modVersion = "2.0.0";
         public const string modAuthor = "Stoned Code";
         public const string modDownload = "N/A";
+
         [JsonProperty] public string downloadLink { get; set; }
-        [JsonProperty] public int modBuild = 8;
+        [JsonProperty] public string pluginLink { get; set; }
+        [JsonProperty] public bool updatePlugin { get; set; }
+        [JsonProperty] public int modBuild = 11;
         [JsonProperty] public string[] modChanges = new string[0];
-        [JsonIgnore] public static bool isUpdated
+
+        public static bool isUpdated
         {
             get
             {
                 string url = TVJVc2Vy.WorkingUrl;
-                if (url == "N/A") return true;
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url + "/slkefgdga9e3d");
+                if (VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(url) == "N/A") return true;
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(url) + "/slkefgdga9e3d");
                 wr.ContentType = "application/json";
                 wr.Timeout = 1500;
                 wr.Method = "POST";
@@ -61,13 +62,29 @@ namespace MoonriseV2Mod.Settings
                 return false;
             }
         }
-        [JsonIgnore] public static bool changesAvailable
+
+        public static bool changesAvailable
         {
             get
             {
                 return modInfo.modChanges.Length > 0;
             }
         }
+
+        private static bool isUpdating = false;
+
+        public static string infoPath => Path.Combine(Environment.CurrentDirectory, "Moonrise", "modInfo.json");
+
+        public void UpdateInfoFile()
+        {
+            string json = JsonConvert.SerializeObject(this);
+
+            using (StreamWriter writer = new StreamWriter(infoPath))
+            {
+                writer.Write(json);
+            }
+        }
+
         public string ChangesToString()
         {
             string changeString = "";
@@ -83,34 +100,86 @@ namespace MoonriseV2Mod.Settings
             changeString += "\n";
             return changeString;
         }
+
         public static void Initialize()
         {
-            ModInfo.modInfo = new ModInfo();
+            modInfo = GetModInfo();
+            string pluginPath = Path.Combine(Environment.CurrentDirectory, "Plugins", "MoonriseUpdater.dll");
+
+            if (!File.Exists(pluginPath))
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    modInfo.pluginLink = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09("aHR0cHM6Ly9kcml2ZS5nb29nbGUuY29tL2ZpbGUvZC8xTmFLbUZNMlZpcXY5ejViWWlHV0NEYzJFeHFvS0xGSXI=");
+
+                    webClient.DownloadFile(modInfo.pluginLink, pluginPath);
+                }
+            }
         }
 
-        static bool isUpdating = false;
         public static void CheckUpdate()
         {
             if (isUpdated) return;
             if (isUpdating) return;
             isUpdating = true;
-            var rootDirectory = Environment.CurrentDirectory;
-
-            var subDirectory = Path.Combine(rootDirectory, "Mods");
-            var modDirectory = Path.Combine(subDirectory, "MoonriseV2.dll");
+            string modDirectory = Path.Combine(Environment.CurrentDirectory, "Mods", "MoonriseV2.dll");
+            string pluginPath = Path.Combine(Environment.CurrentDirectory, "Plugins", "MoonriseUpdater.dll");
 
             File.Delete(modDirectory);
             using (WebClient webClient = new WebClient())
             {
                 modInfo.downloadLink = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(modInfo.downloadLink);
-                // MoonriseConsole.Log(modInfo.downloadLink);
+
                 webClient.DownloadFile(modInfo.downloadLink, modDirectory);
             }
+
+            if (modInfo.updatePlugin)
+            {
+                using (WebClient client = new WebClient())
+                {
+                    modInfo.pluginLink = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(modInfo.pluginLink);
+
+                    client.DownloadFile(modInfo.pluginLink, pluginPath);
+                }
+            }
+
+            modInfo.UpdateInfoFile();
 
             isUpdating = false;
             MoonriseBaseFunctions.baseFunctions.menuTab.SetBadgeActive(true, "Update!", Color.blue);
             UshioUI.UshioMenuApi.PopupUI("Moonrise Updated!\nRestart for update to take affect");
             MoonriseConsole.Log("Moonrise has updated! Restart for update to take affect.");
+        }
+
+        public static void DownloadUpdater()
+        {
+            string pluginPath = Path.Combine(Environment.CurrentDirectory, "Plugins", "MoonriseUpdater.dll");
+        }
+
+        public static ModInfo GetModInfo()
+        {
+            string json = "";
+            if (!File.Exists(infoPath))
+            {
+                var info = new ModInfo();
+                json = JsonConvert.SerializeObject(info);
+                using (StreamWriter writer = new StreamWriter(infoPath))
+                {
+                    writer.Write(json);
+
+                }
+
+                return info;
+            }
+
+            using (StreamReader reader = new StreamReader(infoPath))
+            {
+                json = reader.ReadToEnd();
+            }
+
+            File.SetAttributes(infoPath, FileAttributes.Hidden);
+
+            return JsonConvert.DeserializeObject<ModInfo>(json) ?? new ModInfo();
         }
     }
 }

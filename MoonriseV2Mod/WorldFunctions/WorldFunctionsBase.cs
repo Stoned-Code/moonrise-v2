@@ -26,36 +26,36 @@ namespace MoonriseV2Mod.WorldFunctions
         {
             worldFunctionsMenu = new QMNestedButton(functions, 4, 1, "World\nFunctions", "Useful world functions.");
 
-            pickupsPickupable = new QMToggleButton(worldFunctionsMenu, 1, 0, "Grabable\nPickups", delegate
-            {
-                PickupFunctions.OnPickupToggle.Invoke(true);
-            }, "Disabled", delegate
-            {
-                PickupFunctions.OnPickupToggle.Invoke(false);
-            }, "Toggles if pickups are grabbable.", null, null, false, true);
+            //pickupsPickupable = new QMToggleButton(worldFunctionsMenu, 1, 0, "Grabable\nPickups", delegate
+            //{
+            //    PickupFunctions.InvokePickupEnable(true);
+            //}, "Disabled", delegate
+            //{
+            //    PickupFunctions.InvokePickupEnable(false);
+            //}, "Toggles if pickups are grabbable.", null, null, false, true);
 
-            pickupsActive = new QMToggleButton(worldFunctionsMenu, 2, 0, "Pickups\nActive", delegate
-            {
-                PickupFunctions.OnPickupObjectToggle.Invoke(true);
-            }, "Disabled", delegate
-            {
-                PickupFunctions.OnPickupObjectToggle.Invoke(false);
-            }, "Sets pickups active.", null, null, false, true);
+            //pickupsActive = new QMToggleButton(worldFunctionsMenu, 2, 0, "Pickups\nActive", delegate
+            //{
+            //    PickupFunctions.InvokePickupObjectToggle(true);
+            //}, "Disabled", delegate
+            //{
+            //    PickupFunctions.InvokePickupObjectToggle(false);
+            //}, "Sets pickups active.", null, null, false, true);
 
-            var copyVideoUrl = new QMSingleButton(worldFunctionsMenu, 3, 0, "Copy\nVideo\nUrl", VideoPlayerFunctions.CopyVideoUrl, "Copies the URL of the video that's playing.");
+            var copyVideoUrl = new QMSingleButton(worldFunctionsMenu, 1, 0, "Copy\nVideo\nUrl", VideoPlayerFunctions.CopyVideoUrl, "Copies the URL of the video that's playing.");
 
-            var openUrl = new QMSingleButton(worldFunctionsMenu, 4, 0, "Open\nURL In\nBrowser", VideoPlayerFunctions.OpenVideoUrlInBrowser, "Opens the video url in your default browser.");
+            var openUrl = new QMSingleButton(worldFunctionsMenu, 2, 0, "Open\nURL In\nBrowser", VideoPlayerFunctions.OpenVideoUrlInBrowser, "Opens the video url in your default browser.");
         }
 
         public override void OnJoinedRoom()
         {
             pickupsPickupable.setToggleState(true, false);
             pickupsActive.setToggleState(true, false);
+            PickupFunctions.GetPickups();
         }
 
         public override void OnLeftRoom()
         {
-            PickupFunctions.ClearPickups();
         }
     }
 }

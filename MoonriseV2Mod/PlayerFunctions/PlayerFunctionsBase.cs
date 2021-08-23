@@ -31,7 +31,7 @@ namespace MoonriseV2Mod.PlayerFunctions
                     PlayerCheck.LocalVRCPlayer.field_Private_VRCPlayerApi_0.SetJumpImpulse(5f);
             }, "Enables jumping if the world doesn't have jumping enabled for some dumb reason.");
 
-            var getPhysics = new QMSingleButton(playerFunctionsMenu, 2, 0, "Get\nPhysics", PlayerPhysics.GetDefaultPhysics, "Get's the player's current physics.");
+            //var getPhysics = new QMSingleButton(playerFunctionsMenu, 2, 0, "Get\nPhysics", PlayerPhysics.GetDefaultPhysics, "Get's the player's current physics.");
         }
     }
 }

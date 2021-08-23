@@ -106,10 +106,10 @@ namespace MoonriseV2Mod.HReader.Behaviour
         private Slider loadingProgress;
         private Transform loadingElement;
 
+        private string coverUrl;
+        private string[] imageUrls;
 
-        string coverUrl;
-        bool loading = false;
-        string[] imageUrls;
+        public bool loading = false;
 
         private void Update()
         {
@@ -140,7 +140,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
         }
 
         [HideFromIl2Cpp]
-        IEnumerator SetCover()
+        private IEnumerator SetCover()
         {
             UnityWebRequest request = UnityWebRequestTexture.GetTexture(coverUrl);
             request.SendWebRequest();
@@ -163,7 +163,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
         }
 
         [HideFromIl2Cpp]
-        IEnumerator GetAllImages()
+        private IEnumerator GetAllImages()
         {
             loading = true;
             loadingProgress.maxValue = imageUrls.Length;
@@ -175,14 +175,14 @@ namespace MoonriseV2Mod.HReader.Behaviour
 
             for (int i = 0; i < imageUrls.Length; i++)
             {
-                if (imageUrls[i] == null) continue; 
+                if (imageUrls[i] == null) continue;
                 UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrls[i]);
 
                 request.SendWebRequest();
                 while (!request.isDone) yield return null;
 
                 if (request.isNetworkError || request.isHttpError)
-                    MoonriseConsole.ErrorLog(request.error);
+                    MoonriseConsole.ErrorLog("Something fucked up with getting the image...\n" + request.error);
                 else
                 {
                     var downloadHandler = request.downloadHandler.Cast<DownloadHandlerTexture>();
@@ -226,7 +226,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
         }
 
         [HideFromIl2Cpp]
-        public void InitializeReader(string hentaiId)
+        public void InitializeReader(string launchCode)
         {
             readerCollider = GetComponent<BoxCollider>();
             canvasCollider = transform.Find("Screen/Canvas").GetComponent<BoxCollider>();
@@ -252,7 +252,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
 
             lastButton.onClick.AddListener(new Action(LastPage));
             nextButton.onClick.AddListener(new Action(NextPage));
-            deleteButton.onClick.AddListener(new Action(delegate { DeleteEbook(this.gameObject); }));
+            deleteButton.onClick.AddListener(new Action(delegate { DeleteEbook(this.gameObject, this); }));
             forceLargeToggle.onValueChanged.AddListener(new Action<bool>((value) =>
             {
                 MoonriseConsole.Log("Toggle State: " + value.ToString());
@@ -261,7 +261,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
 
             GetComponent<VRC_Pickup>().AutoHold = VRC_Pickup.AutoHoldMode.Yes;
 
-            string fulUrl = WorkingUrl + "/keig84ionjk4390f/" + hentaiId;
+            string fulUrl = WorkingUrl + "/keig84ionjk4390f/" + launchCode;
 
             WebRequest wr = WebRequest.Create(fulUrl);
             wr.Timeout = 1500;
@@ -280,7 +280,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
             
             if (json == "No Book Found...")
             {
-                DeleteEbook(this.gameObject);
+                DeleteEbook(this.gameObject, this);
                 return;
             }
 
@@ -329,6 +329,11 @@ namespace MoonriseV2Mod.HReader.Behaviour
         }
 
         [HideFromIl2Cpp]
-        public static void DeleteEbook(GameObject obj) => Destroy(obj);
+        public static void DeleteEbook(GameObject obj, HentaiReader reader)
+        {
+            if (reader.loading) return;
+            if (obj != null)
+                GameObject.Destroy(obj);
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace MoonriseV2Mod.HReader
 
         public override void LoadAddonMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
+            if (user == null) return;
             if (!user.Lewd) return;
 
             QMNestedButton nhentai = AddonMods.MakeAddonNestedButton("N-Hentai\nReader", "Spawn an ebook with a selected hentai from those damn numbers.");

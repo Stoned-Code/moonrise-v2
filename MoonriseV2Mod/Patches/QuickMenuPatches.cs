@@ -4,6 +4,7 @@ using MoonriseApi;
 using MoonriseV2Mod.API;
 using RubyButtonAPI;
 using System.Collections;
+using UnityEngine;
 using UshioUI;
 using VRC.Core;
 
@@ -29,6 +30,7 @@ namespace MoonriseV2Mod.Patches
             // MoonriseConsole.Log("Started Loading Menu.");
             while (Moonrise.moonrise == null) yield return null;
             while (APIUser.CurrentUser == null) yield return null;
+
             // MoonriseConsole.Log("Still Loading Menu...");
             if (!Moonrise.moonrise.isInitialized)
             {
@@ -41,9 +43,11 @@ namespace MoonriseV2Mod.Patches
                 while (!QXNzZXRCdW5kbGVz.specialInitialized) yield return null;
 
                 loadMenu?.Invoke(functions, socialInterractions, Moonrise.moonrise.user ?? null);
-                Moonrise.moonrise.isInitialized = true;
+
                 while (!AddonMods.isInitialized) yield return null;
+
                 OnAddonsLoaded?.Invoke(functions, socialInterractions, Moonrise.moonrise.user ?? null);
+                Moonrise.moonrise.isInitialized = true;
             }
         }
     }

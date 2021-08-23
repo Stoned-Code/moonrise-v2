@@ -49,6 +49,7 @@ namespace MoonriseV2Mod.API
                 specialInitialized = true;
                 return;
             }
+
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MoonriseV2Mod.ebook.mra"))
             using (var tempStream = new MemoryStream((int)stream.Length))
             {
@@ -57,6 +58,7 @@ namespace MoonriseV2Mod.API
                 EbookBundle = AssetBundle.LoadFromMemory_Internal(tempStream.ToArray(), 0);
                 EbookBundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
             }
+
             specialInitialized = true;
         }
 

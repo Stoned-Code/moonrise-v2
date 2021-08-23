@@ -79,6 +79,7 @@ namespace MoonriseV2Mod.BaseFunctions
 
             else
             {
+                if (!isFriend) return;
                 MoonriseConsole.Log($"Friend Joined: {playerName}");
                 UshioMenuApi.PopupUI(playerName, "Friend Joined");
             }

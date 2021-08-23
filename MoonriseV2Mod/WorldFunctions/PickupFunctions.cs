@@ -11,46 +11,55 @@ namespace MoonriseV2Mod.WorldFunctions
 {
     internal class PickupFunctions
     {
-        public PickupFunctions(GameObject obj)
+        private static List<MRPickup> m_pickups = new List<MRPickup>();
+        public static BoolMultiCast OnEnablePickups;
+        public static BoolMultiCast OnToggleObjectPickups;
+        public static void GetPickups()
+        {
+            if (m_pickups != null)
+                m_pickups.Clear();
+
+            var tempPickups = GameObject.FindObjectsOfType<VRC_Pickup>();
+
+            for (int i = 0; i < tempPickups.Length; i++)
+            {
+                m_pickups.Add(new MRPickup(tempPickups[i].gameObject));
+            }
+
+            MoonriseConsole.Log("Retrieved pickups.");
+        }
+
+        public static void InvokePickupEnable(bool toggle) => OnEnablePickups?.Invoke(toggle);
+        public static void InvokePickupObjectToggle(bool toggle) => OnToggleObjectPickups?.Invoke(toggle);
+    }
+
+    internal class MRPickup
+    {
+        public MRPickup(GameObject obj)
         {
             this.pickupObject = obj;
 
-            OnPickupToggle += TogglePickupable;
-            OnPickupObjectToggle += TogglePickupObject;
+            PickupFunctions.OnEnablePickups += OnPickupEnabled;
+            PickupFunctions.OnToggleObjectPickups += OnPickupObjectToggled;
         }
 
-        public GameObject pickupObject;
+        public GameObject pickupObject { get; set; }
         public VRC_Pickup pickup => pickupObject.GetComponent<VRC_Pickup>();
-        private static List<PickupFunctions> m_pickups = new List<PickupFunctions>();
 
-        public static BoolMultiCast OnPickupToggle;
-        public static BoolMultiCast OnPickupObjectToggle;
-        public void TogglePickupable(bool state)
+        public void OnPickupEnabled(bool toggle)
         {
-            if (pickup != null)
-                pickup.pickupable = state;
+            pickup.pickupable = toggle;
         }
 
-        public void TogglePickupObject(bool state)
+        public void OnPickupObjectToggled(bool toggle)
         {
-
-            pickupObject.SetActive(state);
+            pickupObject.SetActive(toggle);
         }
 
-        public static void AddPickup(GameObject pickup)
+        ~MRPickup()
         {
-            if (pickup == PortableMirror.mirror) return;
-            m_pickups.Add(new PickupFunctions(pickup.gameObject));
-        }
-
-        public static void ClearPickups() => m_pickups.Clear();
-
-
-
-        ~PickupFunctions()
-        {
-            OnPickupToggle -= TogglePickupable;
-            OnPickupObjectToggle -= TogglePickupObject;
+            PickupFunctions.OnEnablePickups -= OnPickupEnabled;
+            PickupFunctions.OnToggleObjectPickups -= OnPickupObjectToggled;
         }
     }
 }

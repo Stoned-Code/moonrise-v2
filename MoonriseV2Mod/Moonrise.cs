@@ -28,7 +28,7 @@ namespace MoonriseV2Mod
         internal static Moonrise moonrise;
         // internal static bool debug = false;
 
-        internal bool isInitialized = false;
+        internal bool isInitialized { get; set; }
         internal static new HarmonyLib.Harmony harmonyInstance;
         internal static event Action modUpdate;
 
@@ -45,15 +45,12 @@ namespace MoonriseV2Mod
         private void OnJoinedRoom()
         {
             VRCUiManager.prop_VRCUiManager_0.field_Private_List_1_String_0.Clear();
-
-            MoonriseConsole.Log("Joined room.");
         }
 
         private void OnLeftRoom()
         {
             MRConfiguration.config.WriteConfig();
             VideoPlayerFunctions.SetVideoURL("");
-            MoonriseConsole.Log("Left room.");
         }
 
         [Obsolete]

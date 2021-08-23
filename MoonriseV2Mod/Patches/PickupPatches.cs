@@ -9,7 +9,7 @@ namespace MoonriseV2Mod.Patches
     {
         static void Postfix(VRC_Pickup __instance)
         {
-            PickupFunctions.AddPickup(__instance.gameObject);
+            // PickupFunctions.AddPickup(__instance.gameObject);
         }
     }
 }
