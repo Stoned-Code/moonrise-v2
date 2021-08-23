@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const WebSocket = require('ws');
 const http = require('http');
 
-const debug = false;
+const debug = true;
 
 const app = express();
 
@@ -42,7 +42,7 @@ const loggingWebhook = new Webhook(logsWebhook);
 privateWebhook.setUsername("Moonrise V2");
 privateWebhook.setAvatar("https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png");
 let tunnelUrl = "";
-moonrise_port = 4209;
+moonrise_port = 8080;
 
 let domain = "moonrise-sc";
 
@@ -583,6 +583,7 @@ app.post('/' + updateCheck, function(req, res)
                     try
                     {
                         data[0]['downloadLink'] = Buffer.from(data[0]['downloadLink']).toString('base64');
+                        data[0]['pluginLink'] = Buffer.from(data[0]['pluginLink']).toString('base64');
                     }
                     catch {}
                     
@@ -632,6 +633,8 @@ app.post('/' + pushUpdate, function(req, res)
                 modinf['modBuild'] = parseInt(Buffer.from(modinf['modBuild'], 'base64').toString());
                 if (modinf['downloadLink'] != null)
                     modinf['downloadLink'] = Buffer.from(modinf['downloadLink'], 'base64').toString();
+                if (modInfo['pluginLink'] != null)
+                    modInf['pluginLink'] = Buffer.from(modInf['pluginLink'], 'base64').toString();
                 console.log(modinf);
             
                 let changes = "";
@@ -649,8 +652,10 @@ app.post('/' + pushUpdate, function(req, res)
                     modInfo.update({mod: 'MoonriseV2'}, {$set: { modBuild: modinf['modBuild']}}, multi=true);
                     modInfo.update({mod: 'MoonriseV2'}, {$set: {downloadLink: modinf['downloadLink']}}, multi=true);
                     modInfo.update({mod: 'MoonriseV2'}, {$set: { modChanges: modinf['modChanges']}}, multi=true);
+                    modInfo.update({mod: 'MoonriseV2'}, {$set: {pluginLink: modinf['pluginLink']}}, multi=true);
+                    modInfo.update({mod: 'MoonriseV2'}, {$set: {updatePlugin: modinf['updatePlugin']}}, multi=true);
                 
-                    if (!debug)
+                    if (modinf['discordNotification'])
                     {
                         let usrEmbed = new MessageBuilder();
                         usrEmbed.setTitle('Moonrise');
