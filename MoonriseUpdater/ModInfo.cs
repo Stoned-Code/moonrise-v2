@@ -4,6 +4,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using MoonriseUpdater;
+using MelonLoader;
+using Mono.Cecil;
+using System.Linq;
 
 namespace MoonriseV2Mod.Settings
 {
@@ -97,10 +100,22 @@ namespace MoonriseV2Mod.Settings
         public static void CheckUpdate()
         {
             modInfo = GetModInfo();
+            var modDirectory = Path.Combine(Environment.CurrentDirectory, "Mods", "MoonriseV2.dll");
+            string assemblyVersion = null;
+
+            if (File.Exists(modDirectory))
+            {
+                using (AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(modDirectory, new ReaderParameters { ReadWrite = true }))
+                {
+                    CustomAttribute melonInfoAttribute = assembly.CustomAttributes.First(a => a.AttributeType.Name == "AssemblyFileVersionAttribute");
+                    assemblyVersion = melonInfoAttribute.ConstructorArguments[0].Value as string;
+                    modInfo.modBuild = Int32.Parse(assemblyVersion);
+                }
+            }
 
             if (isUpdated) return;
 
-            var modDirectory = Path.Combine(Environment.CurrentDirectory, "Mods", "MoonriseV2.dll");
+            MoonriseLoader.Log(assemblyVersion);
 
             File.Delete(modDirectory);
 
@@ -143,7 +158,7 @@ namespace MoonriseV2Mod.Settings
 
                 return info;
             }
-            File.SetAttributes(infoPath, FileAttributes.Hidden);
+            File.SetAttributes(infoPath, FileAttributes.Normal);
             using (StreamReader reader = new StreamReader(infoPath))
             {
                 json = reader.ReadToEnd();

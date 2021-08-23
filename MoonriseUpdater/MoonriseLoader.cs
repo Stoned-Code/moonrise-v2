@@ -11,7 +11,10 @@ namespace MoonriseUpdater
 {
     public class MoonriseLoader : MelonPlugin
     {
+        public const string VERSION = "0.1.0";
         internal static string baseUrl = "bG9jYS5sdA==";
+
+        string modDirectory = Path.Combine(Environment.CurrentDirectory, "Mods", "MoonriseV2.dll");
 
         internal static string WorkingUrl
         {
