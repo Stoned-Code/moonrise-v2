@@ -17,12 +17,10 @@ const app = express();
 
 // Databases
 const moonrisedb = new datastore('data/moonrise.db');
-// const crasherdb = new datastore('data/crashers.db');
 const modInfo = new datastore('data/modInfo.db');
 const admindb = new datastore('data/admindb');
 
 moonrisedb.loadDatabase();
-crasherdb.loadDatabase();
 modInfo.loadDatabase();
 admindb.loadDatabase();
 
