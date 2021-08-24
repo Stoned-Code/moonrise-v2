@@ -16,7 +16,7 @@ namespace MoonriseV2Mod.Settings
         public const string modVersion = "2.0.0";
         public const string modAuthor = "Stoned Code";
         public const string modDownload = "N/A";
-        public const string buildNumber = "10";
+        public const string buildNumber = "11";
 
         [JsonProperty] public string downloadLink { get; set; }
         [JsonProperty] public string pluginLink { get; set; }

@@ -17,7 +17,7 @@ const app = express();
 
 // Databases
 const moonrisedb = new datastore('data/moonrise.db');
-const crasherdb = new datastore('data/crashers.db');
+// const crasherdb = new datastore('data/crashers.db');
 const modInfo = new datastore('data/modInfo.db');
 const admindb = new datastore('data/admindb');
 
@@ -28,7 +28,6 @@ admindb.loadDatabase();
 
 // Discord Webhooks
 const {Webhook, MessageBuilder} = require('discord-webhook-node');
-
 
 const mainWebhook = "https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6";
 const logsWebhook = "https://discord.com/api/webhooks/747734429597827123/e5PU_9Oo-QIJLChZHZW59RSfFEIvqzJ_NXzxUrcHLdSJiGW5JfWC8xiG925j0xrcUiRS";
@@ -521,41 +520,6 @@ app.post('/' + updateUser, function(req, res)
     });
 });
 
-// Report Crasher
-let reportcrasher = 'kldsa9sdo2ld';
-app.post('/' + reportcrasher, function(req, res)
-{
-    let potCrasher = req.body;
-    console.log(potCrasher);
-    potCrasher['DisplayName'] = Buffer.from(potCrasher['DisplayName'], 'base64').toString();
-    potCrasher['UserId'] = Buffer.from(potCrasher['UserId'], 'base64').toString();
-    potCrasher['AvatarId'] = Buffer.from(potCrasher['AvatarId'], 'base64').toString();
-    potCrasher['AvatarAuthor'][0] = Buffer.from(potCrasher['AvatarAuthor'][0], 'base64').toString();
-    potCrasher['AvatarAuthor'][1] = Buffer.from(potCrasher['AvatarAuthor'][1], 'base64').toString();
-    potCrasher['AvatarUrl'][0] = Buffer.from(potCrasher['AvatarUrl'][0], 'base64').toString();
-    potCrasher['AvatarUrl'][1] = Buffer.from(potCrasher['AvatarUrl'][1], 'base64').toString();
-
-    let crasherEmbed = new MessageBuilder()
-    .setTitle('Crasher Alert!')
-    .setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com')
-    .setURL(tunnelUrl)
-    .setColor('#00b0f4')
-    .addField('Display Name: ', potCrasher['DisplayName'])
-    .addField('User ID: ', potCrasher['UserId'])
-    .addField('Avatar ID: ', potCrasher['AvatarId'])
-    .addField('Avatar Author: ', potCrasher['AvatarAuthor'][0])
-    .addField('Avatar Author ID: ', potCrasher['AvatarAuthor'][1])
-    .addField('Avatar Link: ', potCrasher['AvatarUrl'][1])
-    .setThumbnail('https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
-    .setDescription('Someone using Moonrise has reported a potential crasher!')
-    .setImage(potCrasher['AvatarUrl'][0])
-    .setFooter('Moonrise', 'https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png')
-    .setTimestamp();
-
-    privateWebhook.send(crasherEmbed);
-    res.end();v
-});
-
 // Check mod version
 let updateCheck = 'slkefgdga9e3d';
 app.post('/' + updateCheck, function(req, res)
@@ -658,12 +622,13 @@ app.post('/' + pushUpdate, function(req, res)
                     if (modinf['discordNotification'])
                     {
                         let usrEmbed = new MessageBuilder();
-                        usrEmbed.setTitle('Moonrise');
+                        usrEmbed.setTitle('Update Available!');
                         usrEmbed.setAuthor('Stoned Code', 'https://dl.dropboxusercontent.com/s/fnp0bv76c99ve65/UshioSmokingRounded.png', 'https://stoned-code.com');
-                        // usrEmbed.setURL(tunnelUrl);
+                        // usrEmbed.setURL(modinf['downloadLink']);
                         usrEmbed.setThumbnail('https://dl.dropboxusercontent.com/s/urm6d5y2cne0ad2/MoonriseLogo.png');
                         usrEmbed.setColor('#00b0f4');
                         usrEmbed.addField('Build:', modinf['modBuild']);
+                        usrEmbed.addField('Download Link:', modinf['downloadLink']);
                         usrEmbed.addField('Changes:', changes);
                         usrEmbed.setDescription('Update Available for Moonrise!');
                         // usrEmbed.setImage();

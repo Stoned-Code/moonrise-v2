@@ -113,28 +113,36 @@ namespace MoonriseV2Mod.Settings
                 }
             }
 
-            if (isUpdated) return;
-
             MoonriseLoader.Log(assemblyVersion);
 
-            File.Delete(modDirectory);
-
-            using (WebClient webClient = new WebClient())
+            if (isUpdated)
+                return;
+            else
             {
-                modInfo.downloadLink = BaseEncoding.Decoder(modInfo.downloadLink);
-                MoonriseLoader.Log(modInfo.downloadLink);
-                webClient.DownloadFile(modInfo.downloadLink, modDirectory);
+                byte[] data;
+                File.Delete(modDirectory);
+                using (WebClient webClient = new WebClient())
+                {
+
+                    modInfo.downloadLink = BaseEncoding.Decoder(modInfo.downloadLink);
+                    MoonriseLoader.Log(modInfo.downloadLink);
+                    data = webClient.DownloadData(modInfo.downloadLink);
+                }
+                File.WriteAllBytes(modDirectory, data);
             }
 
             if (modInfo.updatePlugin)
             {
                 string pluginPath = Path.Combine(Environment.CurrentDirectory, "Plugins", "MoonriseUpdater.dll");
+                byte[] data;
                 using (WebClient client = new WebClient())
                 {
                     modInfo.pluginLink = BaseEncoding.Decoder(modInfo.pluginLink);
                     MoonriseLoader.Log(modInfo.pluginLink);
-                    client.DownloadFile(modInfo.pluginLink, pluginPath);
+                    data = client.DownloadData(modInfo.pluginLink);
                 }
+
+                File.WriteAllBytes(pluginPath, data);
             }
 
             modInfo.UpdateInfoFile();
