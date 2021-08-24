@@ -49,9 +49,9 @@ namespace MoonriseV2Mod.WorldFunctions
 
         public override void OnJoinedRoom()
         {
-            pickupsPickupable.setToggleState(true, false);
-            pickupsActive.setToggleState(true, false);
-            PickupFunctions.GetPickups();
+            //pickupsPickupable.setToggleState(true, false);
+            //pickupsActive.setToggleState(true, false);
+            //PickupFunctions.GetPickups();
         }
 
         public override void OnLeftRoom()

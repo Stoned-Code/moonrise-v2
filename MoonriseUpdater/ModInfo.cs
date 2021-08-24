@@ -4,6 +4,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using MoonriseUpdater;
+using MelonLoader;
+using Mono.Cecil;
+using System.Linq;
 
 namespace MoonriseV2Mod.Settings
 {
@@ -97,29 +100,49 @@ namespace MoonriseV2Mod.Settings
         public static void CheckUpdate()
         {
             modInfo = GetModInfo();
-
-            if (isUpdated) return;
-
             var modDirectory = Path.Combine(Environment.CurrentDirectory, "Mods", "MoonriseV2.dll");
+            string assemblyVersion = null;
 
-            File.Delete(modDirectory);
-
-            using (WebClient webClient = new WebClient())
+            if (File.Exists(modDirectory))
             {
-                modInfo.downloadLink = BaseEncoding.Decoder(modInfo.downloadLink);
-                MoonriseLoader.Log(modInfo.downloadLink);
-                webClient.DownloadFile(modInfo.downloadLink, modDirectory);
+                using (AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(modDirectory, new ReaderParameters { ReadWrite = true }))
+                {
+                    CustomAttribute melonInfoAttribute = assembly.CustomAttributes.First(a => a.AttributeType.Name == "AssemblyFileVersionAttribute");
+                    assemblyVersion = melonInfoAttribute.ConstructorArguments[0].Value as string;
+                    modInfo.modBuild = Int32.Parse(assemblyVersion);
+                }
+            }
+
+            MoonriseLoader.Log(assemblyVersion);
+
+            if (isUpdated)
+                return;
+            else
+            {
+                byte[] data;
+                File.Delete(modDirectory);
+                using (WebClient webClient = new WebClient())
+                {
+
+                    modInfo.downloadLink = BaseEncoding.Decoder(modInfo.downloadLink);
+                    MoonriseLoader.Log(modInfo.downloadLink);
+                    data = webClient.DownloadData(modInfo.downloadLink);
+                }
+                File.WriteAllBytes(modDirectory, data);
             }
 
             if (modInfo.updatePlugin)
             {
                 string pluginPath = Path.Combine(Environment.CurrentDirectory, "Plugins", "MoonriseUpdater.dll");
+                byte[] data;
                 using (WebClient client = new WebClient())
                 {
                     modInfo.pluginLink = BaseEncoding.Decoder(modInfo.pluginLink);
                     MoonriseLoader.Log(modInfo.pluginLink);
-                    client.DownloadFile(modInfo.pluginLink, pluginPath);
+                    data = client.DownloadData(modInfo.pluginLink);
                 }
+
+                File.WriteAllBytes(pluginPath, data);
             }
 
             modInfo.UpdateInfoFile();
@@ -143,7 +166,7 @@ namespace MoonriseV2Mod.Settings
 
                 return info;
             }
-            File.SetAttributes(infoPath, FileAttributes.Hidden);
+            File.SetAttributes(infoPath, FileAttributes.Normal);
             using (StreamReader reader = new StreamReader(infoPath))
             {
                 json = reader.ReadToEnd();
