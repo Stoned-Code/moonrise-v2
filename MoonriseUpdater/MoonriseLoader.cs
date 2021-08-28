@@ -12,7 +12,7 @@ namespace MoonriseUpdater
     public class MoonriseLoader : MelonPlugin
     {
         internal static string baseUrl = "bG9jYS5sdA==";
-        public const string gitApi = "https://api.github.com/repos/Stoned-Code/VRCVideoLibrary/releases/latest";
+        public const string gitApi = "https://api.github.com/repos/Stoned-Code/Moonrise/releases/latest";
 
         string modDirectory = Path.Combine(Environment.CurrentDirectory, "Mods", "MoonriseV2.dll");
 

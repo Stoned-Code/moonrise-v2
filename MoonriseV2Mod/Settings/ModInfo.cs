@@ -16,7 +16,7 @@ namespace MoonriseV2Mod.Settings
         public const string modVersion = "2.0.0";
         public const string modAuthor = "Stoned Code";
         public const string modDownload = "N/A";
-        public const string buildNumber = "11";
+        public const string buildNumber = "13";
 
         [JsonProperty] public string downloadLink { get; set; }
         [JsonProperty] public string pluginLink { get; set; }
@@ -76,16 +76,6 @@ namespace MoonriseV2Mod.Settings
 
         public static string infoPath => Path.Combine(Environment.CurrentDirectory, "Moonrise", "modInfo.json");
 
-        public void UpdateInfoFile()
-        {
-            string json = JsonConvert.SerializeObject(this);
-
-            using (StreamWriter writer = new StreamWriter(infoPath))
-            {
-                writer.Write(json);
-            }
-        }
-
         public string ChangesToString()
         {
             string changeString = "";
@@ -104,14 +94,14 @@ namespace MoonriseV2Mod.Settings
 
         public static void Initialize()
         {
-            modInfo = GetModInfo();
+            modInfo = new ModInfo();
             string pluginPath = Path.Combine(Environment.CurrentDirectory, "Plugins", "MoonriseUpdater.dll");
 
             if (!File.Exists(pluginPath))
             {
                 using (WebClient webClient = new WebClient())
                 {
-                    modInfo.pluginLink = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09("aHR0cHM6Ly9kcml2ZS5nb29nbGUuY29tL2ZpbGUvZC8xTmFLbUZNMlZpcXY5ejViWWlHV0NEYzJFeHFvS0xGSXI=");
+                    modInfo.pluginLink = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09("aHR0cHM6Ly9naXRodWIuY29tL1N0b25lZC1Db2RlL01vb25yaXNlL3JlbGVhc2VzL2Rvd25sb2FkLzEyL01vb25yaXNlVXBkYXRlci5kbGw=");
 
                     webClient.DownloadFile(modInfo.pluginLink, pluginPath);
                 }
@@ -126,25 +116,10 @@ namespace MoonriseV2Mod.Settings
             string modDirectory = Path.Combine(Environment.CurrentDirectory, "Mods", "MoonriseV2.dll");
             string pluginPath = Path.Combine(Environment.CurrentDirectory, "Plugins", "MoonriseUpdater.dll");
 
-            File.Delete(modDirectory);
-            using (WebClient webClient = new WebClient())
-            {
-                modInfo.downloadLink = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(modInfo.downloadLink);
-
-                webClient.DownloadFile(modInfo.downloadLink, modDirectory);
-            }
+            DownloadUpdate(modDirectory);
 
             if (modInfo.updatePlugin)
-            {
-                using (WebClient client = new WebClient())
-                {
-                    modInfo.pluginLink = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(modInfo.pluginLink);
-
-                    client.DownloadFile(modInfo.pluginLink, pluginPath);
-                }
-            }
-
-            modInfo.UpdateInfoFile();
+                DownloadUpdater(pluginPath);
 
             isUpdating = false;
             MoonriseBaseFunctions.baseFunctions.menuTab.SetBadgeActive(true, "Update!", Color.blue);
@@ -152,35 +127,33 @@ namespace MoonriseV2Mod.Settings
             MoonriseConsole.Log("Moonrise has updated! Restart for update to take affect.");
         }
 
-        public static void DownloadUpdater()
+        public static void DownloadUpdate(string modDirectory)
         {
-            string pluginPath = Path.Combine(Environment.CurrentDirectory, "Plugins", "MoonriseUpdater.dll");
+            byte[] data;
+            File.Delete(modDirectory);
+            using (WebClient webClient = new WebClient())
+            {
+                modInfo.downloadLink = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(modInfo.downloadLink);
+
+                data = webClient.DownloadData(modInfo.downloadLink);
+            }
+
+            File.WriteAllBytes(modDirectory, data);
         }
 
-        public static ModInfo GetModInfo()
+        public static void DownloadUpdater(string pluginPath)
         {
-            string json = "";
-            if (!File.Exists(infoPath))
+            byte[] data;
+            File.Delete(pluginPath);
+            using (WebClient client = new WebClient())
             {
-                var info = new ModInfo();
-                json = JsonConvert.SerializeObject(info);
-                using (StreamWriter writer = new StreamWriter(infoPath))
-                {
-                    writer.Write(json);
+                modInfo.pluginLink = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(modInfo.pluginLink);
 
-                }
-
-                return info;
+                data = client.DownloadData(modInfo.pluginLink);
             }
 
-            using (StreamReader reader = new StreamReader(infoPath))
-            {
-                json = reader.ReadToEnd();
-            }
-
-            File.SetAttributes(infoPath, FileAttributes.Hidden);
-
-            return JsonConvert.DeserializeObject<ModInfo>(json) ?? new ModInfo();
+            File.WriteAllBytes(pluginPath, data);
+            
         }
     }
 }

@@ -165,6 +165,31 @@ app.get('/' + moonriseapi, function(req, res)
     });
 });
 
+let downloadMoonrise = 'owselsdfkolfglkag';
+app.get('/' + downloadMoonrise, function(req, res)
+{
+    modInfo.find({mod: "MoonriseV2"}, function(error, data)
+    {
+        if (error)
+        {
+            res.end();
+            return;
+        }
+
+        delete data[0]['_id'];
+        delete data[0]['mod'];
+        try
+        {
+            data[0]['downloadLink'] = Buffer.from(data[0]['downloadLink']).toString('base64');
+            data[0]['pluginLink'] = Buffer.from(data[0]['pluginLink']).toString('base64');
+        }
+        catch {}
+
+        res.json(data[0]);
+
+    })
+});
+
 let ping = 'md9fjtnj4dm';
 app.get('/' + ping, function(req, res)
 {
@@ -541,7 +566,7 @@ app.post('/' + updateCheck, function(req, res)
                 if (clientInfo['modBuild'] != data[0]['modBuild'])
                 {
                     delete data[0]['_id'];
-                    delete data[0]['mod']
+                    delete data[0]['mod'];
                     try
                     {
                         data[0]['downloadLink'] = Buffer.from(data[0]['downloadLink']).toString('base64');
