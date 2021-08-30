@@ -15,15 +15,25 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		MRMod|Any CPU = MRMod|Any CPU
+		MRUpdater|Any CPU = MRUpdater|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0531C0DF-A703-4F47-94FF-4E3B4488F26A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0531C0DF-A703-4F47-94FF-4E3B4488F26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0531C0DF-A703-4F47-94FF-4E3B4488F26A}.MRMod|Any CPU.ActiveCfg = MRMod|Any CPU
+		{0531C0DF-A703-4F47-94FF-4E3B4488F26A}.MRMod|Any CPU.Build.0 = MRMod|Any CPU
+		{0531C0DF-A703-4F47-94FF-4E3B4488F26A}.MRUpdater|Any CPU.ActiveCfg = MRMod|Any CPU
+		{0531C0DF-A703-4F47-94FF-4E3B4488F26A}.MRUpdater|Any CPU.Build.0 = MRMod|Any CPU
 		{0531C0DF-A703-4F47-94FF-4E3B4488F26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0531C0DF-A703-4F47-94FF-4E3B4488F26A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5034EDE2-BE1A-4C1B-8B11-02E5AECB6CEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5034EDE2-BE1A-4C1B-8B11-02E5AECB6CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5034EDE2-BE1A-4C1B-8B11-02E5AECB6CEB}.MRMod|Any CPU.ActiveCfg = MRUpdater|Any CPU
+		{5034EDE2-BE1A-4C1B-8B11-02E5AECB6CEB}.MRMod|Any CPU.Build.0 = MRUpdater|Any CPU
+		{5034EDE2-BE1A-4C1B-8B11-02E5AECB6CEB}.MRUpdater|Any CPU.ActiveCfg = MRUpdater|Any CPU
+		{5034EDE2-BE1A-4C1B-8B11-02E5AECB6CEB}.MRUpdater|Any CPU.Build.0 = MRUpdater|Any CPU
 		{5034EDE2-BE1A-4C1B-8B11-02E5AECB6CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5034EDE2-BE1A-4C1B-8B11-02E5AECB6CEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

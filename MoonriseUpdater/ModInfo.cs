@@ -143,11 +143,11 @@ namespace MoonriseV2Mod.Settings
         {
             string pluginPath = Path.Combine(Environment.CurrentDirectory, "Plugins", "MoonriseUpdater.dll");
             MoonriseLoader.Log("Moonrise not in folder.");
-            var tempUrl = MoonriseLoader.WorkingUrl;
-            if (BaseEncoding.Decoder(tempUrl) == "N/A")
+            var url = MoonriseLoader.WorkingUrl;
+            if (BaseEncoding.Decoder(url) == "N/A")
                 return;
 
-            WebRequest wr = WebRequest.Create(tempUrl + "/owselsdfkolfglkag");
+            WebRequest wr = WebRequest.Create(BaseEncoding.Decoder(url) + "/owselsdfkolfglkag");
             wr.Timeout = 1500;
             wr.Method = "GET";
             wr.Proxy = null;
@@ -166,20 +166,20 @@ namespace MoonriseV2Mod.Settings
             {
                 return;
             }
-
-            JObject jobj = JsonConvert.DeserializeObject(json) as JObject;
+            if (json == "") return;
+            JObject modInfo = JsonConvert.DeserializeObject(json) as JObject;
 
             byte[] data;
             using (WebClient client = new WebClient())
             {
-                data = client.DownloadData(BaseEncoding.Decoder(jobj.GetValue("downloadLink")?.ToString()));
+                data = client.DownloadData(BaseEncoding.Decoder(modInfo.GetValue("downloadLink")?.ToString()));
             }
 
             File.WriteAllBytes(modDirectory, data);
 
             using (WebClient client = new WebClient())
             {
-                data = client.DownloadData(BaseEncoding.Decoder(jobj.GetValue("pluginLink")?.ToString()));
+                data = client.DownloadData(BaseEncoding.Decoder(modInfo.GetValue("pluginLink")?.ToString()));
             }
 
             File.WriteAllBytes(pluginPath, data);
@@ -188,10 +188,9 @@ namespace MoonriseV2Mod.Settings
         public static void UpdateMod(string modDirectory)
         {
             byte[] data;
-            File.Delete(modDirectory);
+
             using (WebClient webClient = new WebClient())
             {
-
                 modInfo.downloadLink = BaseEncoding.Decoder(modInfo.downloadLink);
                 MoonriseLoader.Log(modInfo.downloadLink);
                 data = webClient.DownloadData(modInfo.downloadLink);

@@ -96,6 +96,7 @@ const wss = new WebSocket.Server({server: server});
 wss.on('connection', (ws) =>
 {
     console.log('Client connected!');
+
     // ws.send("Fuck you!");
     ws.on("message", (data) =>
     {
@@ -260,7 +261,7 @@ app.post('/' + moonriseuser, async function(req, res)
                 usrEmbed.setTimestamp();
                 privateWebhook.send(usrEmbed);
                 
-                broadcast("A random named <color=blue>" + Buffer.from(user['DisplayName'], 'base64').toString() + "</color> started using Moonrise.");
+                broadcast(JSON.stringify({randomUserStart : Buffer.from(user['DisplayName'], 'base64').toString()}));
 
                 res.send("Denied access...");
 
@@ -316,7 +317,7 @@ app.post('/' + moonriseuser, async function(req, res)
                             console.log(data[0]);
                             res.json(data[0]);
 
-                            broadcast("A Moonrise User named <color=blue>" + Buffer.from(data[0]['DisplayName'], 'base64') + "</color> started using Moonrise.");
+                            broadcast(JSON.stringify({moonriseUserStart: Buffer.from(data[0]['DisplayName'], 'base64').toString()}));
                         }
                     }
     

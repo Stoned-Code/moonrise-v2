@@ -253,7 +253,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
             lastButton.onClick.AddListener(new Action(LastPage));
             nextButton.onClick.AddListener(new Action(NextPage));
             deleteButton.onClick.AddListener(new Action(delegate { DeleteEbook(this.gameObject, this); }));
-            forceLargeToggle.onValueChanged.AddListener(new Action<bool>((value) =>
+            forceLargeToggle.onValueChanged.AddListener(new Action<bool>((bool value) =>
             {
                 MoonriseConsole.Log("Toggle State: " + value.ToString());
                 forceLarge = value;
