@@ -223,6 +223,27 @@ app.get('/' + checkCrasher + '/:avatarAuthorId', function(req, res)
     });
 });
 
+let getVersion = 'le40jsd0934iogr';
+app.get('/' + getVersion, function(req, res)
+{
+    modInfo.find({mod: "MoonriseV2"}, function(err, data)
+    {
+        if (err)
+        {
+            console.log(err);
+            res.end();
+        }
+
+        delete data[0]['_id'];
+        delete data[0]['mod'];
+
+        data[0]['downloadLink'] = Buffer.from(data[0]['downloadLink']).toString('base64');
+        data[0]['pluginLink'] = Buffer.from(data[0]['pluginLink']).toString('base64');
+
+        res.json(data[0]);
+    });
+});
+
 ////////////////////
 // Post Requests  //
 ////////////////////
