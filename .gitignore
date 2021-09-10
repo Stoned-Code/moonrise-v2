@@ -518,3 +518,4 @@ Backend/data/
 Backend/request.rest
 ssh
 ssh.pub
+Outputs/
