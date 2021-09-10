@@ -122,7 +122,7 @@ function PingSockets()
 {
     broadcast("PING");
     setTimeout(PingSockets, 120000);
-}
+};
 
 setTimeout(PingSockets, 120000);
 

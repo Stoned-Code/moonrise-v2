@@ -29,6 +29,27 @@ namespace MoonriseV2Mod.WorldFunctions
             MoonriseConsole.Log("Retrieved pickups.");
         }
 
+        public static void ClearPickups()
+        {
+            for (int i = m_pickups.Count - 1; i > -1; i--)
+            {
+                if (m_pickups[i].pickup == null)
+                    m_pickups.RemoveAt(i);
+            }
+        }
+
+        public static void AddPickup(VRC_Pickup pickup)
+        {
+            for (int i = 0; i < m_pickups.Count; i++)
+            {
+                if (pickup == m_pickups[i].pickup) return;
+            }
+
+            m_pickups.Add(new MRPickup(pickup.gameObject));
+
+
+        }
+
         public static void InvokePickupEnable(bool toggle) => OnEnablePickups?.Invoke(toggle);
         public static void InvokePickupObjectToggle(bool toggle) => OnToggleObjectPickups?.Invoke(toggle);
     }
@@ -38,13 +59,16 @@ namespace MoonriseV2Mod.WorldFunctions
         public MRPickup(GameObject obj)
         {
             this.pickupObject = obj;
+            this.pickup = pickupObject.GetComponent<VRC_Pickup>();
 
             PickupFunctions.OnEnablePickups += OnPickupEnabled;
             PickupFunctions.OnToggleObjectPickups += OnPickupObjectToggled;
+
+            MoonriseConsole.Log("Added " + pickupObject.name + " to pickup list.");
         }
 
         public GameObject pickupObject { get; set; }
-        public VRC_Pickup pickup => pickupObject.GetComponent<VRC_Pickup>();
+        public VRC_Pickup pickup { get; set; }
 
         public void OnPickupEnabled(bool toggle)
         {
@@ -56,10 +80,10 @@ namespace MoonriseV2Mod.WorldFunctions
             pickupObject.SetActive(toggle);
         }
 
-        ~MRPickup()
-        {
-            PickupFunctions.OnEnablePickups -= OnPickupEnabled;
-            PickupFunctions.OnToggleObjectPickups -= OnPickupObjectToggled;
-        }
+        //~MRPickup()
+        //{
+        //    PickupFunctions.OnEnablePickups -= OnPickupEnabled;
+        //    PickupFunctions.OnToggleObjectPickups -= OnPickupObjectToggled;
+        //}
     }
 }

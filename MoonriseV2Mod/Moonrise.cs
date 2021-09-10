@@ -18,6 +18,7 @@ using VRC.Core;
 using MoonriseV2Mod.WorldFunctions;
 using MoonriseV2Mod.PlayerFunctions;
 using MoonriseV2Mod.Patches;
+using MoonriseV2Mod.ActionMenu;
 
 namespace MoonriseV2Mod
 {
@@ -58,7 +59,7 @@ namespace MoonriseV2Mod
         {
             if (level == -1)
             {
-                ModInfo.CheckUpdate();
+                //ModInfo.CheckUpdate();
             }
         }
 
@@ -76,11 +77,12 @@ namespace MoonriseV2Mod
         {
 
             MRConfiguration.Initialize();
+            ActionMenuBaseFunctions.Initialize();
             QXNzZXRCdW5kbGVz.InitializeAssetBundle();
 
             while (!QXNzZXRCdW5kbGVz.isInitialized) yield return null;
 
-            ModInfo.Initialize();
+            //ModInfo.Initialize();
             PortableMirror.Initialize();
             MoonriseBaseFunctions.Initialize();
             SocialInterractionsBase.Initialize();

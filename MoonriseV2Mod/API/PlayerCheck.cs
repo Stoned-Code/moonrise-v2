@@ -56,6 +56,21 @@ namespace MoonriseV2Mod.API
             return state;
         }
 
+        public static Camera DesktopCamera
+        {
+            get
+            {
+                Camera camera;
+                try
+                {
+                    camera = VRCVrCamera.field_Private_Static_VRCVrCamera_0.field_Public_Camera_0;
+                    return camera;
+                }
+
+                catch { return null; }
+            }
+        }
+
         /// <summary>
         /// Get's the selected player for the interaction menu
         /// </summary>

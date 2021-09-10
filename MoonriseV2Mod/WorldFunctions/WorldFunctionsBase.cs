@@ -19,8 +19,8 @@ namespace MoonriseV2Mod.WorldFunctions
         }
 
         public QMNestedButton worldFunctionsMenu;
-        private QMToggleButton pickupsPickupable;
-        private QMToggleButton pickupsActive;
+        //private QMToggleButton pickupsPickupable;
+        //private QMToggleButton pickupsActive;
 
         public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
@@ -29,9 +29,11 @@ namespace MoonriseV2Mod.WorldFunctions
             //pickupsPickupable = new QMToggleButton(worldFunctionsMenu, 1, 0, "Grabable\nPickups", delegate
             //{
             //    PickupFunctions.InvokePickupEnable(true);
+            //    //PlayerCheck.LocalVRCPlayer.prop_VRCPlayerApi_0.EnablePickups(true);
             //}, "Disabled", delegate
             //{
             //    PickupFunctions.InvokePickupEnable(false);
+            //    //PlayerCheck.LocalVRCPlayer.prop_VRCPlayerApi_0.EnablePickups(false);
             //}, "Toggles if pickups are grabbable.", null, null, false, true);
 
             //pickupsActive = new QMToggleButton(worldFunctionsMenu, 2, 0, "Pickups\nActive", delegate
@@ -51,7 +53,7 @@ namespace MoonriseV2Mod.WorldFunctions
         {
             //pickupsPickupable.setToggleState(true, false);
             //pickupsActive.setToggleState(true, false);
-            //PickupFunctions.GetPickups();
+            //PickupFunctions.ClearPickups();
         }
 
         public override void OnLeftRoom()

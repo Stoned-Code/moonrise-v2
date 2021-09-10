@@ -19,6 +19,8 @@ namespace MoonriseV2Mod
 
         public QMNestedButton portableMirrorNested;
         public static GameObject mirror;
+        public static int defaultLayer = 8676887;
+        public static int optimizedLayer = 263680;
         public static VRC_Pickup pickup
         {
             get
@@ -29,6 +31,7 @@ namespace MoonriseV2Mod
         }
         public static VRC_MirrorReflection mirrorReflection => mirror.GetComponent<VRC_MirrorReflection>();
         public static bool isPickupable = true;
+        public static bool useOptimized = true;
 
         public override void LoadMenu(QMNestedButton functions, QMNestedButton socialInterractions, TVJVc2Vy user)
         {
@@ -54,6 +57,25 @@ namespace MoonriseV2Mod
             {
                 PortableMirror.ToggleMirrorPickup(false);
             }, "Toggles ability to pickup mirror", null, null, false, PortableMirror.isPickupable);
+
+            //var debug = new QMSingleButton(portableMirrorNested, 4, 0, "Get\nLayers", () =>
+            //{
+            //    VRC_MirrorReflection[] mirror = GameObject.FindObjectsOfType<VRC_MirrorReflection>();
+            //    foreach (VRC_MirrorReflection reflection in mirror)
+            //    {
+            //        MoonriseConsole.Log($"{reflection.name} Layer: {reflection.m_ReflectLayers.value}");
+            //    }
+            //}, "Gets mirror layers.");
+
+            var portableMirrorOptimized = new QMToggleButton(portableMirrorNested, 4, 0, "Optimized", () =>
+            {
+                PortableMirror.SetOptimized(true);
+                useOptimized = true;
+            }, "Disabled", () =>
+            {
+                PortableMirror.SetOptimized(false);
+                useOptimized = false;
+            }, "Optimized portable mirror.", null, null, false, useOptimized);
 
             var mirrorWidthSlider = new UshioMenuSlider(UshioMenuSlider.SliderPosition.CenterLeft, "Mirror Width:", portableMirrorNested, 1f, 5f, MRConfiguration.config.portableMirrorWidth, delegate (float value)
             {
@@ -88,7 +110,7 @@ namespace MoonriseV2Mod
             mirror = GameObject.Instantiate(obj, PlayerCheck.LocalVRCPlayer.transform.GetParent(), worldPositionStays: true);
             mirror.transform.localScale = new Vector3(MRConfiguration.config.portableMirrorWidth, MRConfiguration.config.portableMirrorHeight, 0f);
             pickup.pickupable = isPickupable;
-
+            mirrorReflection.m_ReflectLayers = useOptimized ? optimizedLayer : defaultLayer;
             ResetMirrorPosition();
         }
 
@@ -133,6 +155,11 @@ namespace MoonriseV2Mod
             isPickupable = active;
             if (pickup == null) return;
             pickup.pickupable = active;
+        }
+
+        public static void SetOptimized(bool optimized)
+        {
+            mirrorReflection.m_ReflectLayers = optimized ? optimizedLayer : defaultLayer;
         }
     }
 }

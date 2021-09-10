@@ -16,10 +16,13 @@ namespace MoonriseV2Mod.BaseFunctions
         public static MoonriseBaseFunctions baseFunctions;
 
         private Sprite MoonriseIcon;
-        public MenuTab menuTab;
-        public UshioDisplayUi display;
         private Sprite MoonriseLogo;
         private Sprite DisplayUiBanner;
+
+        public MenuTab menuTab;
+        public UshioDisplayUi display;
+
+        public Sprite m_moonriseLogo => MoonriseLogo;
 
         public static void Initialize()
         {

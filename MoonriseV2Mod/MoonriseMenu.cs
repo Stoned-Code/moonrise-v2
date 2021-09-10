@@ -5,7 +5,7 @@ using System;
 
 namespace MoonriseV2Mod
 {
-    public class MoonriseMenu
+    internal class MoonriseMenu
     {
         public MoonriseMenu()
         {

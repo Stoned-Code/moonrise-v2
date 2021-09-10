@@ -4,12 +4,8 @@ using MoonriseV2Mod.API;
 using MoonriseV2Mod.BaseFunctions;
 using MoonriseV2Mod.Patches;
 using RubyButtonAPI;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using VRC;
 
 namespace MoonriseV2Mod
@@ -17,7 +13,7 @@ namespace MoonriseV2Mod
     /// <summary>
     /// Used for making addon mods
     /// </summary>
-    public class MoonriseMod : MelonMod
+    public abstract class MoonriseMod : MelonMod
     {
         public MoonriseMod() : base() { }
         private void Initialize()
@@ -41,8 +37,20 @@ namespace MoonriseV2Mod
 
         public sealed override void OnApplicationStart()
         {
+            CustomAttributeData moonriseAttribute = Assembly.CustomAttributes.First(a => a.AttributeType.Name == "MoonriseAddonAttribute");
+            if (moonriseAttribute == null)
+            {
+                MoonriseConsole.ErrorLog("Missing moonrise addon attribute...");
+                return;
+            }
             Initialize();
-            m_harmonyInstance = new HarmonyLib.Harmony($"addon.{AddonAuthor}.{Assembly.GetName().Name}");
+
+            string addonName = moonriseAttribute.ConstructorArguments[0].Value as string;
+            string author = moonriseAttribute.ConstructorArguments[2].Value as string;
+
+            addonName = addonName.Replace(" ", "");
+            author = author.Replace(" ", "");
+            m_harmonyInstance = new HarmonyLib.Harmony($"com.{author}.{addonName}");
             OnVRCStart(m_harmonyInstance);
         }
 

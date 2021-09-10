@@ -1,6 +1,7 @@
 ﻿using MelonLoader;
 using MoonriseV2Mod.Settings;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
@@ -41,9 +42,9 @@ namespace MoonriseUpdater
 
                 }
 
-                PingResponse pRes = JsonConvert.DeserializeObject<PingResponse>(json);
+                JObject jObj = JsonConvert.DeserializeObject(json) as JObject;
 
-                if (pRes != null && pRes.foundBackend)
+                if (jObj != null && (bool)jObj.GetValue("foundBackend"))
                     return BaseEncoding.Encoder(tempUrl);
 
                 for (int i = 1; i < 10; i++)
@@ -65,9 +66,9 @@ namespace MoonriseUpdater
                             // MoonriseConsole.Log(json);
                         }
 
-                        pRes = JsonConvert.DeserializeObject<PingResponse>(json);
+                        jObj = JsonConvert.DeserializeObject(json) as JObject;
 
-                        if (pRes.foundBackend)
+                        if ((bool)jObj.GetValue("foundBackend"))
                             return BaseEncoding.Encoder(tempUrl);
                     }
 
@@ -78,9 +79,9 @@ namespace MoonriseUpdater
             }
         }
 
-        public override void OnApplicationEarlyStart() => ModInfo.CheckUpdate();
+        public override void OnApplicationEarlyStart() => ModUpdater.CheckUpdate();
 
-        public override void OnApplicationQuit() => ModInfo.CheckUpdate();
+        public override void OnApplicationQuit() => ModUpdater.CheckUpdate();
 
         internal static bool logsEnabled = true;
         public static string consoleTime

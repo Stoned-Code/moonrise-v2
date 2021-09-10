@@ -84,7 +84,7 @@ namespace MoonriseV2Mod.API
             try
             {
                 string requestUrl = WorkingUrl;
-                if (VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(requestUrl) == "N/A") return null;
+                if (requestUrl == "N/A") return null;
 
                 HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(requestUrl) + "/ykmhuuvlby");
                 //wr.Accept = "application/json";

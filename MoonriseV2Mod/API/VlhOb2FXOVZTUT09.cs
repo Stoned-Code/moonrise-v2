@@ -1186,7 +1186,7 @@ namespace UshioUI
         {
             var playersInRoomArray = GetPlayersInRoom();
             SetText(playersInRoomArray[0], UshioDisplayUi.TextType.MainText);
-            SetText((ModInfo.changesAvailable ? ModInfo.modInfo.ChangesToString() : "") + playersInRoomArray[1], UshioDisplayUi.TextType.SecondaryText);
+            SetText(/*(ModInfo.changesAvailable ? ModInfo.modInfo.ChangesToString() : "") + */playersInRoomArray[1], UshioDisplayUi.TextType.SecondaryText);
             SetText(GetWorldInfo(), UshioDisplayUi.TextType.MiniText);
             UpdateClocks();
         }

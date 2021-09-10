@@ -22,7 +22,7 @@ namespace MoonriseV2Mod.Patches
     }
 
     [HarmonyPatch(typeof(VRCAvatarManager), "Method_Private_Boolean_GameObject_String_Single_String_0")]
-    class VRCAvatarManagerLoadedPatch
+    internal class VRCAvatarManagerLoadedPatch
     {
         internal static event Action<VRCAvatarManager, MRAvatarController, GameObject, string> OnAvatarLoaded;
         static bool Prefix(VRCAvatarManager __instance, out MRAvatarController __state, GameObject param_1, string param_2, float param_3, string param_4)

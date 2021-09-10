@@ -60,10 +60,17 @@ namespace MoonriseV2Mod.MonoBehaviourScripts
                 avatarManager = GetComponent<VRCAvatarManager>();
                 dynamicBoneController = gameObject.AddComponent<MRDynamicBoneController>();
 
+                if (isLocalPlayer)
+                {
+                   
+                }
+
                 if (apiUser != null)
                 {
                     if (isLocalPlayer)
+                    {
                         localAvatarController = this;
+                    }
                 }
 
             }

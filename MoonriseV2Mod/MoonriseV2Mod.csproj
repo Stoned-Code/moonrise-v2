@@ -32,12 +32,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MRMod|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\MRMod\</OutputPath>
+    <OutputPath>..\Outputs\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -130,13 +131,28 @@
     <Reference Include="VRCCore-Standalone">
       <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRCCore-Standalone.dll</HintPath>
     </Reference>
+    <Reference Include="VRCSDK2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRCSDK2.dll</HintPath>
+    </Reference>
+    <Reference Include="VRCSDK3, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRCSDK3.dll</HintPath>
+    </Reference>
+    <Reference Include="VRCSDK3A, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRCSDK3A.dll</HintPath>
+    </Reference>
     <Reference Include="VRCSDKBase">
       <HintPath>S:\Games\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRCSDKBase.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionMenu\ActionMenuBaseFunctions.cs" />
+    <Compile Include="API\ActionMenuApi.cs" />
     <Compile Include="API\AddonApi.cs" />
     <Compile Include="API\MoonriseMultiCast.cs" />
+    <Compile Include="API\MoonriseUpdater.cs" />
     <Compile Include="API\VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.cs" />
     <Compile Include="API\QXNzZXRCdW5kbGVz.cs" />
     <Compile Include="API\MoonriseTabApi.cs" />
@@ -226,9 +242,12 @@
     <Compile Include="AvatarFunctions\DynamicBoneFunctions.cs" />
     <Compile Include="BaseFunctions\JoinNotifierFunctions.cs" />
     <Compile Include="BaseFunctions\PlayerTeleportMenu.cs" />
+    <Compile Include="CustomBehavior\GrappleAnchor.cs" />
     <Compile Include="CustomBehavior\MRAvatarController.cs" />
     <Compile Include="AvatarFunctions\AvatarFunctionsBase.cs" />
     <Compile Include="CustomBehavior\MRDynamicBoneController.cs" />
+    <Compile Include="MoonriseAddonAttribute.cs" />
+    <Compile Include="MoonriseInfoAttrubute.cs" />
     <Compile Include="MoonriseMod.cs" />
     <Compile Include="Patches\ModerationPatches.cs" />
     <Compile Include="Patches\NetworkManagerPatches.cs" />
@@ -247,7 +266,9 @@
     <Compile Include="Patches\QuickMenuPatches.cs" />
     <Compile Include="Patches\VideoPlayerPatches.cs" />
     <Compile Include="Patches\VRCPlayerPatches.cs" />
+    <Compile Include="ActionMenu\GrappleFunctions.cs" />
     <Compile Include="PlayerFunctions\PlayerFunctionsBase.cs" />
+    <Compile Include="PlayerFunctions\PlayerGravityFunctions.cs" />
     <Compile Include="PlayerFunctions\PlayerPhysics.cs" />
     <Compile Include="PortableMirror.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

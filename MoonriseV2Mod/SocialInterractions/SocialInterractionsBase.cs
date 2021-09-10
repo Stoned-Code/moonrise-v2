@@ -1,6 +1,7 @@
 ﻿using MelonLoader;
 using MoonriseV2Mod.API;
 using MoonriseV2Mod.AvatarFunctions;
+using MoonriseV2Mod.CustomBehavior;
 using MoonriseV2Mod.Patches;
 using MoonriseV2Mod.Settings;
 using RubyButtonAPI;
@@ -8,7 +9,7 @@ using UshioUI;
 
 namespace MoonriseV2Mod.SocialInterractions
 {
-    public class SocialInterractionsBase : MoonriseMenu
+    internal class SocialInterractionsBase : MoonriseMenu
     {
         public static SocialInterractionsBase siBase;
 
@@ -23,8 +24,6 @@ namespace MoonriseV2Mod.SocialInterractions
             var clearIgnoreListButton = new QMSingleButton(socialInterractions, 0, 0, "Clear\nIgnore\nList", delegate
             {
                 MRConfiguration.config.ignoreList.Clear();
-
-                // MelonCoroutines.Start(VVZoYWFHUkhSbmxUUjJ4cldsaEpQUT09.ResetHideDistantAvatars());
             }, "Clears the distant avatar ignore list");
 
             var addToIgnoreListButton = new QMSingleButton(socialInterractions, 0, 1, "Add To\nIgnore List", delegate
@@ -80,6 +79,11 @@ namespace MoonriseV2Mod.SocialInterractions
                     UshioMenuApi.PopupUI("[ Moonrise ]\nCopied User ID to Clipboard");
                 }, "Copies selected user's User ID.");
             }
+        }
+
+        public override void OnJoinedRoom()
+        {
+            // orbitToggle.setToggleState(false);
         }
     }
 }

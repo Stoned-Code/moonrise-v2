@@ -25,6 +25,9 @@ A quality of life mod.
 * Player Teleport List
 * Jump Enable
 * Portal Confirmation
+* Action Menu Grapple
+* Action Menu Respawn
+* Action Menu Go Home
 
 ## Client Issues
 * Pickup toggles break after loading a new world.
