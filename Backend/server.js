@@ -617,13 +617,11 @@ app.post('/' + pushUpdate, function(req, res)
 
             if (dat)
             {
-                console.log(modinf);
                 modinf['modBuild'] = parseInt(Buffer.from(modinf['modBuild'], 'base64').toString());
                 if (modinf['downloadLink'] != null)
                     modinf['downloadLink'] = Buffer.from(modinf['downloadLink'], 'base64').toString();
                 if (modInfo['pluginLink'] != null)
                     modInf['pluginLink'] = Buffer.from(modInf['pluginLink'], 'base64').toString();
-                console.log(modinf);
             
                 let changes = "";
                 for (let i = 0; i < modinf['modChanges'].length; i++)
@@ -631,7 +629,7 @@ app.post('/' + pushUpdate, function(req, res)
                     let change = Buffer.from(modinf['modChanges'][i], 'base64').toString();
                     changes += change + '\n';
                 }
-                console.log(changes);
+
                 try
                 {
                     delete modinf['AuthKey'];
