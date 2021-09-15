@@ -247,6 +247,18 @@ namespace ActionMenuAPI
             return pedalOption;
         }
 
+        public PedalOption AddTogglePedalToCustomMenu(System.Action triggerEvent, string text = "Button Text", Texture2D icon = null)
+        {
+            ActionMenuOpener actionMenuOpener = GetActionMenuOpener();
+            if (actionMenuOpener == null) return null;
+            PedalOption pedalOption = actionMenuOpener.field_Public_ActionMenu_0.AddOption();
+            pedalOption.setText(text);
+            pedalOption.setIcon(icon);  
+            pedalOption.field_Public_MulticastDelegateNPublicSealedBoUnique_0 = DelegateSupport.ConvertDelegate<PedalOptionTriggerEvent>(triggerEvent);
+
+            return pedalOption;
+        }
+
         private static ActionMenuOpener GetActionMenuOpener()
         {
             //MonoBehaviourPublicObBoSiObObObUnique

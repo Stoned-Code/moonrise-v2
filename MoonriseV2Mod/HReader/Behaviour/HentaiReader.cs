@@ -20,69 +20,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
     public class HentaiReader : MonoBehaviour
     {
         public HentaiReader(IntPtr ptr) : base(ptr) { }
-        internal static string WorkingUrl
-        {
-            [HideFromIl2Cpp]
-            get
-            {
-                string tempUrl = $"https://nhentai-sc.loca.lt";
-                WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
-                wr.Timeout = 1500;
-                wr.Method = "GET";
-
-                string json = "";
-                // MoonriseConsole.Log($"Checking {tempUrl}");
-                try
-                {
-                    WebResponse res = wr.GetResponse();
-                    // MoonriseConsole.Log($"Received response...");
-                    using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
-                    {
-                        json = sr.ReadToEnd();
-                        // MoonriseConsole.Log(json);
-                    }
-                }
-
-                catch
-                {
-
-                }
-
-                PingResponse pRes = JsonConvert.DeserializeObject<PingResponse>(json);
-
-                if (pRes != null && pRes.foundBackend)
-                    return tempUrl;
-
-                for (int i = 1; i < 10; i++)
-                {
-                    try
-                    {
-                        tempUrl = $"https://nhentai-sc-{i}.loca.lt";
-
-                        wr.Abort();
-                        wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
-                        wr.Timeout = 1500;
-                        // MoonriseConsole.Log($"Checking {tempUrl}");
-                        WebResponse res = wr.GetResponse();
-
-                        using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
-                        {
-                            json = sr.ReadToEnd();
-                            // MoonriseConsole.Log(json);
-                        }
-
-                        pRes = JsonConvert.DeserializeObject<PingResponse>(json);
-
-                        if (pRes.foundBackend)
-                            return tempUrl;
-                    }
-
-                    catch { }
-                }
-
-                return "N/A";
-            }
-        }
+        internal static string WorkingUrl = "aHR0cDovL2hlbnRhaS1hcGkuc3RvbmVkLWNvZGUuY29t";
 
         private Animator animator;
         private Texture2D cover;
@@ -260,8 +198,9 @@ namespace MoonriseV2Mod.HReader.Behaviour
             }));
 
             GetComponent<VRC_Pickup>().AutoHold = VRC_Pickup.AutoHoldMode.Yes;
-
-            string fulUrl = WorkingUrl + "/keig84ionjk4390f/" + launchCode;
+            
+            string fulUrl = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(WorkingUrl) + "/keig84ionjk4390f/" + launchCode;
+            MoonriseConsole.Log(fulUrl);
 
             WebRequest wr = WebRequest.Create(fulUrl);
             wr.Timeout = 1500;

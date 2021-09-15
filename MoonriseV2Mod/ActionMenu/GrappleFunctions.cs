@@ -3,12 +3,7 @@ using MoonriseV2Mod.API;
 using MoonriseV2Mod.CustomBehavior;
 using MoonriseV2Mod.MonoBehaviourScripts;
 using MoonriseV2Mod.Patches;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace MoonriseV2Mod.ActionMenu
@@ -17,20 +12,12 @@ namespace MoonriseV2Mod.ActionMenu
     {
         private static bool grappling = false;
         private static bool cancelGrapple = false;
-        private static bool pulling = false;
         private static bool isHumanoid = false;
 
         private static Transform rightArm;
         private static Transform leftArm;
         private static Transform rightHand;
         private static Transform leftHand;
-
-        public static bool m_pulling => pulling;
-
-        public static Transform m_rightArm => rightArm;
-        public static Transform m_rightHand => rightHand;
-        public static Transform m_leftArm => leftArm;
-        public static Transform m_leftHand => leftHand;
 
         public static void Initialize()
         {
@@ -84,7 +71,7 @@ namespace MoonriseV2Mod.ActionMenu
 
             if (Physics.Raycast(inVr ? launchHand.position : PlayerCheck.DesktopCamera.transform.position, inVr ? launchHand.up * 2 : PlayerCheck.DesktopCamera.transform.forward, out hit, float.MaxValue, ~layerMask))
             {
-                MelonCoroutines.Start(Launching(hit.m_Point, side, inVr));
+                MelonCoroutines.Start(Launching(hit.m_Point, side, inVr, hit.collider.transform));
             }
         }
 
@@ -94,7 +81,7 @@ namespace MoonriseV2Mod.ActionMenu
             cancelGrapple = true;
         }
 
-        private static IEnumerator Launching(Vector3 hit, LaunchSide side, bool inVR)
+        private static IEnumerator Launching(Vector3 hit, LaunchSide side, bool inVR, Transform parent)
         {
             if (grappling) yield break;
             grappling = true;
@@ -108,6 +95,7 @@ namespace MoonriseV2Mod.ActionMenu
             rot = inVR ? rot : PlayerCheck.DesktopCamera.transform.rotation;
             tempObject.transform.position = hit;
             tempObject.transform.rotation = rot;
+            tempObject.transform.SetParent(parent);
             GrappleAnchor anchor = tempObject.AddComponent<GrappleAnchor>();
             anchor.Initialize(rightSide ? rightHand : leftHand);
 
@@ -130,7 +118,6 @@ namespace MoonriseV2Mod.ActionMenu
             }
 
             grappling = false;
-            pulling = false;
         }
 
         public enum LaunchSide

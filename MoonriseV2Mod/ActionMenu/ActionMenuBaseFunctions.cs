@@ -2,11 +2,6 @@
 using MoonriseV2Mod.API;
 using MoonriseV2Mod.BaseFunctions;
 using RubyButtonAPI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using UshioUI;
@@ -37,7 +32,7 @@ namespace MoonriseV2Mod.ActionMenu
             grappleRightIcon.hideFlags |= HideFlags.DontUnloadUnusedAsset;
             grappleCancelIcon.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
-            
+            PedalOption slackPedal;
             actionMenu.AddPedalToExistingMenu(ActionMenuApi.ActionMenuPageType.Main, () =>
             {
                 actionMenu.CreateSubMenu(() =>
