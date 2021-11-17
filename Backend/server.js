@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const WebSocket = require('ws');
 const http = require('http');
 
-const debug = false;
+const debug = true;
 
 const app = express();
 
@@ -39,7 +39,7 @@ const loggingWebhook = new Webhook(logsWebhook);
 privateWebhook.setUsername("Moonrise V2");
 privateWebhook.setAvatar("https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png");
 let tunnelUrl = "";
-moonrise_port = 8080;
+moonrise_port = 80;
 
 let domain = "moonrise-sc";
 
