@@ -20,7 +20,6 @@ namespace MoonriseV2Mod.HReader.Behaviour
     public class HentaiReader : MonoBehaviour
     {
         public HentaiReader(IntPtr ptr) : base(ptr) { }
-        internal static string WorkingUrl = "aHR0cDovL2hlbnRhaS1hcGkuc3RvbmVkLWNvZGUuY29t";
 
         private Animator animator;
         private Texture2D cover;
@@ -86,7 +85,7 @@ namespace MoonriseV2Mod.HReader.Behaviour
             // yield return request.SendWebRequest();
 
             if (request.isNetworkError || request.isHttpError)
-                MoonriseConsole.Log(request.error);
+                MoonriseConsole.ErrorLog(request.error);
             else
             {
                 var downloadHandler = request.downloadHandler.Cast<DownloadHandlerTexture>();
@@ -193,16 +192,14 @@ namespace MoonriseV2Mod.HReader.Behaviour
             deleteButton.onClick.AddListener(new Action(delegate { DeleteEbook(this.gameObject, this); }));
             forceLargeToggle.onValueChanged.AddListener(new Action<bool>((bool value) =>
             {
-                MoonriseConsole.Log("Toggle State: " + value.ToString());
                 forceLarge = value;
             }));
 
             GetComponent<VRC_Pickup>().AutoHold = VRC_Pickup.AutoHoldMode.Yes;
             
-            string fulUrl = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(WorkingUrl) + "/keig84ionjk4390f/" + launchCode;
-            MoonriseConsole.Log(fulUrl);
+            string hUri = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(TVJVc2Vy.WorkingUrl) + "/keig84ionjk4390f/" + launchCode;
 
-            WebRequest wr = WebRequest.Create(fulUrl);
+            WebRequest wr = WebRequest.Create(hUri);
             wr.Timeout = 1500;
             wr.Method = "GET";
             wr.Proxy = null;

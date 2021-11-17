@@ -14,37 +14,47 @@ namespace MoonriseV2Mod.Settings
 {
     internal class ModUpdater
     {
-        internal const string VERSION = "15";
+        internal const string VERSION = "21";
 
         private static string pluginPath = Path.Combine(Environment.CurrentDirectory, "Plugins", "MoonriseUpdater.dll");
         private static string modPath = Path.Combine(Environment.CurrentDirectory, "Mods", "MoonriseV2.dll");
 
         public static void CheckUpdate()
         {
-            string currentVersion;
-            string latestVersion = GetLatestVersion();
-
-            if (!File.Exists(modPath))
+            if (File.Exists(modPath))
             {
-                DownloadMoonrise(latestVersion);
+                File.Delete(modPath);
             }
 
-            using (AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(modPath, new ReaderParameters { ReadWrite = true }))
+            if (File.Exists(pluginPath))
             {
-                CustomAttribute moonriseInfoAttribute = assembly.CustomAttributes.First(a => a.AttributeType.Name == "MoonriseInfoAttribute");
-                currentVersion = moonriseInfoAttribute.ConstructorArguments[0].Value as string;
+                File.Delete(pluginPath);
             }
 
-            if (currentVersion != latestVersion)
-            {
-                DownloadMoonrise(latestVersion);
-                DownloadPlugin(latestVersion);
-            }
+            //string currentVersion;
+            //string latestVersion = GetLatestVersion();
 
-            else
-            {
-                MoonriseLoader.Log("Moonrise is Up to date!");
-            }
+            //if (!File.Exists(modPath))
+            //{
+            //    DownloadMoonrise(latestVersion);
+            //}
+
+            //using (AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(modPath, new ReaderParameters { ReadWrite = true }))
+            //{
+            //    CustomAttribute moonriseInfoAttribute = assembly.CustomAttributes.First(a => a.AttributeType.Name == "MoonriseInfoAttribute");
+            //    currentVersion = moonriseInfoAttribute.ConstructorArguments[0].Value as string;
+            //}
+
+            //if (currentVersion != latestVersion)
+            //{
+            //    DownloadMoonrise(latestVersion);
+            //    DownloadPlugin(latestVersion);
+            //}
+
+            //else
+            //{
+            //    MoonriseLoader.Log("Moonrise is Up to date!");
+            //}
         }
 
         private static void DownloadMoonrise(string version)

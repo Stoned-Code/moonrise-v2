@@ -1,7 +1,9 @@
 ﻿/**********************************************
  * 
- * Credit To DubyaDude For the button api.
+ * Credit To DubyaDude for the button api.
  * https://github.com/DubyaDude/RubyButtonAPI
+ * 
+ * Credit to gompo for the action menu api.
  * 
  **********************************************/
 using MelonLoader;
@@ -50,7 +52,6 @@ namespace MoonriseV2Mod
 
         private void OnLeftRoom()
         {
-            MRConfiguration.config.WriteConfig();
             VideoPlayerFunctions.SetVideoURL("");
         }
 
@@ -59,7 +60,6 @@ namespace MoonriseV2Mod
         {
             if (level == -1)
             {
-                //ModInfo.CheckUpdate();
             }
         }
 

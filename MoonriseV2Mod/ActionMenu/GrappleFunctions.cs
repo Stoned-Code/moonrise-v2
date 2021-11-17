@@ -3,6 +3,7 @@ using MoonriseV2Mod.API;
 using MoonriseV2Mod.CustomBehavior;
 using MoonriseV2Mod.MonoBehaviourScripts;
 using MoonriseV2Mod.Patches;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ namespace MoonriseV2Mod.ActionMenu
         private static Transform leftArm;
         private static Transform rightHand;
         private static Transform leftHand;
+
+        public static bool m_grappling => grappling;
 
         public static void Initialize()
         {
@@ -42,7 +45,7 @@ namespace MoonriseV2Mod.ActionMenu
             leftHand = leftH;
         }
 
-        public static void LaunchAnchor(LaunchSide side)
+        public static void LaunchAnchor(LaunchSide side, Action afterAction)
         {
             if (!isHumanoid)
             {
@@ -71,7 +74,7 @@ namespace MoonriseV2Mod.ActionMenu
 
             if (Physics.Raycast(inVr ? launchHand.position : PlayerCheck.DesktopCamera.transform.position, inVr ? launchHand.up * 2 : PlayerCheck.DesktopCamera.transform.forward, out hit, float.MaxValue, ~layerMask))
             {
-                MelonCoroutines.Start(Launching(hit.m_Point, side, inVr, hit.collider.transform));
+                MelonCoroutines.Start(Launching(hit.m_Point, side, inVr, hit.collider.transform, afterAction));
             }
         }
 
@@ -81,7 +84,7 @@ namespace MoonriseV2Mod.ActionMenu
             cancelGrapple = true;
         }
 
-        private static IEnumerator Launching(Vector3 hit, LaunchSide side, bool inVR, Transform parent)
+        private static IEnumerator Launching(Vector3 hit, LaunchSide side, bool inVR, Transform parent, Action afterAction)
         {
             if (grappling) yield break;
             grappling = true;
@@ -118,6 +121,7 @@ namespace MoonriseV2Mod.ActionMenu
             }
 
             grappling = false;
+            afterAction?.Invoke();
         }
 
         public enum LaunchSide

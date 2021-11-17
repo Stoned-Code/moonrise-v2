@@ -17,67 +17,7 @@ namespace MoonriseUpdater
 
         string modDirectory = Path.Combine(Environment.CurrentDirectory, "Mods", "MoonriseV2.dll");
 
-        internal static string WorkingUrl
-        {
-            get
-            {
-                string tempUrl = $"{BaseEncoding.Decoder("aHR0cHM6Ly9tb29ucmlzZS1zYw==")}.{BaseEncoding.Decoder(baseUrl)}";
-                WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
-                wr.Timeout = 1500;
-                wr.Method = "GET";
-                wr.Proxy = null;
-
-                string json = "";
-
-                try
-                {
-                    WebResponse res = wr.GetResponse();
-
-                    using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
-                        json = sr.ReadToEnd();
-                }
-
-                catch
-                {
-
-                }
-
-                JObject jObj = JsonConvert.DeserializeObject(json) as JObject;
-
-                if (jObj != null && (bool)jObj.GetValue("foundBackend"))
-                    return BaseEncoding.Encoder(tempUrl);
-
-                for (int i = 1; i < 10; i++)
-                {
-                    try
-                    {
-                        tempUrl = $"https://moonrise-sc-{i}.{BaseEncoding.Decoder(baseUrl)}";
-
-                        wr.Abort();
-                        wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
-                        wr.Timeout = 1500;
-                        wr.Proxy = null;
-                        // MoonriseConsole.Log($"Checking {tempUrl}");
-                        WebResponse res = wr.GetResponse();
-
-                        using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
-                        {
-                            json = sr.ReadToEnd();
-                            // MoonriseConsole.Log(json);
-                        }
-
-                        jObj = JsonConvert.DeserializeObject(json) as JObject;
-
-                        if ((bool)jObj.GetValue("foundBackend"))
-                            return BaseEncoding.Encoder(tempUrl);
-                    }
-
-                    catch { }
-                }
-
-                return "N/A";
-            }
-        }
+        internal static string WorkingUrl = "aHR0cDovL21vb25yaXNlLWFwaS5zdG9uZWQtY29kZS5jb20=";
 
         public override void OnApplicationEarlyStart() => ModUpdater.CheckUpdate();
 

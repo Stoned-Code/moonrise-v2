@@ -34,7 +34,7 @@ namespace MoonriseV2Mod.Patches
                 JoinNotifierFunctions.OnPlayerLeave(player);
             }));
             JoinNotifierFunctions.Initialize();
-            MoonriseConsole.Log("Initialized Join Notifier!");
+
             IsInitialized = true;
         }
     }

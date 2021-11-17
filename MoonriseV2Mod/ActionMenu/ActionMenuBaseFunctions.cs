@@ -13,6 +13,8 @@ namespace MoonriseV2Mod.ActionMenu
         private static ActionMenuBaseFunctions menuFunctions;
         public static ActionMenuBaseFunctions m_menuFunctions => menuFunctions;
         public ActionMenuApi actionMenu;
+        public PedalOption leftGrapple;
+        public PedalOption rightGrapple;
 
         public static void Initialize()
         {
@@ -32,24 +34,50 @@ namespace MoonriseV2Mod.ActionMenu
             grappleRightIcon.hideFlags |= HideFlags.DontUnloadUnusedAsset;
             grappleCancelIcon.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
-            PedalOption slackPedal;
             actionMenu.AddPedalToExistingMenu(ActionMenuApi.ActionMenuPageType.Main, () =>
             {
                 actionMenu.CreateSubMenu(() =>
                 {
-                    actionMenu.AddPedalToCustomMenu(() =>
+                    rightGrapple = actionMenu.AddPedalToCustomMenu(() =>
                     {
-                        GrappleFunctions.LaunchAnchor(GrappleFunctions.LaunchSide.Right);
+                        if (!GrappleFunctions.m_grappling)
+                        {
+                            GrappleFunctions.LaunchAnchor(GrappleFunctions.LaunchSide.Right, () =>
+                            {
+                                rightGrapple.setIcon(grappleRightIcon.texture);
+                            });
+
+                            rightGrapple.setIcon(grappleCancelIcon.texture);
+                        }
+
+                        else
+                        {
+                            GrappleFunctions.CancelGrapple();
+                            leftGrapple.setIcon(grappleLeftIcon.texture);
+                            rightGrapple.setIcon(grappleRightIcon.texture);
+                        }
+
                     }, "", grappleRightIcon.texture);
 
-                    actionMenu.AddPedalToCustomMenu(() =>
+                    leftGrapple = actionMenu.AddPedalToCustomMenu(() =>
                     {
-                        GrappleFunctions.CancelGrapple();
-                    }, "", grappleCancelIcon.texture);
+                        if (!GrappleFunctions.m_grappling)
+                        {
+                            GrappleFunctions.LaunchAnchor(GrappleFunctions.LaunchSide.Left, () =>
+                            {
+                                leftGrapple.setIcon(grappleLeftIcon.texture);
+                            });
 
-                    actionMenu.AddPedalToCustomMenu(() =>
-                    {
-                        GrappleFunctions.LaunchAnchor(GrappleFunctions.LaunchSide.Left);
+                            leftGrapple.setIcon(grappleCancelIcon.texture);
+                        }
+
+                        else
+                        {
+                            GrappleFunctions.CancelGrapple();
+                            leftGrapple.setIcon(grappleLeftIcon.texture);
+                            rightGrapple.setIcon(grappleRightIcon.texture);
+                        }
+
                     }, "", grappleLeftIcon.texture);
                 });
 

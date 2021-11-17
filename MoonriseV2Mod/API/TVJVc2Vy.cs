@@ -17,67 +17,7 @@ namespace MoonriseV2Mod.API
         [JsonProperty] public bool isMoonriseUser { get; set; }
         [JsonProperty] public string AvatarUrl { get; set; }
         [JsonIgnore] internal static string baseUrl = "bG9jYS5sdA==";
-        internal static string WorkingUrl
-        {
-            get
-            {
-                string tempUrl = $"{VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09("aHR0cHM6Ly9tb29ucmlzZS1zYw==")}.{VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(baseUrl)}";
-                WebRequest wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
-                wr.Timeout = 1500;
-                wr.Method = "GET";
-                wr.Proxy = null;
-
-                string json = "";
-                
-                try
-                {
-                    WebResponse res = wr.GetResponse();
-
-                    using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
-                        json = sr.ReadToEnd();
-                }
-
-                catch
-                {
-
-                }
-
-                PingResponse pRes = JsonConvert.DeserializeObject<PingResponse>(json);
-
-                if (pRes != null && pRes.foundBackend)
-                    return VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(tempUrl);
-
-                for (int i = 1; i < 10; i++)
-                {
-                    try
-                    {
-                        tempUrl = $"https://moonrise-sc-{i}.{VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(baseUrl)}";
-
-                        wr.Abort();
-                        wr = WebRequest.Create(tempUrl + "/md9fjtnj4dm");
-                        wr.Timeout = 1500;
-                        wr.Proxy = null;
-                        // MoonriseConsole.Log($"Checking {tempUrl}");
-                        WebResponse res = wr.GetResponse();
-
-                        using (StreamReader sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
-                        {
-                            json = sr.ReadToEnd();
-                            // MoonriseConsole.Log(json);
-                        }
-
-                        pRes = JsonConvert.DeserializeObject<PingResponse>(json);
-
-                        if (pRes.foundBackend)
-                            return VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.Ulc1amIyUmxjZz09(tempUrl);
-                    }
-
-                    catch { }
-                }
-
-                return "N/A";
-            }
-        }
+        internal static string WorkingUrl = "aHR0cDovL21vb25yaXNlLWFwaS5zdG9uZWQtY29kZS5jb20=";
 
         public static TVJVc2Vy UjJWMFZYTmxjZz09(string key)
         {
@@ -85,8 +25,8 @@ namespace MoonriseV2Mod.API
             {
                 string requestUrl = WorkingUrl;
                 if (requestUrl == "N/A") return null;
-
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(requestUrl) + "/ykmhuuvlby");
+                requestUrl = VWxjMWFtSXlVbkJpYldSQ1kwZHJQUT09.UkdWamIyUmxjZz09(requestUrl);
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(requestUrl + "/ykmhuuvlby");
                 //wr.Accept = "application/json";
                 wr.ContentType = "application/json";
                 wr.Method = "POST";

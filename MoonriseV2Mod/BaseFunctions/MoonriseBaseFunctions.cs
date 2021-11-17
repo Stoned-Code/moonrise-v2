@@ -42,6 +42,16 @@ namespace MoonriseV2Mod.BaseFunctions
             baseFunctions.isInitialized = true;
         }
 
+        public override void OnJoinedRoom()
+        {
+            MRConfiguration.config.WriteConfig();
+        }
+
+        public override void OnLeftRoom()
+        {
+            MRConfiguration.config.WriteConfig();
+        }
+
         public override void LoadMenu(QMNestedButton functions, QMNestedButton socielInterraction, TVJVc2Vy user)
         {
             // Moonrise Ui Display

@@ -10,11 +10,13 @@ namespace MoonriseV2Mod.CustomBehavior
     public class MRDynamicBoneController : MonoBehaviour
     {
         public MRDynamicBoneController(IntPtr ptr) : base(ptr) { }
-        private MRAvatarController m_avatarController;
+        private MRAvatarController avatarController;
         [HideFromIl2Cpp] 
-        public MRAvatarController avatarController => m_avatarController;
-        public DynamicBone[] m_dynamicBones;
-        public DynamicBoneCollider[] m_dynamicBoneColliders;
+        public MRAvatarController m_avatarController => m_avatarController;
+        [HideFromIl2Cpp]
+        public DynamicBone[] m_dynamicBones { get; private set; }
+        [HideFromIl2Cpp]
+        public DynamicBoneCollider[] m_dynamicBoneColliders { get; private set; }
 
         /// <summary>
         /// Called when dynamic bones and their colliders are loaded on the selected user.
@@ -23,12 +25,12 @@ namespace MoonriseV2Mod.CustomBehavior
 
         private void Start()
         {
-            m_avatarController = GetComponent<MRAvatarController>();
+            avatarController = GetComponent<MRAvatarController>();
         }
         [HideFromIl2Cpp]
         public void GetDynamicBoneAndColliders()
         {
-            if (m_avatarController.apiUser == null) return;
+            if (avatarController.apiUser == null) return;
 
             m_dynamicBones = GetComponentsInChildren<DynamicBone>();
             m_dynamicBoneColliders = GetComponentsInChildren<DynamicBoneCollider>();

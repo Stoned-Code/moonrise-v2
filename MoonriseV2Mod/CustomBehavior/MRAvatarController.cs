@@ -14,6 +14,7 @@ namespace MoonriseV2Mod.MonoBehaviourScripts
     [RegisterTypeInIl2Cpp]
     public class MRAvatarController : MonoBehaviour
     {
+        [HideFromIl2Cpp]
         public static MRAvatarController localAvatarController { get; private set; }
         public MRAvatarController(IntPtr ptr) : base(ptr) { }
         public MRDynamicBoneController dynamicBoneController;
@@ -121,6 +122,7 @@ namespace MoonriseV2Mod.MonoBehaviourScripts
                 bool isIgnored = MRConfiguration.config.ignoreList.TryGetValue(apiUser.id, out string displayName);
                 // DynamicBoneController dynamicBoneController = avatarManager.GetComponentInChildren<DynamicBoneController>();
 
+                if (avatarManager == null) return;
                 if (AvatarObject == null) return;
 
                 if (isIgnored)
@@ -158,25 +160,35 @@ namespace MoonriseV2Mod.MonoBehaviourScripts
         {
             if (!AvatarObject.activeInHierarchy)
                 AvatarObject.SetActive(true);
+            try
+            {
+                if (dynamicBoneController != null)
+                    for (int dbIndex = 0; dbIndex < dynamicBoneController.m_dynamicBones.Length; dbIndex++)
+                    {
+                        var db = dynamicBoneController.m_dynamicBones[dbIndex];
+                        if (db.enabled) continue;
+                        db.enabled = true;
+                    }
+            }
 
-            if (dynamicBoneController != null)
-                for (int dbIndex = 0; dbIndex < dynamicBoneController.m_dynamicBones.Length; dbIndex++)
-                {
-                    var db = dynamicBoneController.m_dynamicBones[dbIndex];
-                    if (db.enabled) continue;
-                    db.enabled = true;
-                }
+            catch { }
         }
         [HideFromIl2Cpp]
         private void HideDistantAvatar()
         {
-            if (dynamicBoneController != null)
-                for (int dbIndex = 0; dbIndex < dynamicBoneController.m_dynamicBones.Length; dbIndex++)
-                {
-                    var db = dynamicBoneController.m_dynamicBones[dbIndex];
-                    if (!db.enabled) continue;
-                    db.enabled = false;
-                }
+            try
+            {
+                if (dynamicBoneController != null)
+                    for (int dbIndex = 0; dbIndex < dynamicBoneController.m_dynamicBones.Length; dbIndex++)
+                    {
+                        var db = dynamicBoneController.m_dynamicBones[dbIndex];
+                        if (db == null) continue;
+                        if (!db.enabled) continue;
+                        db.enabled = false;
+                    }
+            }
+
+            catch { }
 
             AvatarObject.SetActive(false);
         }
