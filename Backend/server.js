@@ -27,17 +27,17 @@ admindb.loadDatabase();
 // Discord Webhooks
 const {Webhook, MessageBuilder} = require('discord-webhook-node');
 
-const mainWebhook = "https://discord.com/api/webhooks/801629909495054346/vACrY70mTMxSEQe8SlELRdKHKXGLTjvuKIXydH-yUD0D1rFylOoGjcGZZdMpii_Wssb6";
-const logsWebhook = "https://discord.com/api/webhooks/747734429597827123/e5PU_9Oo-QIJLChZHZW59RSfFEIvqzJ_NXzxUrcHLdSJiGW5JfWC8xiG925j0xrcUiRS";
+const mainWebhook = "Your main discord webhook";
+const logsWebhook = "Your logs webhook";
 let usedWebhook = mainWebhook;
 
-let publicWebhook = "https://discord.com/api/webhooks/877401688808513567/j0lfBjSaPqoXy78w5oUkCO0PRCUaKcXXDB24DXaSSc5IvIXwGktBjCVJQcPvGrNS7J2f";
+let publicWebhook = "Your public webhook";
 publicWebhook = new Webhook(publicWebhook);
 const privateWebhook = new Webhook(usedWebhook);
 const loggingWebhook = new Webhook(logsWebhook);
 
 privateWebhook.setUsername("Moonrise V2");
-privateWebhook.setAvatar("https://dl.dropboxusercontent.com/s/jq77qx0on9mnir4/MisheIcon.png");
+privateWebhook.setAvatar("Avatarimageling.png");
 let tunnelUrl = "";
 moonrise_port = 80;
 
